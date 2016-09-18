@@ -1,5 +1,7 @@
+# streamux
 
 - Redux for the backend, means event-based data storage
+- Not a new kind of database, but microservice on top of popular databases
 - Highlight little code necessary, works like redux
 - Push notifications and great opportunities for analytics for free
 - Use same code in frontend and backend (for push notifications)

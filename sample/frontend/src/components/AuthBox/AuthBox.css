@@ -1,0 +1,9 @@
+.AuthBox {
+  display: inline-block;
+  float: right;
+  font-size: medium;
+}
+
+.AuthBox label > span {
+  margin-right: 10px;
+}

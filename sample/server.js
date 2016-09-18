@@ -5,40 +5,29 @@
 
 require('dotenv').config()
 
-const { aggregateReducers, createStore, eventLogReducer } = require('../lib')
-const { connectTo } = require('../lib/database/sequelize')
 const bodyParser = require('body-parser')
 const express = require('express')
-const { createDbModels } = require('./database')
+const path = require('path')
+const setUpStore = require('./store')
 const { initRestApi } = require('./rest-api')
-const rootReducer = require('./reducers/index')
 
 module.exports = bootstrap()
   .catch((error) => console.error(error.stack))
 
 async function bootstrap () {
-  // One of the few differences to redux: Using aggregateReducers which is comparable
-  // to redux' `combineReducers`, but working on reducers that return DB operations
-  const aggregatedReducer = aggregateReducers(rootReducer, eventLogReducer)
-
-  const database = await connectToDatabase()
-  const store = createStore(aggregatedReducer, database)
-
-  return startServer(database, store)
+  return startServer(await setUpStore())
 }
 
-async function connectToDatabase () {
-  const storagePath = process.env.DB_SQLITE_STORAGE
-
-  return await connectTo(`sqlite://${storagePath}`, createDbModels)
-}
-
-function startServer (database, store) {
+function startServer (store) {
   const app = express()
   const port = process.env.PORT || 3000
+  const staticFilesPath = path.join(__dirname, 'frontend/build')
 
+  const apiRouter = initRestApi(store)
+
+  app.use(express.static(staticFilesPath))
   app.use(bodyParser.json())
-  initRestApi(app, database, store)
+  app.use('/api', apiRouter)
 
-  return app.listen(port, () => console.log(`Data store running on port ${port}`))
+  return app.listen(port, () => console.log(`Sample app running on port ${port}`))
 }

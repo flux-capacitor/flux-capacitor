@@ -9,8 +9,9 @@ const model = {
   // Generic properties:
 
   id: {
-    type: Sequelize.UUID,
-    primaryKey: true
+    type: Sequelize.BIGINT,
+    primaryKey: true,
+    autoIncrement: true
   },
   type: {
     type: Sequelize.STRING,

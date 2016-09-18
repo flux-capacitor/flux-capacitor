@@ -11,17 +11,22 @@
  *       `store` to the lib's REST server bootstrapper. Done!
  */
 
+const express = require('express')
 const { runCommand } = require('./commands')
 
-function initRestApi (app, database, store) {
-  initDispatchingRoutes(app, store)
-  initRetrievalRoutes(app, database)
+function initRestApi (store) {
+  const router = express.Router()
+
+  initDispatchingRoutes(router, store)
+  initRetrievalRoutes(router, store.getDatabase())
+
+  return router
 }
 
-function initDispatchingRoutes (app, store) {
-  app.use('/command', checkAuthentication)
+function initDispatchingRoutes (router, store) {
+  router.use('/command', checkAuthentication)
 
-  app.post('/command/:command', asyncHandler(async (req, res) => {
+  router.post('/command/:command', asyncHandler(async (req, res) => {
     const { user } = req.query
     const event = runCommand(req.params.command, { user }, req.body)
 
@@ -33,18 +38,19 @@ function initDispatchingRoutes (app, store) {
   }))
 }
 
-function initRetrievalRoutes (app, database) {
+function initRetrievalRoutes (router, database) {
   const { Events, Notes } = database.collections
 
-  app.get('/events', asyncHandler(async (req, res) => {
-    const events = await Events.findAll()
-    res.json(events)
-  }))
+  const exportEvent = (event) => {
+    const eventJson = event.toJSON()
+    return Object.assign({}, eventJson, {
+      meta: JSON.parse(eventJson.meta),
+      payload: JSON.parse(eventJson.payload)
+    })
+  }
 
-  app.get('/notes', asyncHandler(async (req, res) => {
-    const notes = await Notes.findAll()
-    res.json(notes)
-  }))
+  router.get('/events', createCollectionFindAllHandler(Events, exportEvent))
+  router.get('/notes', createCollectionFindAllHandler(Notes))
 }
 
 exports.initRestApi = initRestApi
@@ -59,10 +65,30 @@ function checkAuthentication (req, res, next) {
   }
 }
 
+function createCollectionFindAllHandler (collection, exportItem = (item) => item) {
+  return asyncHandler(async (req, res) => {
+    const options = createRetrievalOptions(req.query)
+    const items = await collection.findAll(options)
+
+    res.set('Cache-Control', 'no-cache')
+    res.json(
+      items.map((item) => exportItem(item))
+    )
+  })
+}
+
 function asyncHandler (handler) {
   return (req, res, next) => {
     handler(req, res)
       .then(() => next())
       .catch((error) => next(error))
   }
+}
+
+function createRetrievalOptions ({ limit, order }) {
+  return Object.assign(
+    {},
+    limit && { limit },
+    order && { order: [[ 'id', order ]] }
+  )
 }
