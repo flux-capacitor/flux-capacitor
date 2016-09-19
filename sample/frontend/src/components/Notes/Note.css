@@ -1,0 +1,23 @@
+.Note {
+  position: relative;
+  padding: 5px;
+  background: #ffffc4;
+  text-align: left;
+}
+
+.Note hr {
+  border: none;
+  border-top: 1px solid #eee;
+}
+
+.Note-title {
+  height: 1.5em;
+  margin: 0;
+  font-style: italic;
+}
+
+.Note-text {
+  margin: 0;
+  padding: 0;
+  min-height: 60px;
+}

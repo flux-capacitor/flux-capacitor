@@ -12,7 +12,7 @@ function notesReducer (collection, event) {
     case 'noteRemoved':
       return noteRemoved(collection, event)
     default:
-      return collection
+      return null
   }
 }
 
@@ -35,7 +35,7 @@ function noteTitleEdited (collection, event) {
 function noteContentEdited (collection, event) {
   const { id, text } = event.payload
 
-  return collection.update({ text }, { whereId: id })
+  return collection.updateById(id, { text })
 }
 
 function noteRemoved (collection, event) {

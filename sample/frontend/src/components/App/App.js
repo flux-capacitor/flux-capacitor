@@ -20,7 +20,7 @@ class App extends Component {
     const { store } = this.props
 
     store.dispatch(loadEvents('/api/events?limit=50&order=DESC'))
-    store.dispatch(loadNotes('/api/notes'))
+    store.dispatch(loadNotes('/api/notes?order=DESC'))
   }
 
   render () {
@@ -28,14 +28,16 @@ class App extends Component {
 
     return (
       <Provider store={store}>
-        <div className="App">
-          <div className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
+        <div className='App'>
+          <div className='App-header'>
+            <img src={logo} className='App-logo' alt='logo' />
           </div>
-          <section className="App-intro">
+          <section className='App-intro'>
             <AuthBox />
-            <Notes />
-            <EventLog />
+            <div className='clear flex-row'>
+              <Notes />
+              <EventLog />
+            </div>
           </section>
         </div>
       </Provider>

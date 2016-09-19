@@ -3,74 +3,68 @@
 - Redux for the backend, means event-based data storage
 - Not a new kind of database, but microservice on top of popular databases
 - Highlight little code necessary, works like redux
-- Push notifications and great opportunities for analytics for free
+- Isomorphic reducers: Can re-use the store's reducers in the frontend
+- Reducers like redux, but with a slight change (`(collection, event) => changeset`)
+
+## Features
+
+- Push notifications and great opportunities for analytics for free, thanks to event stream
 - Use same code in frontend and backend (for push notifications)
 - Everything is functional and loosely-coupled
 - Works with PostgreSQL, MySQL, SQLite & MSSQL using Sequelize right now
 - But virtually any database is possible (but you need transaction support)
 - Related to CQRS, but no real CQRS, rather something between common CRUD and real CQRS
 
-- Show flow: Write operation -> DB operations (-> how a rollback happens) -> data retrieval
+
+## How to
+
+### Setup
+
+1. Create DB models
+2. Write reducers
+3. Create store
+
+### Write data
+
+1. Create event(s)
+2. Dispatch event(s) to store
+3. Event(s) are reduced, means database is updated + event(s) are persisted
+4. Subscribers of the store are informed about the new event(s)
+
+### Read data
+
+What's the flow for reading data? Just read from your DB collections like you always did!
+
+### Write data (under the hood)
+
+1. Store receives event(s) on dispatch()
+2. Creates new transaction
+3. Applies all known reducers on event(s), resulting in a set of changesets
+   (A changeset is just a database operation or a set of database operations)
+   (Persisting the event itself is also just done by a reducer)
+4. Apply changesets to the database as part of the transaction (a.k.a. perform INSERT, UPDATE, ...)
+5. Commit transaction or rollback if something went wrong
+6. Pass event(s) to the store's subscribers
 
 
-# OLD:
+## Differences to redux
 
-Data storage service built like redux. Featuring event sourcing, without traditional CQRS (which is both a benefit and a lack).
-
-```
-Communication layer (e.g. REST-API-Server)
-  (request, response) => command
-          ↓
-Dispatcher (event creators)
-  (command) => Array<event>
-          ↓
-Begin Transaction, add event to event store
-  (database, event) => dbQuery
-          ↓
-Event handler (reducer)
-  (database, event) => dbQuery
-          ↓
-End transaction, commit or rollback
-  (database, event) => dbQuery
-          ↓
-Back to communication layer (e.g. REST-API-Server)
-  (request, response, Array<event>) => response
-```
+- Reducers work slightly different (`(collection, event) => changeset`)
+  - Get a collection, not the whole state and return a changeset, not another complete state
+- `aggregateReducers()` instead of `combineReducers()`
+  - `aggregateReducers` does pretty much the same, but takes an array of reducers, rather than an object (since a tree of reducers doesn't make much sense when working on DB collections)
 
 
-## Concept
+## Possible follow-up features
 
-- Easily build an event-sourced data store, with a trimmed-down CQRS approach
-- Take commands from a random communication layer (REST, MQ, GraphQL, ...)
-- Command handlers (equals redux' "action creator") that take a command and create event(s)
-- Events are persisted to an event store
-- Events are reduced (applied to the read model) by event handlers
-- Clean and simple
-- Can add redux-like middleware concept
-
-
-## Difference to real CQRS
-
-- One service, one relational DB
-- Scales like classic CRUD approach, not like CQRS :(
-- But: No aggregates or intensive command validation necessary :)
-  - Instead: Use read model for validating operations
-  - Storing the event and updating the read model in one common transaction
-  - If applying ("reducing") the event to the read model fails, the event insertion will be rolled back as well
-- Plus: No eventual consistency:
-  - One DB transaction means you get feedback if operation failed or succeeded
+- Collection methods: `updateWhere`, `destroyWhere`
+- Easy replaying with updated reducers
+- Optionally: Periodical snapshots and easy way to recreate state of data at a random point of time ("Time machine")
+- Saga support
+- Optionally: Move old events periodically to "icelog" (some other, possibly slower, but cheaper storage)
+- Support for other storage engines (Mongo, ...)
 
 
-## Additional considerations
+## Other TODO
 
-- Why not directly use redux?
-  - Basically because redux reducers must by synchronous, but database access is asynchronous
-  - Could still use redux for tracking recent event creation, event denormalization
-    - But: Would have to clean the redux action log periodically, since it will grow very fast
-    - Might be good for debugging the data store code base, but apart from that not much useful
-
-
-
-- Event log / event stream are the unique feature
-- Event log does not necessarily have to be stored in the same database
-  - Idea: Store events in monolithic database, but may move oldest events out into another periodically
+- Test reducers returning more than one changeset

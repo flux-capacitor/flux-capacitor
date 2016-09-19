@@ -3,3 +3,20 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+ul {
+  margin: 16px 0;
+}
+
+.clear {
+  clear: both;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.rc-tooltip-inner {
+  min-height: 18px;
+}

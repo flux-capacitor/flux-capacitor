@@ -1,6 +1,10 @@
+import userNames from '../fixtures/userNames'
+
 const CHANGE_USERNAME = 'CHANGE_USERNAME'
 
-export default function userNameReducer (userName = '', action) {
+const randomUserName = userNames[ Math.floor(Math.random() * userNames.length) ]
+
+export default function userNameReducer (userName = randomUserName, action) {
   switch (action.type) {
     case CHANGE_USERNAME:
       return action.payload

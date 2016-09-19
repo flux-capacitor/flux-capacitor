@@ -34,9 +34,7 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    onChangeUserName (userName) {
-      dispatch(changeUserName(userName))
-    }
+    onChangeUserName: (userName) => dispatch(changeUserName(userName))
   }
 }
 

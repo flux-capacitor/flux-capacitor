@@ -1,0 +1,19 @@
+.Notes {
+  padding: 24px 5vw 0;
+  flex-grow: 1;
+  text-align: left;
+}
+
+.Notes > button {
+  cursor: pointer;
+  font-size: large;
+}
+
+.NotesList {
+  list-style-type: none;
+  padding: 0;
+}
+
+.NotesList > li {
+  margin: 10px auto;
+}

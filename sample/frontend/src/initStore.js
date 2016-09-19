@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
 import ReduxThunk from 'redux-thunk'
-import * as reducers from '../ducks'
+import * as reducers from './ducks'
 
 export default function initStore () {
   const rootReducer = combineReducers(reducers)
