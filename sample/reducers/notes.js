@@ -12,7 +12,7 @@ function notesReducer (collection, event) {
     case 'noteRemoved':
       return noteRemoved(collection, event)
     default:
-      return null
+      return collection.noChange()
   }
 }
 
