@@ -16,11 +16,36 @@ const propTypes = {
 }
 
 class App extends Component {
+  state = { websocket: null }
+
   componentWillMount () {
     const { store } = this.props
 
     store.dispatch(loadEvents('/api/events?limit=50&order=DESC'))
     store.dispatch(loadNotes('/api/notes?order=DESC'))
+
+    this.setState({ websocket: this.connectToWebsocket(store) })
+  }
+
+  componentWillUnmount () {
+    const { websocket } = this.state
+    websocket.close()
+  }
+
+  connectToWebsocket (store) {
+    const { hostname, port } = document.location
+    const fixedPort = parseInt(port, 10) === 3000 ? 4000 : port   // so the dev server proxy is not used
+
+    const websocket = new WebSocket(`ws://${hostname}:${fixedPort}/websocket`)
+    websocket.onmessage = this.onWebSocketMessage.bind(this, store)
+
+    return websocket
+  }
+
+  onWebSocketMessage (store, event) {
+    const remoteEvents = JSON.parse(event.data)
+console.log('>>', remoteEvents)
+    remoteEvents.forEach((remoteEvent) => store.dispatch(remoteEvent))
   }
 
   render () {

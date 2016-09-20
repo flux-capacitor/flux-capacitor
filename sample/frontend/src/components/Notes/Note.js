@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { destroyNote, removeUnsavedNote, saveNewNote, saveUpdatedNote } from '../../ducks/notes'
+import { postJson } from '../../communication/rest'
+import { removeUnsavedNote } from '../../ducks/notes'
 import ActionButtons from './ActionButtons'
 import './Note.css'
 
@@ -108,10 +109,10 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    onDestroy: (noteId, userName) => dispatch(destroyNote(noteId, userName)),
+    onDestroy: (noteId, userName) => postJson(`/api/command/removeNote?user=${userName}`, { id: noteId }),
     onRemoveUnsaved: () => dispatch(removeUnsavedNote()),
-    onSaveNewNote: (note, userName) => dispatch(saveNewNote(note, userName)),
-    onSaveUpdatedNote: (note, userName) => dispatch(saveUpdatedNote(note, userName))
+    onSaveNewNote: (note, userName) => postJson(`/api/command/addNote?user=${userName}`, note),
+    onSaveUpdatedNote: (note, userName) => postJson(`/api/command/updateNote?user=${userName}`, note)
   }
 }
 

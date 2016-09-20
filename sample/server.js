@@ -10,6 +10,7 @@ const express = require('express')
 const path = require('path')
 const setUpStore = require('./store')
 const { initRestApi } = require('./rest-api')
+const { initWebsocketServer } = require('./ws-api')
 
 module.exports = bootstrap()
   .catch((error) => console.error(error.stack))
@@ -24,6 +25,7 @@ function startServer (store) {
   const staticFilesPath = path.join(__dirname, 'frontend/build')
 
   const apiRouter = initRestApi(store)
+  initWebsocketServer(app, store)
 
   app.use(express.static(staticFilesPath))
   app.use(bodyParser.json())

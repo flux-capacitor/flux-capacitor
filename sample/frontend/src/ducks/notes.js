@@ -1,4 +1,4 @@
-import { fetchJson, postJson } from '../communication/rest'
+import { fetchJson } from '../communication/rest'
 import reduxify from '../../../../lib/reduxify'
 import backendNotesReducer from '../../../reducers/notes'
 
@@ -48,26 +48,5 @@ export function createNote () {
 export function removeUnsavedNote () {
   return {
     type: REMOVE_UNSAVED_NOTE
-  }
-}
-
-export function saveNewNote (note, user) {
-  return async (dispatch) => {
-    const events = await postJson(`/api/command/addNote?user=${user}`, note)
-    events.forEach((event) => dispatch(event))
-  }
-}
-
-export function saveUpdatedNote (note, user) {
-  return async (dispatch) => {
-    const events = await postJson(`/api/command/updateNote?user=${user}`, note)
-    events.forEach((event) => dispatch(event))
-  }
-}
-
-export function destroyNote (noteId, user) {
-  return async (dispatch) => {
-    const events = await postJson(`/api/command/removeNote?user=${user}`, { id: noteId })
-    events.forEach((event) => dispatch(event))
   }
 }

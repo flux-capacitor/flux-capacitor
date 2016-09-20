@@ -1,5 +1,5 @@
 /**
- * This file contains all the communication logic.
+ * This file contains all the REST communication logic.
  * It's the ears and the mouth of the store.
  *
  * POST to `/command/<command name>` with the command payload in the request
@@ -22,6 +22,8 @@ function initRestApi (store) {
 
   return router
 }
+
+exports.initRestApi = initRestApi
 
 function initDispatchingRoutes (router, store) {
   router.use('/command', checkAuthentication)
@@ -52,8 +54,6 @@ function initRetrievalRoutes (router, database) {
   router.get('/events', createCollectionFindAllHandler(Events, exportEvent))
   router.get('/notes', createCollectionFindAllHandler(Notes))
 }
-
-exports.initRestApi = initRestApi
 
 function checkAuthentication (req, res, next) {
   const { user } = req.query
