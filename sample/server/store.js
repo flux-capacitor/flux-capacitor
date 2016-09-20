@@ -3,8 +3,8 @@
  * and wires everything up with the reducers.
  */
 
-const { aggregateReducers, createStore, eventLogReducer } = require('../lib')
-const { connectTo } = require('../database-sequelize')
+const { aggregateReducers, createStore, eventLogReducer } = require('../../lib')
+const { connectTo } = require('../../database-sequelize')
 const { createDbModels } = require('./database')
 const rootReducer = require('./reducers/index')
 

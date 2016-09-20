@@ -1,18 +1,8 @@
 {
-  "name": "sample-notes-server",
+  "name": "sample-notes",
   "version": "0.0.0",
   "private": true,
-  "dependencies": {
-    "body-parser": "^1.15.2",
-    "dotenv": "^2.0.0",
-    "express": "^4.14.0",
-    "express-ws": "^2.0.0",
-    "sequelize": "^3.24.3",
-    "sqlite3": "^3.1.4"
-  },
-  "devDependencies": {
-    "babel": "^6.5.2",
-    "babel-cli": "^6.14.0",
-    "babel-preset-stage-3": "^6.11.0"
+  "scripts": {
+    "build": "cd frontend/ && npm run build"
   }
 }

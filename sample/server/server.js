@@ -22,7 +22,7 @@ async function bootstrap () {
 function startServer (store) {
   const app = express()
   const port = process.env.PORT || 3000
-  const staticFilesPath = path.join(__dirname, 'frontend/build')
+  const staticFilesPath = path.join(__dirname, '../frontend/build')
 
   const apiRouter = initRestApi(store)
   initWebsocketServer(app, store)

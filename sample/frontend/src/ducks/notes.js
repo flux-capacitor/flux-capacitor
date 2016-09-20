@@ -1,6 +1,6 @@
 import { fetchJson } from '../communication/rest'
 import reduxify from '../../../../lib/reduxify'
-import backendNotesReducer from '../../../reducers/notes'
+import backendNotesReducer from '../../../server/reducers/notes'
 
 const NOTES_LOADED = 'NOTES_LOADED'
 const CREATE_NOTE = 'CREATE_NOTE'
