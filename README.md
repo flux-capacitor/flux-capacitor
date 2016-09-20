@@ -1,36 +1,42 @@
 # ⏩ FastForward
 
-- Like redux for the backend, means event-based persistent data storage
+A modern and versatile approach towards data storage. Easy to use, event-based, functional.
+
+- Like redux for the backend, event-based persistent data storage
 - Not a new kind of database, but microservice on top of popular databases
-- Works like redux, needs very little effort to provide awesome features (see [No code is good code](#no-code-is-good-code))
+- Works like redux, needs very little effort to provide complex features (see [No code is good code](#no-code-is-good-code))
 - Isomorphic reducers: Can re-use the store's reducers in the frontend!
-- Reducers like redux, but with a slight change (`(collection, event) => changeset`)
+- Reducers similar to redux' reducers
 
 **Alpha release - Keep your seatbelt fastened during the flight**
 
 
 ## Features
 
-- Push notifications and great opportunities for analytics come for free, thanks to event stream
-- Isomorphic reducers: Use same code in frontend and backend to update data
-- Upcoming feature: Replay events with new reducers instead of writing migrations
+- Dispatch events to change data
+- Push notifications and powerful analytics come for free, thanks to event log
+- Isomorphic reducers - Use same code in frontend and backend to update data
+- Upcoming feature: Never write a database migration again - Replay events with new reducers
 - Upcoming feature: Time machine - view the database contents at some point in the past
-- Everything is functional and loosely-coupled
 - Works with PostgreSQL, MySQL, SQLite & MSSQL using Sequelize right now
-- Virtually any database is possible (but you need some kind of transaction support)
-- Related to CQRS, but no real CQRS, rather something between common CRUD and real CQRS
 
 
 ## Show me some code!
 
-Check out the [sample app](./sample).
+Here is some minimal sample code to get going:
+
+```js
+TODO
+```
+
+Check out the [sample app](./sample/server).
 
 #### Backend
 
-- [Store initialization](./sample/store.js)
-- [DB model definition](./sample/database/notes.js)
-- [Reducer definition](./sample/reducers/notes.js)
-- [Server](./sample/server.js)
+- [Store initialization](./sample/server/store.js)
+- [DB model definition](./sample/server/database/notes.js)
+- [Reducer definition](./sample/server/reducers/notes.js)
+- [Server](./sample/server/server.js)
 
 #### Frontend
 
@@ -127,6 +133,8 @@ TODO: Insert code snippet here
 
 
 ## Differences to real CQRS
+
+It is related to CQRS, but no real CQRS. Rather something between common CRUD and real CQRS.
 
 - No distributed system, but just one data storage service (could be easily turned into a master-slave cluster, though)
 - No aggregates, just one read model
