@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import notie from 'notie'
 import { connect } from 'react-redux'
 import { postJson } from '../../communication/rest'
 import { removeUnsavedNote } from '../../ducks/notes'
@@ -67,7 +68,9 @@ class Note extends Component {
 
   destroy () {
     const { note, userName, onDestroy } = this.props
-    onDestroy(note.id, userName)
+    const message = `Sure you want to delete "${note.title}"?`
+
+    notie.confirm(message, 'Cancel', 'Delete', () => {}, () => onDestroy(note.id, userName))
   }
 
   render () {

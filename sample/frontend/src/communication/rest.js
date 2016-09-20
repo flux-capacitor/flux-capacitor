@@ -1,7 +1,13 @@
 import fetch from 'isomorphic-fetch'
+import notie from 'notie'
 
 export async function fetchJson (url, options = {}) {
-  return await (await fetch(url, options)).json()
+  try {
+    return await (await fetch(url, options)).json()
+  } catch (error) {
+    showError(error)
+    throw error
+  }
 }
 
 export async function postJson (url, payload) {
@@ -12,5 +18,15 @@ export async function postJson (url, payload) {
       'Content-Type': 'application/json'
     }
   }
-  return await (await fetch(url, fetchOptions)).json()
+
+  try {
+    return await (await fetch(url, fetchOptions)).json()
+  } catch (error) {
+    showError(error)
+    throw error
+  }
+}
+
+function showError (error) {
+  notie.alert('error', error.message, 4)
 }

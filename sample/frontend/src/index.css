@@ -11,6 +11,10 @@ h1, h2, h3, h4, h5, label, .sans-serif {
   font-family: 'Montserrat', sans-serif;
 }
 
+body > div[class^="notie-"] {
+  font-family: 'Montserrat', sans-serif;
+}
+
 ul {
   margin: 16px 0;
 }
