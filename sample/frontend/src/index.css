@@ -48,3 +48,7 @@ ul {
 .rc-tooltip-inner {
   min-height: 18px;
 }
+
+.text-justify {
+  text-align: justify;
+}
