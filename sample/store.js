@@ -4,7 +4,7 @@
  */
 
 const { aggregateReducers, createStore, eventLogReducer } = require('../lib')
-const { connectTo } = require('../lib/database/sequelize')
+const { connectTo } = require('../database-sequelize')
 const { createDbModels } = require('./database')
 const rootReducer = require('./reducers/index')
 

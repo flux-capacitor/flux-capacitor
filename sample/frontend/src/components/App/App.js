@@ -44,7 +44,6 @@ class App extends Component {
 
   onWebSocketMessage (store, event) {
     const remoteEvents = JSON.parse(event.data)
-console.log('>>', remoteEvents)
     remoteEvents.forEach((remoteEvent) => store.dispatch(remoteEvent))
   }
 
