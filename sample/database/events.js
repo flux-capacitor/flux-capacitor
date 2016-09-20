@@ -1,59 +1,8 @@
 /**
  * Event model definition. Specifies the data model of the event log.
+ * We just use the default model here.
  */
 
-const Sequelize = require('sequelize')
+const createEventModel = require('../../lib/database/sequelize').createEventModel
 
-const model = {
-  ///////////////////////
-  // Generic properties:
-
-  id: {
-    type: Sequelize.BIGINT,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  type: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
-  payload: Sequelize.JSON,
-  meta: Sequelize.JSON,
-
-  //////////////////////
-  // Custom properties:
-
-  user: {
-    type: Sequelize.STRING,
-    allowNull: false
-  }
-}
-
-const indexes = [
-  {
-    fields: [ 'type' ]
-  }, {
-    fields: [ 'user' ]
-  }
-]
-
-const hooks = {
-  // Use Sequelize's beforeValidate hook to automatically set the user property
-  beforeValidate: (event) => {
-    const meta = event.getDataValue('meta')
-
-    if (meta && meta.user) {
-      event.setDataValue('user', meta.user)
-    }
-  }
-}
-
-function createEventsModel (sequelize) {
-  return sequelize.define('event', model, {
-    indexes,
-    hooks,
-    timestamps: false
-  })
-}
-
-module.exports = createEventsModel
+module.exports = createEventModel

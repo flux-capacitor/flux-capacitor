@@ -2,7 +2,7 @@ const Sequelize = require('sequelize')
 
 const model = {
   id: {
-    type: Sequelize.UUID,
+    type: Sequelize.STRING,
     primaryKey: true,
     allowNull: false
   },

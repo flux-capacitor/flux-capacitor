@@ -1,6 +1,33 @@
+.Event {
+  padding: 2px 5px;
+  cursor: default;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.Event:nth-child(even) {
+  background-color: #f8f8f8;
+}
+
+.Event-meta {
+  display: block;
+}
+
+.Event-meta:after {
+  content: ' ';
+  display: block;
+  clear: both;
+  float: none;
+  visibility: hidden;
+}
+
 .Event-id {
-  display: inline-block;
-  width: 20px;
-  font-size: small;
-  margin-right: 5px;
+  font-size: x-small;
+  float: left;
+}
+
+.Event-time {
+  font-size: x-small;
+  float: right;
 }

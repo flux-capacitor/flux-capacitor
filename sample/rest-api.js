@@ -67,7 +67,8 @@ function checkAuthentication (req, res, next) {
 
 function createCollectionFindAllHandler (collection, exportItem = (item) => item) {
   return asyncHandler(async (req, res) => {
-    const options = createRetrievalOptions(req.query)
+    const sortColumn = collection.name === 'Events' ? 'timestamp' : 'id'
+    const options = createRetrievalOptions(req.query, sortColumn)
     const items = await collection.findAll(options)
 
     res.set('Cache-Control', 'no-cache')
@@ -85,10 +86,10 @@ function asyncHandler (handler) {
   }
 }
 
-function createRetrievalOptions ({ limit, order }) {
+function createRetrievalOptions ({ limit, order }, sortColumn = 'id') {
   return Object.assign(
     {},
     limit && { limit },
-    order && { order: [[ 'id', order ]] }
+    order && { order: [[ sortColumn, order ]] }
   )
 }
