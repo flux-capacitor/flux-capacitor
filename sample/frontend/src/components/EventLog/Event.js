@@ -18,7 +18,7 @@ function Event ({ event }) {
   const formatDateIfSet = (string) => (string && formatDate(new Date(string)))
 
   return (
-    <li className='Event'>
+    <li className='Event sans-serif'>
       <span className='Event-meta'>
         <span className='Event-id'>{formatId(event.id)}</span>
         <span className='Event-time'>{formatDateIfSet(event.timestamp)}</span>

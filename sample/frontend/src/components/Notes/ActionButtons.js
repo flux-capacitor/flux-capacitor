@@ -44,7 +44,7 @@ function NonEditingActions ({ className, onEdit, onRemove }) {
 
 function Icon ({ Icon, onClick, tooltip }) {
   return (
-    <Tooltip overlay={tooltip} placement='bottom'>
+    <Tooltip overlay={tooltip} overlayClassName='sans-serif' placement='bottom'>
       <Icon onClick={onClick} size={buttonSize} />
     </Tooltip>
   )
