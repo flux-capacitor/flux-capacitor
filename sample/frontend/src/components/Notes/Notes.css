@@ -10,8 +10,10 @@
 }
 
 .NotesList {
-  list-style-type: none;
   padding: 0;
+  max-height: 400px;
+  list-style-type: none;
+  overflow-y: auto;
 }
 
 .NotesList > li {

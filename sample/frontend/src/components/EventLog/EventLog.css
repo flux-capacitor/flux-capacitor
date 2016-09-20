@@ -1,3 +1,7 @@
+.EventLog {
+  position: relative;
+}
+
 .EventLogList {
   width: 400px;
   max-height: 400px;
@@ -6,4 +10,10 @@
   list-style-type: none;
   overflow-y: auto;
   text-align: left;
+}
+
+.EventLog-raw {
+  position: absolute;
+  top: 25px;
+  right: 0;
 }

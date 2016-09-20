@@ -5,6 +5,7 @@ import { loadNotes } from '../../ducks/notes'
 import AuthBox from '../AuthBox/AuthBox'
 import EventLog from '../EventLog/EventLog'
 import Notes from '../Notes/Notes'
+import RawViewModal from '../RawView/RawViewModal'
 import logo from './logo.svg'
 import './App.css'
 
@@ -63,6 +64,7 @@ class App extends Component {
               <EventLog />
             </div>
           </section>
+          <RawViewModal />
         </div>
       </Provider>
     )

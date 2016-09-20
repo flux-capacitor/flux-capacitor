@@ -7,12 +7,25 @@ body {
   font-family: 'Cardo', serif;
 }
 
-h1, h2, h3, h4, h5, label, .sans-serif {
+h1, h2, h3, h4, h5, label, a, .sans-serif {
   font-family: 'Montserrat', sans-serif;
 }
 
 body > div[class^="notie-"] {
   font-family: 'Montserrat', sans-serif;
+}
+
+a {
+  cursor: pointer;
+  font-size: medium;
+}
+
+a:hover {
+  color: red;
+}
+
+a > svg {
+  margin-top: -5px;
 }
 
 ul {
@@ -26,6 +39,10 @@ ul {
 .flex-row {
   display: flex;
   flex-direction: row;
+}
+
+.pull-right {
+  float: right;
 }
 
 .rc-tooltip-inner {
