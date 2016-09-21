@@ -1,7 +1,7 @@
 .AuthBox {
   display: inline-block;
   float: right;
-  font-size: medium;
+  font-size: small;
 }
 
 .AuthBox label > span {

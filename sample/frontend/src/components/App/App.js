@@ -63,13 +63,15 @@ class App extends Component {
               <Notes />
               <EventLog />
             </div>
-            <p className='text-justify'>
+            <div className='text-justify'>
               <h5>Explanation</h5>
-              All the data here is live data from the server. The notes and the last
-              50 events are initially GET-requested from the server and a websocket
-              connection pushes every new event. Try opening this app in a new window
-              and change something there!
-            </p>
+              <p>
+                All the data here is live data from the server. The notes and the last
+                50 events are initially GET-requested from the server and a websocket
+                connection pushes every new event. Try opening this app in a new window
+                and change something there!
+              </p>
+            </div>
           </section>
           <RawViewModal />
         </div>

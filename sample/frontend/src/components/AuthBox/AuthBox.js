@@ -12,7 +12,7 @@ function AuthBox ({ userName, onChangeUserName }) {
   return (
     <section className='AuthBox'>
       <label>
-        <span>Current user:</span>
+        <span>Your username:</span>
         <input
           placeholder='User name'
           type='text'

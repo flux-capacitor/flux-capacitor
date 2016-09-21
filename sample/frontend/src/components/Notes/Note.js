@@ -22,6 +22,7 @@ class Note extends Component {
     super(props)
 
     const { note } = this.props
+
     this.state = {
       isEditing: this.isJustCreated(),
       noteData: {
@@ -29,6 +30,11 @@ class Note extends Component {
         text: note.text
       }
     }
+    this.title = null
+  }
+
+  componentDidMount () {
+    this.title.focus()
   }
 
   isJustCreated () {
@@ -91,7 +97,10 @@ class Note extends Component {
           onSave={() => this.saveNote()}
         />
 
-        <h5 className='Note-title' contentEditable={isEditing} onInput={setter('title')}>{note.title}</h5>
+        <h5
+          className='Note-title' ref={(ref) => { this.title = ref }}
+          contentEditable={isEditing} onInput={setter('title')}
+        >{note.title}</h5>
         <hr />
         <p className='Note-text' contentEditable={isEditing} onInput={setter('text')}>
           {note.text}
