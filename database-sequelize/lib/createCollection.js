@@ -1,4 +1,4 @@
-const createChangeset = require('../lib/database/createChangeset')
+const createChangeset = require('../../lib/database/createChangeset')
 
 function createCollection (name, model) {
   const collection = {
