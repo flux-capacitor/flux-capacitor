@@ -1,6 +1,3 @@
-// TODO: Simplify:
-// module.exports = createDefaultReducer({ notesAdded, noteTitleEdited, ... })
-
 function notesReducer (collection, event) {
   switch (event.type) {
     case 'noteAdded':

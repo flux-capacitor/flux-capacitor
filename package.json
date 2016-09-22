@@ -9,11 +9,14 @@
   "keywords": [
     "store",
     "event",
+    "flux",
+    "database",
     "cqrs",
-    "push",
     "dispatch",
     "redux",
-    "isomorphic"
+    "isomorphic",
+    "realtime",
+    "sql"
   ],
   "dependencies": {
     "redux": "^3.6.0"
