@@ -8,8 +8,7 @@ const defaultModel = {
   },
   timestamp: {
     type: Sequelize.DATE,       // TODO: TIMESTAMP would be better, but is not supported by sequelize right now
-    allowNull: false,
-    defaultValue: Sequelize.NOW
+    allowNull: false
   },
   type: {
     type: Sequelize.STRING,
