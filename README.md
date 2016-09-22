@@ -1,12 +1,11 @@
-# ⏩ FastForward
+# Flux Capacitor
 
-A modern and versatile approach towards data storage. Easy to use, event-based, functional.
+Data storage as it's supposed to be. Easy to use, event-based, functional. Gives you control over time and data.
 
-- Like redux for the backend, event-based persistent data storage
+- Works like [Redux](https://github.com/reactjs/redux), but in the backend and with persistent data
 - Not a new kind of database, but microservice on top of popular databases
-- Works like redux, needs very little effort to provide complex features (see [No code is good code](#no-code-is-good-code))
+- Provides complex features with little effort (see [No code is good code](#no-code-is-good-code))
 - Isomorphic reducers: Can re-use the store's reducers in the frontend!
-- Reducers similar to redux' reducers
 
 **Alpha release - Keep your seatbelt fastened during the flight**
 
@@ -14,7 +13,9 @@ A modern and versatile approach towards data storage. Easy to use, event-based, 
 ## Features
 
 - Dispatch events to change data
-- Push notifications and powerful analytics come for free, thanks to event log
+- Events (basically flux actions) are persisted, too
+- Realtime data and powerful analytics come for free
+- For critical data and collaboration: Trace back which events produced today's data
 - Isomorphic reducers - Use same code in frontend and backend to update data
 - Upcoming feature: Never write a database migration again - Replay events with new reducers
 - Upcoming feature: Time machine - view the database contents at some point in the past
@@ -23,13 +24,13 @@ A modern and versatile approach towards data storage. Easy to use, event-based, 
 
 ## Show me some code!
 
-Here is some minimal sample code to get going:
+Here is how you set up a small store:
 
 ```js
-TODO
+TODO (also show subscribe)
 ```
 
-Check out the [sample app](./sample/server).
+Check out the [sample app](./sample/server) to see the whole picture.
 
 #### Backend
 
@@ -82,7 +83,7 @@ bug-free code that achieves the same!
 ##### Code to push updates to clients using web sockets (sample app)
 < 20 SLOC
 
-##### Code to re-use backend reducer in frontend with redux (sample app)
+##### Code to re-use backend reducer in frontend with Redux (sample app)
 < 10 SLOC
 
 
@@ -124,7 +125,7 @@ TODO: Insert code snippet here
 6. Pass event(s) to the store's subscribers
 
 
-## Differences to redux
+## Differences to Redux
 
 - Reducers work slightly different (`(collection, event) => changeset`)
   - Get a collection, not the whole state and return a changeset, not another complete state
@@ -147,9 +148,10 @@ It is related to CQRS, but no real CQRS. Rather something between common CRUD an
 - New collection methods: `updateWhere`, `destroyWhere`
 - **Easy replaying with updated reducers a.k.a migrating to new data model without writing migrations and with zero down-time**
 - **Time machine: Periodical snapshots and easy way to recreate state of data at a random point of time**
+- Optional snapshotting for more efficient time machine
 - Saga support
-- Make reducers usable in frontend with other libs than redux as well: MobX, RxJs
-- Optionally: Move old events periodically to "icelog" (some other, possibly slower, but cheaper storage)
+- Make reducers usable in frontend with other libs than Redux as well: MobX, RxJs
+- Move old events periodically to "icelog" (some other, possibly slower, but cheaper storage: Amazon Glacier for instance)
 - Support for other storage engines (Mongo, ...)
 
 
