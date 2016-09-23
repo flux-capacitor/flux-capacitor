@@ -34,7 +34,9 @@ class Note extends Component {
   }
 
   componentDidMount () {
-    this.title.focus()
+    setTimeout(() => {
+      this.title.focus()
+    }, 1000)    // small delay for the animation to complete
   }
 
   isJustCreated () {
@@ -88,7 +90,7 @@ class Note extends Component {
     })
 
     return (
-      <li className='Note'>
+      <div className='Note'>
         <ActionButtons
           isEditing={isEditing}
           onClose={() => this.leaveEditMode()}
@@ -105,7 +107,7 @@ class Note extends Component {
         <p className='Note-text' contentEditable={isEditing} onInput={setter('text')}>
           {note.text}
         </p>
-      </li>
+      </div>
     )
   }
 }

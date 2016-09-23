@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
+import FlipMove from 'react-flip-move'
 import { createNote } from '../../ducks/notes'
 import Note from './Note'
 import './Notes.css'
@@ -13,11 +14,13 @@ function Notes ({ notes, onCreateNote }) {
   return (
     <section className='Notes'>
       <button onClick={onCreateNote}>+ Create note</button>
-      <ul className='NotesList'>
-        {notes
-          .sort((a, b) => (a.id < b.id))
-          .map((note, index) => <Note key={note.id || 'index-' + index} note={note} />)}
-      </ul>
+      <div className='NotesList'>
+        <FlipMove enterAnimation='elevator' leaveAnimation='fade'>
+          {notes
+            .sort((a, b) => (a.id < b.id))
+            .map((note, index) => <Note key={note.id || 'index-' + index} note={note} />)}
+        </FlipMove>
+      </div>
     </section>
   )
 }

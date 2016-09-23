@@ -16,6 +16,6 @@
   overflow-y: auto;
 }
 
-.NotesList > li {
+.NotesList .Note {
   margin: 10px auto;
 }
