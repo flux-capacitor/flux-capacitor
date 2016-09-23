@@ -41,7 +41,7 @@ class Note extends Component {
     return !this.props.note.id
   }
 
-  getMaxExistingId () {
+  getNextNoteId () {
     const { notes } = this.props
     const maxId = notes.reduce((max, note) => (
       note.id ? Math.max(parseInt(note.id, 10), max) : max
@@ -62,7 +62,7 @@ class Note extends Component {
     const { userName, onSaveNewNote, onSaveUpdatedNote, onRemoveUnsaved } = this.props
 
     if (this.isJustCreated()) {
-      const id = this.getMaxExistingId() + 1
+      const id = this.getNextNoteId()
       const note = Object.assign({}, this.state.noteData, { id })
       onSaveNewNote(note, userName).then(() => onRemoveUnsaved())
     } else {
