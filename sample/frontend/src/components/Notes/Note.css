@@ -21,6 +21,8 @@
   margin: 0;
   padding: 0;
   min-height: 60px;
+  max-height: 200px;
+  overflow: auto;
 }
 
 .Note-title:focus, .Note-text:focus {
