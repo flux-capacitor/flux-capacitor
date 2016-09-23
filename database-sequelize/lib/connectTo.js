@@ -9,17 +9,20 @@ module.exports = connectTo
 /**
  * Connect to a database using Sequelize ORM.
  *
- * @param {string} connectionUrl    For instance: `sqlite://path/to/db.sqlite`
- * @param {Function} createModels   (sequelize: Sequelize) => { [ collectionName: string ]: Sequelize.Model }
+ * @param {string} connectionUrl        For instance: `sqlite://path/to/db.sqlite`
+ * @param {Function} createCollections  (sequelize: Sequelize, createCollection: (name: string, model: Sequelize.Model) => Collection) => Array<Collection>
  * @return {Database}
  */
-function connectTo (connectionUrl, createModels) {
+function connectTo (connectionUrl, createCollections) {
   const sequelize = new Sequelize(connectionUrl)
-  const models = createModels(sequelize)
+  const collections = createCollections(sequelize, createCollection)
 
   const database = {
+    /** @property {Sequelize} connection */
     connection: sequelize,
-    collections: createCollections(models),
+
+    /** @property {Object} collections    { [name: string]: Collection } */
+    collections: collectionsAsKeyValue(collections),
 
     applyChangeset (changeset, options) {
       options = options || { transaction: null }
@@ -42,15 +45,21 @@ function connectTo (connectionUrl, createModels) {
 }
 
 /**
- * @param {object} models   { [ collectionName: string ]: Sequelize.Model }
- * @return {object} { [ collectionName ]: Collection }
+ * @param {Array<Collection>} collections
+ * @return {Object}           { [name: string]: Collection }
  */
-function createCollections (models) {
-  const collectionsByName = {}
+function collectionsAsKeyValue (collections) {
+  const keyValueObject = {}
 
-  Object.keys(models).forEach((name) => {
-    collectionsByName[ name ] = createCollection(name, models[ name ])
+  collections.forEach((collection) => {
+    if (typeof collection !== 'object') {
+      throw new Errror(`Expected a collection. Got: ${typeof collection}`)
+    }
+    if (!collection.name) {
+      throw new Error(`Expected collection to have a name.`)
+    }
+    keyValueObject[ collection.name ] = collection
   })
 
-  return collectionsByName
+  return keyValueObject
 }

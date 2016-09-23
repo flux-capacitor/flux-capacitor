@@ -5,7 +5,7 @@
 
 const { aggregateReducers, createStore, eventLogReducer } = require('../../lib')
 const { connectTo } = require('../../database-sequelize')
-const { createDbModels } = require('./database')
+const { createCollections } = require('./database')
 const rootReducer = require('./reducers/index')
 
 async function setUpStore () {
@@ -22,5 +22,5 @@ module.exports = setUpStore
 function connectToDatabase () {
   const storagePath = process.env.DB_SQLITE_STORAGE
 
-  return connectTo(`sqlite://${storagePath}`, createDbModels)
+  return connectTo(`sqlite://${storagePath}`, createCollections)
 }
