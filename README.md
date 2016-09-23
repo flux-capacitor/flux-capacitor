@@ -2,12 +2,14 @@
 
 Data storage as it's supposed to be. Easy to use, event-based, functional. Gives you control over time and data.
 
+*"Your UI and data flow are reactive and event-oriented. So why isn't your database?"*
+
 - Works like [Redux](https://github.com/reactjs/redux), but in the backend and with persistent data
 - Not a new kind of database, but microservice on top of popular databases
 - Provides complex features with little effort (see [No code is good code](#no-code-is-good-code))
 - Isomorphic reducers: Can re-use the store's reducers in the frontend!
 
-**Alpha release - Keep your seatbelt fastened during the flight**
+**Alpha release - Keep your seatbelt fastened during the entire flight**
 
 
 ## Features
@@ -29,6 +31,8 @@ Here is how you set up a small store:
 ```js
 TODO (also show subscribe)
 ```
+
+So how do you read data? Just read from your DB collections like you always did!
 
 Check out the [sample app](./sample/server) to see the whole picture.
 
@@ -87,42 +91,9 @@ bug-free code that achieves the same!
 < 10 SLOC
 
 
-## How to
+## Concept
 
-### Setup
-
-1. Create DB models
-2. Write reducers
-3. Create store
-
-TODO: Insert code snippet here
-
-### Write some data
-
-1. Create event(s)
-2. Dispatch event(s) to store
-3. Event(s) are reduced, means database is updated + event(s) are persisted
-4. Subscribers of the store are informed about the new event(s)
-
-TODO: Insert code snippet here
-
-### Read some data
-
-What's the flow for reading data? Just read from your DB collections like you always did!
-
-TODO: Insert code snippet here
-
-
-### What happens under the hood
-
-1. Store receives event(s) on dispatch()
-2. Creates new transaction
-3. Applies all known reducers on event(s), resulting in a set of changesets
-   (A changeset is just a database operation or a set of database operations)
-   (Persisting the event itself is also just done by a reducer)
-4. Apply changesets to the database as part of the transaction (a.k.a. perform INSERT, UPDATE, ...)
-5. Commit transaction or rollback if something went wrong
-6. Pass event(s) to the store's subscribers
+So how does it work? Find details here: [Concept](./CONCEPT.md).
 
 
 ## Differences to Redux
