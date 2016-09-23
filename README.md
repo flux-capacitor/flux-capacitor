@@ -149,6 +149,7 @@ It is related to CQRS, but no real CQRS. Rather something between common CRUD an
 - **Easy replaying with updated reducers a.k.a migrating to new data model without writing migrations and with zero down-time**
 - **Time machine: Periodical snapshots and easy way to recreate state of data at a random point of time**
 - Optional snapshotting for more efficient time machine
+- Flow types
 - Saga support
 - Make reducers usable in frontend with other libs than Redux as well: MobX, RxJs
 - Move old events periodically to "icelog" (some other, possibly slower, but cheaper storage: Amazon Glacier for instance)

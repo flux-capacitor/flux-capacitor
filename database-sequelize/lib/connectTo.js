@@ -9,8 +9,8 @@ module.exports = connectTo
 /**
  * Connect to a database using Sequelize ORM.
  *
- * @param {string} connectionUrl
- * @param {Function} createModels
+ * @param {string} connectionUrl    For instance: `sqlite://path/to/db.sqlite`
+ * @param {Function} createModels   (sequelize: Sequelize) => { [ collectionName: string ]: Sequelize.Model }
  * @return {Database}
  */
 function connectTo (connectionUrl, createModels) {
