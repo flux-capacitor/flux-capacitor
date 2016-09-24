@@ -13,7 +13,7 @@ const propTypes = {
   onClose: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
-  onSave: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired
 }
 
 function ActionButtons ({ isEditing, onClose, onEdit, onRemove, onSave }) {

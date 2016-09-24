@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 import React, { Component, PropTypes } from 'react'
 import { Provider } from 'react-redux'
 import { loadEvents } from '../../ducks/events'

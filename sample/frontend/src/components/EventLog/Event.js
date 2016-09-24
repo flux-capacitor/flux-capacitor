@@ -8,7 +8,7 @@ const propTypes = {
     type: PropTypes.string.isRequired,
     meta: PropTypes.object,
     payload: PropTypes.object.isRequired,
-    user: PropTypes.string,
+    user: PropTypes.string
   }).isRequired
 }
 

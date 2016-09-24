@@ -10,7 +10,7 @@ const propTypes = {
   note: PropTypes.shape({
     id: PropTypes.string,       // Might be undefined if it's a newly created note (not yet sent to the backend)
     title: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired
   }).isRequired,
   userName: PropTypes.string.isRequired,
   onRemoveUnsaved: PropTypes.func.isRequired,
