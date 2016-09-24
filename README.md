@@ -4,6 +4,8 @@ Data storage as it's supposed to be. Easy to use, event-based, functional. Gives
 
 *"Your UI and data flow are reactive and event-oriented. So why isn't your database?"*
 
+[![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+
 - Works like [Redux](https://github.com/reactjs/redux), but in the backend and with persistent data
 - Not a new kind of database, but microservice on top of popular databases
 - Provides complex features with little effort (see [No code is good code](#no-code-is-good-code))
@@ -46,7 +48,7 @@ run().catch((error) => console.error(error.stack))
 async function run () {
   // Connect to database
   const database = await connectTo('sqlite://db.sqlite', createCollections)
-  // Use the default event log reducer: (Yes, the event persistence is done by a simple reducer, too :))
+  // Use the default event log reducer (yes, the event persistence is done by a simple reducer, too :))
   const rootReducer = aggregateReducers(reducer, eventLogReducer)
   // Create store
   const store = await createStore(rootReducer, database)
@@ -102,6 +104,20 @@ async function getAllIssues (database) {
 
   return await Issues.findAll()
 }
+```
+
+Reusing the backend reducer in your redux-based frontend is dead-easy:
+
+```js
+import { reduxify } from 'flux-capacitor'
+import { combineReducers } from 'redux'
+import backendReducer from './path/to/my/backend/code'
+
+// Note: backendReducer is supposed to take one collection only, not the whole database
+// => backendReducer: (Collection, Event) => Changeset
+const reduxReducer = reduxify(backendReducer)
+
+const reduxRootReducer = combineReducers({ foo: reduxReducer })
 ```
 
 Check out the [sample app](./sample/server) to see the whole picture 🖼
