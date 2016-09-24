@@ -45,6 +45,14 @@ module.exports = createStore
 function _createStore (reducer, database) {
   let currentListeners = []
 
+  /**
+   * Dispatch an event or an array of events. In case you dispatch an event array
+   * all events will be reduced using a shared transaction. If one fails, none
+   * of the events will be applied/persisted.
+   *
+   * @param {Event|Array<Event>} event
+   * @return {Promise<Array<Event>>}
+   */
   function dispatch (event) {
     if (typeof event !== 'object') {
       throw new Error(`Expected event to be an object, but got: ${typeof event}`)
@@ -65,6 +73,14 @@ function _createStore (reducer, database) {
     return database
   }
 
+  /**
+   * Subscribe to store, so your listener gets called whenever events have been dispatched.
+   * Passing an array of events to the listener, since you can dispatch an array of events
+   * (instead of a single one) and they will share the same database transaction.
+   *
+   * @param {Function} listener     (events: Array<Event>) => void
+   * @return {Function} unsubscribe () => void
+   */
   function subscribe (listener) {
     if (typeof listener !== 'function') {
       throw new Error(`Expected listener to be a function, but got: ${typeof listener}`)

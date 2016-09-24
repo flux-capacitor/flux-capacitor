@@ -19,6 +19,7 @@ Data storage as it's supposed to be. Easy to use, event-based, functional. Gives
 - Realtime data and powerful analytics come for free
 - For critical data and collaboration: Trace back which events produced today's data
 - Isomorphic reducers - Use same code in frontend and backend to update data
+- Middleware concept allows massive extensibility
 - Upcoming feature: Never write a database migration again - Replay events with new reducers
 - Upcoming feature: Time machine - view the database contents at some point in the past
 - Works with PostgreSQL, MySQL, SQLite & MSSQL using Sequelize right now
@@ -26,15 +27,84 @@ Data storage as it's supposed to be. Easy to use, event-based, functional. Gives
 
 ## Show me some code!
 
-Here is how you set up a small store:
+Here is how you set up a simple store for storing issues (like GitHub issues):
 
 ```js
-TODO (also show subscribe)
+// Import the database-agnostic core library:
+const { aggregateReducers, createStore, eventLogReducer } = require('flux-capacitor')
+// Import the database-backend:
+const { connectTo } = require('flux-capacitor-sequelize')
+const createEventModel = require('flux-capacitor-sequelize').createEventModel
+
+const Sequelize = require('sequelize')
+const uuid = require('uuid')
+
+const ADD_ISSUE = 'addIssue'
+
+run().catch((error) => console.error(error.stack))
+
+async function run () {
+  // Connect to database
+  const database = await connectTo('sqlite://db.sqlite', createCollections)
+  // Use the default event log reducer: (Yes, the event persistence is done by a simple reducer, too :))
+  const rootReducer = aggregateReducers(reducer, eventLogReducer)
+  // Create store
+  const store = await createStore(rootReducer, database)
+
+  store.subscribe((events) => {
+    // Subscribe to event dispatchments. Push the events to the clients using a websocket to implement realtime updates, for instance.
+    events.forEach((event) => console.log('New event:', event))
+  })
+
+  // Create a new issue
+  await store.dispatch({
+    type: ADD_ISSUE,
+    payload: {
+      id: uuid.v4(),
+      title: 'How to use your product?',
+      content: 'Your new project looks awesome, but how to use it... ¯\\_(ツ)_/¯'
+    }
+  })
+
+  // Print all issues
+  console.log(await getAllIssues(database))
+}
+
+// The reducer works like a redux reducer, just that it takes a database instance and returns a database changeset
+function reducer (database, event) {
+  const { Issues } = database.collections
+
+  switch (event.type) {
+    case ADD_ISSUE:
+      return Issues.create(event.payload)
+    default:
+      return Issues.noChange()
+  }
+}
+
+function createCollections (sequelize, createCollection) {
+  return [
+    createCollection('Events', createEventModel(sequelize)),
+    createCollection('Issues', createIssueModel(sequelize))
+  ]
+}
+
+function createIssueModel (sequelize) {
+  return sequelize.define('Issue', {
+    id: { type: Sequelize.UUID, primaryKey: true },
+    title: { type: Sequelize.STRING, allowNull: false },
+    content: { type: Sequelize.TEXT },
+  })
+}
+
+async function getAllIssues (database) {
+  const { Issues } = database.collections
+
+  return await Issues.findAll()
+}
 ```
 
-So how do you read data? Just read from your DB collections like you always did!
-
-Check out the [sample app](./sample/server) to see the whole picture.
+Check out the [sample app](./sample/server) to see the whole picture 🖼
 
 #### Backend
 
