@@ -3,6 +3,6 @@
  * We just use the default model here.
  */
 
-const createEventModel = require('../../../database-sequelize').createEventModel
+const createEventModel = require('flux-capacitor-sequelize').createEventModel
 
 module.exports = createEventModel

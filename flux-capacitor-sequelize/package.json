@@ -1,0 +1,9 @@
+{
+  "name": "flux-capacitor-sequelize",
+  "version": "0.1.0",
+  "dependencies": {
+    "flux-capacitor": "^0.1.0",
+    "sequelize": "^3.24.3",
+    "uuid": "^2.0.2"
+  }
+}

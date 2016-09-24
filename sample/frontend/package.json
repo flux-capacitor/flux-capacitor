@@ -7,6 +7,7 @@
     "react-scripts": "0.4.2"
   },
   "dependencies": {
+    "flux-capacitor": "^0.1.0",
     "isomorphic-fetch": "^2.2.1",
     "notie": "^3.9.4",
     "rc-tooltip": "^3.4.2",

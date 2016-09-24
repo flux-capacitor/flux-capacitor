@@ -1,4 +1,5 @@
-const createChangeset = require('../../lib/database/createChangeset')
+const database = require('flux-capacitor/lib/database')
+const createChangeset = database.createChangeset
 
 function createCollection (name, model) {
   const collection = {

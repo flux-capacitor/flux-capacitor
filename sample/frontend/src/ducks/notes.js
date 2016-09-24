@@ -1,5 +1,5 @@
 import { fetchJson } from '../communication/rest'
-import reduxify from '../../../../lib/reduxify'
+import { reduxify } from 'flux-capacitor'
 import backendNotesReducer from '../../../server/reducers/notes'
 
 const NOTES_LOADED = 'NOTES_LOADED'

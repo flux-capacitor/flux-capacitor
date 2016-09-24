@@ -1,8 +1,0 @@
-{
-  "name": "--sequelize",
-  "version": "0.0.0",
-  "dependencies": {
-    "sequelize": "^3.24.3",
-    "uuid": "^2.0.2"
-  }
-}

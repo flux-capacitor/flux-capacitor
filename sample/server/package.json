@@ -10,6 +10,8 @@
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
     "express-ws": "^2.0.0",
+    "flux-capacitor": "^0.1.0",
+    "flux-capacitor-sequelize": "^0.1.0",
     "sequelize": "^3.24.3",
     "sqlite3": "^3.1.4"
   },
