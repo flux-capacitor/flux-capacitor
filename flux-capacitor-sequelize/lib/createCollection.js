@@ -1,3 +1,5 @@
+/* eslint-disable spaced-comment */
+
 const database = require('flux-capacitor/lib/database')
 const createChangeset = database.createChangeset
 
@@ -13,7 +15,7 @@ function createCollection (name, model) {
     },
 
     findById (id) {
-      return model.findById(options)
+      return model.findById(id)
     },
 
     findOne (options) {

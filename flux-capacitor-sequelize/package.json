@@ -1,9 +1,16 @@
 {
   "name": "flux-capacitor-sequelize",
   "version": "0.1.0",
+  "license": "MIT",
+  "scripts": {
+    "test": "standard"
+  },
   "dependencies": {
     "flux-capacitor": "^0.1.0",
     "sequelize": "^3.24.3",
     "uuid": "^2.0.2"
+  },
+  "devDependencies": {
+    "standard": "^8.1.0"
   }
 }

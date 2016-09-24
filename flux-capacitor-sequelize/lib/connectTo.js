@@ -1,7 +1,6 @@
 const Sequelize = require('sequelize')
 const uuid = require('uuid')
 const createCollection = require('./createCollection')
-const createEventModel = require('./createEventModel')
 const createTransaction = require('./createTransaction')
 
 module.exports = connectTo
@@ -53,7 +52,7 @@ function collectionsAsKeyValue (collections) {
 
   collections.forEach((collection) => {
     if (typeof collection !== 'object') {
-      throw new Errror(`Expected a collection. Got: ${typeof collection}`)
+      throw new Error(`Expected a collection. Got: ${typeof collection}`)
     }
     if (!collection.name) {
       throw new Error(`Expected collection to have a name.`)
