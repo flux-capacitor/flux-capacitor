@@ -43,7 +43,6 @@ module.exports = createStore
  * @return {Store}
 */
 function _createStore (reducer, database) {
-  let currentReducer = reducer
   let currentListeners = []
 
   function dispatch (event) {

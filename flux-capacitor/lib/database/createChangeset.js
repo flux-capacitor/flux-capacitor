@@ -13,7 +13,7 @@ function createChangeset (action, meta) {
     apply () {
       const args = arguments
       return Promise.resolve()
-        .then(() => action.apply(null, arguments))
+        .then(() => action.apply(null, args))
         .catch(errorHandler)
     }
   }
