@@ -179,7 +179,7 @@ bug-free code that achieves the same!
 
 ## Concept
 
-So how does it work? Find details here: [Concept](./CONCEPT.md).
+So how does it work? Find details here: [Concept](./flux-capacitor/CONCEPT.md).
 
 
 ## Differences to Redux
