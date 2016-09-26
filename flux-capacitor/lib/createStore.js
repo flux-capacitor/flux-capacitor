@@ -54,14 +54,19 @@ function _createStore (reducer, database) {
    * @return {Promise<Array<Event>>}
    */
   function dispatch (event) {
-    if (typeof event !== 'object') {
-      throw new Error(`Expected event to be an object, but got: ${typeof event}`)
-    }
-    if (!event.type || typeof event.type !== 'string') {
-      throw new Error(`Expected event to have a type.`)
+    if (!Array.isArray(event) && typeof event !== 'object') {
+      throw new Error(`Expected event to be an object or array of objects, but got: ${typeof event}`)
     }
 
     const events = Array.isArray(event) ? event : [ event ]
+
+    events.forEach((eventIt) => {
+      if (!eventIt.type || typeof eventIt.type !== 'string') {
+        console.error(`Expected event to have a type:`, eventIt)
+        throw new Error(`Expected event to have a type.`)
+      }
+    })
+
     return _dispatch(reducer, database, events)
       .then((events) => {
         triggerListeners(currentListeners, events)
@@ -93,7 +98,7 @@ function _createStore (reducer, database) {
       if (isSubscribed) {
         isSubscribed = false
         const index = currentListeners.indexOf(listener)
-        currentListeners = currentListeners.splice(index, 1)
+        currentListeners.splice(index, 1)
       }
     }
   }

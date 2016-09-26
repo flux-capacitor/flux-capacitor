@@ -4,7 +4,7 @@
   "description": "A modern and versatile approach towards data storage. Easy to use, event-based, functional.",
   "license": "MIT",
   "scripts": {
-    "test": "standard"
+    "test": "standard --parser babel-eslint && ava"
   },
   "main": "lib/index",
   "engines": {
@@ -26,6 +26,9 @@
     "redux": "^3.6.0"
   },
   "devDependencies": {
+    "ava": "^0.16.0",
+    "babel-eslint": "^6.1.2",
+    "sinon": "^1.17.6",
     "standard": "^8.1.0"
   }
 }
