@@ -15,10 +15,10 @@ function Notes ({ notes, onCreateNote }) {
     <section className='Notes'>
       <button onClick={onCreateNote}>+ Create note</button>
       <div className='NotesList'>
-        <FlipMove enterAnimation='elevator' leaveAnimation='fade'>
+        <FlipMove enterAnimation='elevator' leaveAnimation='fade' duration={350}>
           {notes
-            .sort((a, b) => (a.id < b.id))
-            .map((note, index) => <Note key={note.id || 'index-' + index} note={note} />)}
+            .sort((a, b) => (a.createdAt < b.createdAt))
+            .map((note, index) => <Note key={note.id} note={note} />)}
         </FlipMove>
       </div>
     </section>

@@ -1,6 +1,7 @@
 .Notes {
   padding: 24px 5vw 0;
   flex-grow: 1;
+  min-height: 300px;
   text-align: left;
 }
 

@@ -51,8 +51,8 @@ function initRetrievalRoutes (router, database) {
     })
   }
 
-  router.get('/events', createCollectionFindAllHandler(Events, exportEvent))
-  router.get('/notes', createCollectionFindAllHandler(Notes))
+  router.get('/events', createCollectionFindAllHandler(Events, 'timestamp', exportEvent))
+  router.get('/notes', createCollectionFindAllHandler(Notes, 'createdAt'))
 }
 
 function checkAuthentication (req, res, next) {
@@ -65,9 +65,8 @@ function checkAuthentication (req, res, next) {
   }
 }
 
-function createCollectionFindAllHandler (collection, exportItem = (item) => item) {
+function createCollectionFindAllHandler (collection, sortColumn, exportItem = (item) => item) {
   return asyncHandler(async (req, res) => {
-    const sortColumn = collection.name === 'Events' ? 'timestamp' : 'id'
     const options = createRetrievalOptions(req.query, sortColumn)
     const items = await collection.findAll(options)
 

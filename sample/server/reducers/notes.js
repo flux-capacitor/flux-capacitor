@@ -16,10 +16,10 @@ function notesReducer (collection, event) {
 module.exports = notesReducer
 
 function noteAdded (collection, event) {
-  const { id, title, text } = event.payload
+  const { id, createdAt, title, text } = event.payload
 
   return collection.create({
-    id, title, text
+    id, createdAt, title, text
   })
 }
 

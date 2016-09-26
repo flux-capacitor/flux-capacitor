@@ -3,7 +3,7 @@ import notie from 'notie'
 
 export async function fetchJson (url, options = {}) {
   try {
-    return await (await fetch(url, options)).json()
+    return await parseJsonResponse(await fetch(url, options))
   } catch (error) {
     showError(error)
     throw error
@@ -20,10 +20,20 @@ export async function postJson (url, payload) {
   }
 
   try {
-    return await (await fetch(url, fetchOptions)).json()
+    return await parseJsonResponse(await fetch(url, fetchOptions))
   } catch (error) {
     showError(error)
     throw error
+  }
+}
+
+async function parseJsonResponse (response) {
+  const contentType = response.headers.get('Content-Type')
+
+  if (contentType && contentType.match(/json/)) {
+    return await response.json()
+  } else {
+    throw new Error(await response.text())
   }
 }
 

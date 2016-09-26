@@ -1,5 +1,6 @@
 import { fetchJson } from '../communication/rest'
 import { reduxify } from 'flux-capacitor'
+import uuid from 'uuid'
 import backendNotesReducer from '../../../server/reducers/notes'
 
 const NOTES_LOADED = 'NOTES_LOADED'
@@ -39,6 +40,8 @@ export function createNote () {
   return {
     type: CREATE_NOTE,
     payload: {
+      id: uuid.v4(),
+      createdAt: null,
       title: '',
       text: ''
     }

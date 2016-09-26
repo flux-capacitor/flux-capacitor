@@ -36,19 +36,11 @@ class Note extends Component {
   componentDidMount () {
     setTimeout(() => {
       this.title.focus()
-    }, 1000)    // small delay for the animation to complete
+    }, 500)    // small delay for the animation to complete
   }
 
   isJustCreated () {
-    return !this.props.note.id
-  }
-
-  getNextNoteId () {
-    const { notes } = this.props
-    const maxId = notes.reduce((max, note) => (
-      note.id ? Math.max(parseInt(note.id, 10), max) : max
-    ), 0)
-    return String(maxId + 1)
+    return !this.props.note.createdAt
   }
 
   leaveEditMode () {
@@ -61,17 +53,26 @@ class Note extends Component {
   }
 
   saveNote () {
-    const { userName, onSaveNewNote, onSaveUpdatedNote, onRemoveUnsaved } = this.props
+    const { userName, onSaveNewNote, onRemoveUnsaved } = this.props
+    const note = Object.assign({}, this.props.note, this.state.noteData)
 
     if (this.isJustCreated()) {
-      const id = this.getNextNoteId()
-      const note = Object.assign({}, this.state.noteData, { id })
       onSaveNewNote(note, userName).then(() => onRemoveUnsaved())
     } else {
-      const note = Object.assign({}, this.props.note, this.state.noteData)
-      onSaveUpdatedNote(note, userName)
+      this.saveUpdatedNote(this.props.note, note, userName)
     }
     this.setState({ isEditing: false })
+  }
+
+  saveUpdatedNote (prevData, nextData, userName) {
+    const { onUpdateText, onUpdateTitle } = this.props
+
+    if (nextData.title !== prevData.title) {
+      onUpdateTitle(nextData, userName)
+    }
+    if (nextData.text !== prevData.text) {
+      onUpdateText(nextData, userName)
+    }
   }
 
   destroy () {
@@ -126,7 +127,8 @@ function mapDispatchToProps (dispatch) {
     onDestroy: (noteId, userName) => postJson(`/api/command/removeNote?user=${userName}`, { id: noteId }),
     onRemoveUnsaved: () => dispatch(removeUnsavedNote()),
     onSaveNewNote: (note, userName) => postJson(`/api/command/addNote?user=${userName}`, note),
-    onSaveUpdatedNote: (note, userName) => postJson(`/api/command/updateNote?user=${userName}`, note)
+    onUpdateText: (note, userName) => postJson(`/api/command/editNoteContent?user=${userName}`, note),
+    onUpdateTitle: (note, userName) => postJson(`/api/command/editNoteTitle?user=${userName}`, note)
   }
 }
 

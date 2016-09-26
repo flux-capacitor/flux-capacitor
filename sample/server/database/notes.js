@@ -6,6 +6,10 @@ const model = {
     primaryKey: true,
     allowNull: false
   },
+  createdAt: {
+    type: Sequelize.DATE,
+    allowNull: false
+  },
   title: {
     type: Sequelize.STRING,
     allowNull: false
