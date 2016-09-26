@@ -92,7 +92,17 @@ test('store can dispatch multiple events at once', async (t) => {
   ])
 })
 
-test.todo('store executes changesets returned by reducers')
+test('store executes changeset returned by reducer', async (t) => {
+  const changeset = { apply: sinon.spy(() => null) }
+  const reducer = () => changeset
+
+  const database = createFakeDatabase()
+  const store = createStore(reducer, database)
+
+  await store.dispatch({ type: 'TEST' })
+
+  t.is(changeset.apply.callCount, 1)
+})
 
 test('store calls listeners', async (t) => {
   // dispatch two events at once, plus a single event for testing, unsubscribe, dispatch another
@@ -128,6 +138,12 @@ test('store calls listeners', async (t) => {
 function createFakeDatabase () {
   return {
     createEventId: sinon.spy(() => 'some-id'),
-    transaction: sinon.spy(() => Promise.resolve())
+    transaction: sinon.spy((callback) => {
+      const transaction = {
+        perform (changeset) { return changeset.apply() }
+      }
+      return Promise.resolve()
+        .then(() => callback(transaction))
+    })
   }
 }
