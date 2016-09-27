@@ -27,7 +27,7 @@
   "contributors": [
     "Sergey (https://github.com/Gaserd)"
   ],
-  "repo": "flux-capacitor/flux-capacitor",
+  "repository": "flux-capacitor/flux-capacitor",
   "bugs": "https://github.com/flux-capacitor/flux-capacitor/issues",
   "dependencies": {
     "redux": "^3.6.0"
