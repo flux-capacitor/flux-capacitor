@@ -1,7 +1,7 @@
 {
   "name": "flux-capacitor",
   "version": "0.2.0",
-  "description": "A modern and versatile approach towards data storage. Easy to use, event-based, functional.",
+  "description": "Data storage as it's supposed to be. Easy to use, event-based, functional. Gives you control over time and data.",
   "license": "MIT",
   "scripts": {
     "prepublish": "npm test",

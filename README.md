@@ -1,7 +1,5 @@
 # Flux Capacitor
 
-Data storage as it's supposed to be. Easy to use, event-based, functional. Gives you control over time and data.
-
 *"Your UI and data flow are reactive and event-oriented. So why isn't your database?"*
 
 [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
