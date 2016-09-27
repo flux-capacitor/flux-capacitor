@@ -1,3 +1,5 @@
+'use strict'
+
 /**
  * @param {Function}   action     Some function that performs the actual operation(s).
  * @param {object}     [meta]

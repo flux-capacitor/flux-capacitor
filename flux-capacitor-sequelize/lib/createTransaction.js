@@ -1,3 +1,5 @@
+'use strict'
+
 /**
  * Extends sequelize transaction.
  *

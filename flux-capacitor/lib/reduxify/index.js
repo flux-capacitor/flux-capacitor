@@ -1,3 +1,5 @@
+'use strict'
+
 const createReduxifyCollection = require('./createReduxifyCollection')
 
 /**

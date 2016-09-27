@@ -1,3 +1,5 @@
+'use strict'
+
 const Sequelize = require('sequelize')
 const uuid = require('uuid')
 const createCollection = require('./createCollection')

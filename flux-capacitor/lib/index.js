@@ -1,3 +1,5 @@
+'use strict'
+
 const { applyMiddleware, compose } = require('redux')
 const aggregateReducers = require('./aggregateReducers')
 const createStore = require('./createStore')

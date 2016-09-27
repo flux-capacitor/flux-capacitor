@@ -1,3 +1,5 @@
+'use strict'
+
 const combineChangesets = require('./database/combineChangesets')
 
 /**

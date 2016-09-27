@@ -1,5 +1,7 @@
 /* eslint-disable spaced-comment */
 
+'use strict'
+
 const database = require('flux-capacitor/lib/database')
 const createChangeset = database.createChangeset
 
