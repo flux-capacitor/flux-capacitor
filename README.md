@@ -235,12 +235,6 @@ It is related to CQRS, but no real CQRS. Rather something between common CRUD an
 - Support for other storage engines (Mongo, ...)
 
 
-## Other TODO
-
-- Test reducers returning more than one changeset
-- Add footer to sample frontend and add links to GitHub repo, create-react-app, redux
-
-
 ## License
 
 This library is released under the terms of the MIT license. See [LICENSE](./LICENSE) for details.
