@@ -34,10 +34,9 @@ Here is how you set up a simple store for storing issues (like GitHub issues):
 const { aggregateReducers, createStore, eventLogReducer } = require('flux-capacitor')
 // Import the database-backend:
 const { connectTo } = require('flux-capacitor-sequelize')
-const createEventModel = require('flux-capacitor-sequelize').createEventModel
 
-const Sequelize = require('sequelize')
 const uuid = require('uuid')
+const reducer = require('./reducer')
 
 const ADD_ISSUE = 'addIssue'
 
@@ -69,6 +68,15 @@ async function run () {
   // Print all issues
   console.log(await getAllIssues(database))
 }
+```
+
+```js
+// reducer.js
+
+const createEventModel = require('flux-capacitor-sequelize').createEventModel
+const Sequelize = require('sequelize')
+
+module.exports = reducer
 
 // The reducer works like a redux reducer, just that it takes a database instance and returns a database changeset
 function reducer (database, event) {
@@ -117,6 +125,9 @@ const reduxReducer = reduxify(backendReducer)
 
 const reduxRootReducer = combineReducers({ foo: reduxReducer })
 ```
+
+
+### If you want to see it all
 
 Check out the [sample app](./sample/server) to see the whole picture 🖼
 
