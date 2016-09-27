@@ -3,12 +3,23 @@ function createReduxifyCollection (state, name = null) {
     name,
 
     create (values) {
-      return (state) => state.concat([ values ])
+      return (state) => {
+        const existingItem = values.id && state.find(byId(values.id))
+        const updateItem = (itemIt) => (
+          itemIt.id === existingItem.id
+            ? Object.assign({}, existingItem, values)
+            : itemIt
+        )
+
+        return existingItem
+          ? state.map(updateItem)
+          : state.concat([ values ])
+      }
     },
 
     updateById (id, values) {
       return (state) => {
-        const itemIndex = state.findIndex((itemIt) => (itemIt.id === id))
+        const itemIndex = state.findIndex(byId(id))
         return itemIndex >= 0
           ? replaceArrayItem(state, itemIndex, Object.assign({}, state[ itemIndex ], values))
           : state
@@ -17,7 +28,7 @@ function createReduxifyCollection (state, name = null) {
 
     destroyById (id) {
       return (state) => {
-        const itemIndex = state.findIndex((itemIt) => (itemIt.id === id))
+        const itemIndex = state.findIndex(byId(id))
         return itemIndex >= 0
           ? removeArrayItem(state, itemIndex)
           : state
@@ -47,4 +58,8 @@ function removeArrayItem (array, index) {
   const itemsAfter = array.slice(index + 1)
 
   return itemsBefore.concat(itemsAfter)
+}
+
+function byId (id) {
+  return (item) => (item.id === id)
 }
