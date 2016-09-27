@@ -2,6 +2,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
+    "postinstall": "cd flux-capacitor/ && npm install && cd flux-capacitor-sequelize/ && npm install",
     "test": "cd flux-capacitor/ && npm test"
   }
 }
