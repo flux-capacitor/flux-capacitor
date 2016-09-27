@@ -1,4 +1,4 @@
-# Flux Capacitor
+# ![Flux Capacitor](./flux-capacitor/media/logo-big.png)
 
 *"Your UI and data flow are reactive and event-oriented. So why isn't your database?"*
 
