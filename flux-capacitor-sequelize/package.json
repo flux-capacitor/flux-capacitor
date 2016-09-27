@@ -1,11 +1,14 @@
 {
   "name": "flux-capacitor-sequelize",
   "version": "0.2.0",
+  "description": "Relational database connector for flux-capacitor using Sequelize ORM.",
   "license": "MIT",
   "scripts": {
     "prepublish": "npm test",
     "test": "standard"
   },
+  "author": "Andy Wermke <andy@dev.next-step-software.com>",
+  "repo": "flux-capacitor/flux-capacitor",
   "dependencies": {
     "flux-capacitor": "^0.1.0",
     "sequelize": "^3.24.3",
