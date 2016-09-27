@@ -2,6 +2,7 @@
 
 *"Your UI and data flow are reactive and event-oriented. So why isn't your database?"*
 
+[![Build Status](https://travis-ci.org/flux-capacitor/flux-capacitor.svg?branch=master)](https://travis-ci.org/flux-capacitor/flux-capacitor)
 [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 - Works like [Redux](https://github.com/reactjs/redux), but in the backend and with persistent data
