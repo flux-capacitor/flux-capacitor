@@ -10,7 +10,7 @@
   "author": "Andy Wermke <andy@dev.next-step-software.com>",
   "repository": "flux-capacitor/flux-capacitor",
   "dependencies": {
-    "flux-capacitor": "^0.1.0",
+    "flux-capacitor": "^0.2.0",
     "sequelize": "^3.24.3",
     "uuid": "^2.0.2"
   },
