@@ -163,17 +163,17 @@ See the contents of the sample app's database after some operations:
 |                 id                   |        createdAt        |    title    |       text        |
 | ------------------------------------ | ----------------------- | ----------- | ----------------- |
 | ab0bb5ac-cc8e-4acf-b849-abbc386ae784 | 2016-09-26 20:32:46.588 | Hello World | I am a test note. |
-| 45f2a1e9-a0f3-4b60-a2cb-8031634220d1 | 2016-09-26 20:44:44.928 | Note #2     | ¯\\_(ツ)_/¯        |
+| 45f2a1e9-a0f3-4b60-a2cb-8031634220d1 | 2016-09-26 20:44:44.928 | Note #2     | ¯\\_(ツ)_/¯       |
 
 **Events**
 
 |                 id                   |        timestamp        |   type    |       payload        |    meta     |
-| ------------------------------------ | ----------------------- | --------- | ----------------- |
-| 194130b2-49d3-45c0-8232-d773fe37738c | 2016-09-26 20:32:46.589 | noteAdded | {"id":"ab0bb5ac-cc8e-4acf-b849-abbc386ae784", "title":"Hello World", "text":"I am a test note.", "createdAt":"2016-09-26T20:32:46.588Z"} | {"user":"George"}
-| 7d2ecc6b-47e6-4789-9e5b-3476a786ab27 | 2016-09-26 20:44:44.928 | noteAdded | {"id":"45f2a1e9-a0f3-4b60-a2cb-8031634220d1", "title":"Note #2", "text":"¯\\_(ツ)_/¯", "createdAt":"2016-09-26T20:44:44.928Z"} | {"user":"Tony"}
-| d4359bba-8518-4fe1-ae3f-aad5cfedcc44 | 2016-09-26 20:44:54.491 | noteAdded | {"id":"f44f32f3-91af-4a4e-bb9e-053aef435117", "title":"Some other note", "text":"", "createdAt":"2016-09-26T20:44:54.491Z"} | {"user":"Tony"}
-| 68134d88-fbcf-4a9c-b610-6b1f4385e816 | 2016-09-26 20:55:46.822 | noteTitleEdited | {"id":"f44f32f3-91af-4a4e-bb9e-053aef435117", "title":"Yet another note"} | {"user":"Mary"}
-| f447119c-5a46-4419-8e94-67978db5dfd3 | 2016-09-26 20:56:28.919 | noteRemoved | {"id":"f44f32f3-91af-4a4e-bb9e-053aef435117"} | {"user":"Mary"}
+| ------------------------------------ | ----------------------- | --------- | -------------------- | ----------- |
+| 194130b2-49d3-45c0-8232-d773fe37738c | 2016-09-26 20:32:46.589 | noteAdded | {"id":"ab0bb5ac-cc8e-4acf-b849-abbc386ae784", "title":"Hello World", "text":"I am a test note.", "createdAt":"2016-09-26T20:32:46.588Z"} | {"user":"George"} |
+| 7d2ecc6b-47e6-4789-9e5b-3476a786ab27 | 2016-09-26 20:44:44.928 | noteAdded | {"id":"45f2a1e9-a0f3-4b60-a2cb-8031634220d1", "title":"Note #2", "text":"¯\\_(ツ)_/¯", "createdAt":"2016-09-26T20:44:44.928Z"} | {"user":"Tony"} |
+| d4359bba-8518-4fe1-ae3f-aad5cfedcc44 | 2016-09-26 20:44:54.491 | noteAdded | {"id":"f44f32f3-91af-4a4e-bb9e-053aef435117", "title":"Some other note", "text":"", "createdAt":"2016-09-26T20:44:54.491Z"} | {"user":"Tony"} |
+| 68134d88-fbcf-4a9c-b610-6b1f4385e816 | 2016-09-26 20:55:46.822 | noteTitleEdited | {"id":"f44f32f3-91af-4a4e-bb9e-053aef435117", "title":"Yet another note"} | {"user":"Mary"} |
+| f447119c-5a46-4419-8e94-67978db5dfd3 | 2016-09-26 20:56:28.919 | noteRemoved | {"id":"f44f32f3-91af-4a4e-bb9e-053aef435117"} | {"user":"Mary"} |
 
 **As you can see we now have much more data than we would usually have. We can restore the deleted note with all its contents. We can trace back any changes made to the notes. And we even have a detailed log showing when any event was dispatched and by whom** 🎉
 
@@ -183,19 +183,19 @@ See the contents of the sample app's database after some operations:
 You know what's better than writing a lot of bug-free code? Writing only very few
 bug-free code that achieves the same!
 
-##### Code to initialize the store (sample app)
+#### Code to initialize the store (sample app)
 < 20 SLOC
 
-##### Code to set up a tiny data model (sample app)
+#### Code to set up a tiny data model (sample app)
 < 40 SLOC
 
-##### Code spent on reducers (sample app; 1 x create, 2 x update, 1 x delete)
+#### Code spent on reducers (sample app; 1 x create, 2 x update, 1 x delete)
 < 40 SLOC
 
-##### Code to push updates to clients using web sockets (sample app)
+#### Code to push updates to clients using web sockets (sample app)
 < 20 SLOC
 
-##### Code to re-use backend reducer in frontend with Redux (sample app)
+#### Code to re-use backend reducer in frontend with Redux (sample app)
 < 10 SLOC
 
 
