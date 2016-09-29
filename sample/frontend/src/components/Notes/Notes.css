@@ -5,9 +5,13 @@
   text-align: left;
 }
 
-.Notes > button {
+.Notes-AddButton {
   cursor: pointer;
   font-size: large;
+}
+
+.Notes-AddButton > svg {
+  margin-top: -3px;
 }
 
 .NotesList {

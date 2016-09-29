@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import FlipMove from 'react-flip-move'
+import PlusIcon from 'react-icons/lib/ti/plus'
 import { createNote } from '../../ducks/notes'
 import Note from './Note'
 import './Notes.css'
@@ -13,7 +14,7 @@ const propTypes = {
 function Notes ({ notes, onCreateNote }) {
   return (
     <section className='Notes'>
-      <button onClick={onCreateNote}>+ Create note</button>
+      <button className='Notes-AddButton' onClick={onCreateNote}><PlusIcon /> Create note</button>
       <div className='NotesList'>
         <FlipMove enterAnimation='elevator' leaveAnimation='fade' duration={350}>
           {notes
