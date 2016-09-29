@@ -88,7 +88,7 @@ function asyncHandler (handler) {
 function createRetrievalOptions ({ limit, order }, sortColumn = 'id') {
   return Object.assign(
     {},
-    limit && { limit },
+    limit && { limit: parseInt(limit) },
     order && { order: [[ sortColumn, order ]] }
   )
 }
