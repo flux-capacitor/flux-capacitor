@@ -20,6 +20,7 @@ function Notes ({ notes, onCreateNote }) {
             .sort((a, b) => (a.createdAt < b.createdAt))
             .map((note, index) => <Note key={note.id} note={note} />)}
         </FlipMove>
+        {notes.length === 0 ? <div className='NotesList-NoNotes'>No notes yet</div> : null}
       </div>
     </section>
   )

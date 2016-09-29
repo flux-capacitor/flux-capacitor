@@ -20,3 +20,8 @@
 .NotesList .Note {
   margin: 10px auto;
 }
+
+.NotesList-NoNotes {
+  margin-top: 20px;
+  text-align: center;
+}
