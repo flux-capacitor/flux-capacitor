@@ -15,8 +15,9 @@
 }
 
 .NotesList {
-  padding: 0;
+  margin-top: 10px;
   max-height: 400px;
+  padding: 0;
   list-style-type: none;
   overflow-y: auto;
 }
