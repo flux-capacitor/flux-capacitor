@@ -20,7 +20,8 @@ async function setUpStore () {
 module.exports = setUpStore
 
 function connectToDatabase () {
-  const storagePath = process.env.DB_SQLITE_STORAGE
-
-  return connectTo(`sqlite://${storagePath}`, createCollections)
+  if (!process.env.DB_CONNECTION_URL) {
+    throw new Error(`Environment variable 'DB_CONNECTION_URL' must be set. Check your '.env' file. See '.env.default', too.`)
+  }
+  return connectTo(process.env.DB_CONNECTION_URL, createCollections)
 }
