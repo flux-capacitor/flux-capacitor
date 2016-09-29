@@ -1,7 +1,7 @@
 import { fetchJson } from '../communication/rest'
-import { reduxify } from 'flux-capacitor'
+import reduxify from 'flux-capacitor-reduxify'
 import uuid from 'uuid'
-import backendNotesReducer from '../../../server/reducers/notes'
+import backendNotesReducer from '!babel!../../../server/reducers/notes'
 
 const NOTES_LOADED = 'NOTES_LOADED'
 const CREATE_NOTE = 'CREATE_NOTE'
