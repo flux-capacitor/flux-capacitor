@@ -18,7 +18,7 @@ export default function notesReducer (notes = [], action) {
       return [ action.payload ].concat(notes)
 
     case REMOVE_UNSAVED_NOTE:
-      return notes.filter((note) => !!note.id)
+      return notes.filter((note) => !!note.createdAt)
 
     default:
       return reduxifiedReducer(notes, action)
