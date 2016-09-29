@@ -1,6 +1,10 @@
 # Flux Capacitor
 
-Data storage as it's supposed to be. Easy to use, event-based, functional. Gives you control over time and data.
+[![Build Status](https://travis-ci.org/flux-capacitor/flux-capacitor.svg?branch=master)](https://travis-ci.org/flux-capacitor/flux-capacitor)
+[![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+[![NPM Version](https://img.shields.io/npm/v/flux-capacitor.svg)](https://www.npmjs.com/package/flux-capacitor)
+
+Redux-like data storage in the backend. Easy to use, event-based, functional. Gives you control over time and data.
 
 This package includes the core library. Please refer to the
 
