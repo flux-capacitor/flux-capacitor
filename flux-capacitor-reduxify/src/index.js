@@ -1,6 +1,6 @@
-'use strict'
+import createReduxifyCollection from './createReduxifyCollection'
 
-const createReduxifyCollection = require('./createReduxifyCollection')
+export default reduxifyReducer
 
 /**
  * Takes a rewinddb reducer and turns it into a redux-compatible reducer.
@@ -29,5 +29,3 @@ function reduxifyReducer (reducer, collectionName = null) {
     return changeset(state)
   }
 }
-
-module.exports = reduxifyReducer

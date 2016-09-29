@@ -1,4 +1,4 @@
-'use strict'
+export default createReduxifyCollection
 
 function createReduxifyCollection (state, name = null) {
   return {
@@ -45,8 +45,6 @@ function createReduxifyCollection (state, name = null) {
     }
   }
 }
-
-module.exports = createReduxifyCollection
 
 function replaceArrayItem (array, index, newItem) {
   const itemsBefore = array.slice(0, index)

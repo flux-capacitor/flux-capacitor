@@ -1,0 +1,20 @@
+{
+  "name": "flux-capacitor-reduxify",
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "lib/index",
+  "scripts": {
+    "build": "babel src/ -d lib/ --source-maps",
+    "test": "standard src/**/*.js"
+  },
+  "babel": {
+    "presets": [ "es2015" ]
+  },
+  "author": "Andy Wermke <andy@dev.next-step-software.com>",
+  "repository": "flux-capacitor/flux-capacitor",
+  "devDependencies": {
+    "babel-cli": "^6.16.0",
+    "babel-preset-es2015": "^6.16.0",
+    "standard": "^8.2.0"
+  }
+}

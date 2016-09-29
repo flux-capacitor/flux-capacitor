@@ -20,7 +20,7 @@
 - Realtime data and powerful analytics come for free
 - For critical data and collaboration: Trace back which events produced today's data
 - Isomorphic reducers - Use same code in frontend and backend to update data
-- Middleware concept allows massive extensibility
+- Middleware concept, compatible with Redux middleware
 - Upcoming feature: Never write a database migration again - Replay events with new reducers
 - Upcoming feature: Time machine - view the database contents at some point in the past
 - Works with PostgreSQL, MySQL, SQLite & MSSQL using Sequelize right now
@@ -116,7 +116,7 @@ async function getAllIssues (database) {
 Reusing the backend reducer in your redux-based frontend is dead-easy:
 
 ```js
-import { reduxify } from 'flux-capacitor'
+import reduxify from 'flux-capacitor-reduxify'
 import { combineReducers } from 'redux'
 import backendReducer from './path/to/my/backend/code'
 
