@@ -22,12 +22,15 @@
   visibility: hidden;
 }
 
-.Event-id {
+.Event-id, .Event-time {
+  color: #666;
   font-size: x-small;
+}
+
+.Event-id {
   float: left;
 }
 
 .Event-time {
-  font-size: x-small;
   float: right;
 }

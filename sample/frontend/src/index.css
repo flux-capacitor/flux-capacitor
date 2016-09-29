@@ -1,18 +1,18 @@
-@import 'https://fonts.googleapis.com/css?family=Montserrat';
-@import 'https://fonts.googleapis.com/css?family=Cardo';
+@import 'https://fonts.googleapis.com/css?family=Bitter';
+@import 'https://fonts.googleapis.com/css?family=Raleway';
 
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Cardo', serif;
+  font-family: 'Raleway', sans-serif;
 }
 
-h1, h2, h3, h4, h5, label, a, .sans-serif {
-  font-family: 'Montserrat', sans-serif;
+h1, h2, h3, h4, h5 {
+  font-family: 'Bitter', serif;
 }
 
-body > div[class^="notie-"] {
-  font-family: 'Montserrat', sans-serif;
+body > div[class^="notie-"], a, button, label, .sans-serif {
+  font-family: 'Raleway', sans-serif;
 }
 
 a {

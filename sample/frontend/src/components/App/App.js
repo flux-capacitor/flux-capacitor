@@ -70,8 +70,8 @@ class App extends Component {
               <p>
                 All the data here is live data from the server. The notes and the last
                 50 events are initially GET-requested from the server and a websocket
-                connection pushes every new event. Try opening this app in a new window
-                and change something there!
+                connection pushes every new event in realtime. Try opening this app in
+                a new window and change something there!
               </p>
             </div>
           </section>
