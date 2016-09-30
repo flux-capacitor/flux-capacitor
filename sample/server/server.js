@@ -7,6 +7,7 @@ require('dotenv').config()
 
 const bodyParser = require('body-parser')
 const express = require('express')
+const helmet = require('helmet')
 const path = require('path')
 const setUpStore = require('./store')
 const { initRestApi } = require('./rest-api')
@@ -27,6 +28,7 @@ function startServer (store) {
   const apiRouter = initRestApi(store)
   initWebsocketServer(app, store)
 
+  app.use(helmet())
   app.use(express.static(staticFilesPath))
   app.use(bodyParser.json())
   app.use('/api', apiRouter)

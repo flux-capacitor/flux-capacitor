@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "deploy": "now -e DB_CONNECTION=@db-connection -e PORT=80",
     "start": "babel-node server.js",
     "test": "standard"
   },
@@ -16,6 +17,7 @@
     "express-ws": "^2.0.0",
     "flux-capacitor": "^0.2.0",
     "flux-capacitor-sequelize": "^0.2.2",
+    "helmet": "^2.2.0",
     "pg": "^6.1.0",
     "sequelize": "^3.24.3",
     "sqlite3": "^3.1.4"

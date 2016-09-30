@@ -35,6 +35,19 @@ cd sample/      # to run the tests for sample app and server
 npm test
 ```
 
+### Deploy
+
+```sh
+cd sample/frontend
+npm run build
+
+cd ../server
+npm run deploy
+
+# To let https://flux-capacitor-notes.now.sh/ point to the new deployment
+now alias set <deployment-id> flux-capacitor-notes
+```
+
 ## License
 
 The sample app if released under the terms of the MIT license as well.
