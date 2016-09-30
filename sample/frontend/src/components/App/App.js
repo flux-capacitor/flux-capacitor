@@ -66,11 +66,21 @@ class App extends Component {
               <EventLog />
             </div>
             <div className='text-justify'>
-              <h5>Explanation</h5>
+              <h5>What is happening here?</h5>
               <p>
-                All the data here is live data from the server. The notes and the last
-                50 events are initially GET-requested from the server and a websocket
-                connection pushes every new event in realtime. Try opening this app in
+                The <a href="https://github.com/flux-capacitor/flux-capacitor">⚛&nbsp;<b>Flux Capacitor</b></a> powers
+                the event log and the realtime updates. It handles the dispatched events (actions) and invokes the reducers.
+              </p>
+              <p>
+                The notes and the last 50 events are initially requested from the
+                server and a websocket connection pushes every new event in realtime.
+              </p>
+              <p>
+                The pushed events are reduced on the client to update the notes
+                using the backend reducer and <a href="https://www.npmjs.com/package/flux-capacitor-reduxify">reduxify</a>.
+              </p>
+              <p>
+                All the data here is live data from the server. Try opening this app in
                 a new window and change something there!
               </p>
             </div>

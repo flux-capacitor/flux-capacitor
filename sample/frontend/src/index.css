@@ -18,6 +18,7 @@ body > div[class^="notie-"], a, button, label, .sans-serif {
 a {
   cursor: pointer;
   font-size: medium;
+  text-decoration: none;
 }
 
 a:hover {
