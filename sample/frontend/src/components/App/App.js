@@ -28,7 +28,11 @@ class App extends Component {
     store.dispatch(loadEvents('/api/events?limit=50&order=DESC'))
     store.dispatch(loadNotes('/api/notes?order=DESC'))
 
-    this.setState({ websocket: this.connectToWebsocket(store) })
+    try {
+      this.setState({ websocket: this.connectToWebsocket(store) })
+    } catch (error) {
+      console.error(error.stack)
+    }
   }
 
   componentWillUnmount () {
@@ -40,7 +44,8 @@ class App extends Component {
     const { hostname, port } = document.location
     const fixedPort = parseInt(port, 10) === 3000 ? 4000 : port   // so the dev server proxy is not used
 
-    const websocket = new WebSocket(`ws://${hostname}:${fixedPort}/websocket`)
+    const wsProtocol = document.location.protocol.match(/^https:$/i) ? 'wss:' : 'ws:'
+    const websocket = new WebSocket(`${wsProtocol}//${hostname}:${fixedPort}/websocket`)
     websocket.onmessage = this.onWebSocketMessage.bind(this, store)
 
     return websocket
