@@ -29,7 +29,7 @@ const defaultModel = {
     get () {
       return parseJsonObject(this.getDataValue('meta'))
     }
-  },
+  }
 }
 
 const indexes = [
