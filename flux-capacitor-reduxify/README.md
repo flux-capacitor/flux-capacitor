@@ -1,6 +1,7 @@
 # Flux Capacitor - Reduxify
 
 [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+[![NPM Version](https://img.shields.io/npm/v/flux-capacitor-reduxify.svg)](https://www.npmjs.com/package/flux-capacitor-reduxify)
 
 Small utility to turn your [Flux Capacitor](https://github.com/flux-capacitor/flux-capacitor) reducers into Redux reducers, so you can re-use your backend code in your frontend!
 
