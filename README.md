@@ -10,6 +10,8 @@
 - Provides complex features with little effort (see [No code is good code](#no-code-is-good-code))
 - Isomorphic reducers: Can re-use the store's reducers in the frontend!
 
+Check out the 👉 [**Sample App**](https://flux-capacitor-notes.now.sh/) to see it in action.
+
 **Alpha release - Keep your seatbelt fastened during the entire flight**
 
 
