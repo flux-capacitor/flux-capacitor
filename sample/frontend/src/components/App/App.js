@@ -2,6 +2,7 @@
 
 import React, { Component, PropTypes } from 'react'
 import { Provider } from 'react-redux'
+import GithubCorner from 'react-github-corner'
 import { loadEvents } from '../../ducks/events'
 import { loadNotes } from '../../ducks/notes'
 import AuthBox from '../AuthBox/AuthBox'
@@ -56,6 +57,14 @@ class App extends Component {
     return (
       <Provider store={store}>
         <div className='App'>
+          <GithubCorner
+            href='https://github.com/flux-capacitor/flux-capacitor'
+            bannerColor="#FD6C6C"
+            octoColor="#fff"
+            width={80}
+            height={80}
+            direction="right"
+          />
           <div className='App-header'>
             <img src={logo} className='App-logo' alt='logo' />
           </div>
