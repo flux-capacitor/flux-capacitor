@@ -9,7 +9,7 @@
     "standard": "^8.1.0"
   },
   "dependencies": {
-    "flux-capacitor-reduxify": "^0.1.0",
+    "flux-capacitor-reduxify": "^0.2.0",
     "isomorphic-fetch": "^2.2.1",
     "notie": "^3.9.4",
     "rc-tooltip": "^3.4.2",
