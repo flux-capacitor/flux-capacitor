@@ -1,7 +1,7 @@
 {
   "name": "flux-capacitor",
-  "version": "0.2.0",
-  "description": "Data storage as it's supposed to be. Easy to use, event-based, functional. Gives you control over time and data.",
+  "version": "0.2.1",
+  "description": "Redux-like data storage in the backend. Easy to use, event-based, functional. Gives you control over time and data.",
   "license": "MIT",
   "scripts": {
     "prepublish": "npm test",
