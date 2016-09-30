@@ -2,6 +2,8 @@
 
 const Sequelize = require('sequelize')
 
+module.exports = createEventModel
+
 const defaultModel = {
   id: {
     type: Sequelize.UUID,
@@ -16,8 +18,18 @@ const defaultModel = {
     type: Sequelize.STRING,
     allowNull: false
   },
-  payload: Sequelize.JSON,
-  meta: Sequelize.JSON
+  payload: {
+    type: Sequelize.JSON,
+    get () {
+      return parseJsonObject(this.getDataValue('payload'))
+    }
+  },
+  meta: {
+    type: Sequelize.JSON,
+    get () {
+      return parseJsonObject(this.getDataValue('meta'))
+    }
+  },
 }
 
 const indexes = [
@@ -47,4 +59,18 @@ function createEventModel (sequelize, modelDef, modelOptions) {
   return sequelize.define('event', modelDef, modelOptions)
 }
 
-module.exports = createEventModel
+/**
+ * Parses a given JSON-encoded object. If it's already parsed (typeof 'object')
+ * then just return it.
+ * This is necessary, since data type `Sequelize.JSON` will provide us with an
+ * already parsed value on Postgres, but will fall back to an unparsed
+ * JSON-encoded string on other databases.
+ *
+ * @param {string|object} value
+ * @return {object}
+ */
+function parseJsonObject (value) {
+  return typeof value === 'string'
+    ? JSON.parse(value)
+    : value
+}

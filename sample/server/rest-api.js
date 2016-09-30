@@ -43,15 +43,7 @@ function initDispatchingRoutes (router, store) {
 function initRetrievalRoutes (router, database) {
   const { Events, Notes } = database.collections
 
-  const exportEvent = (event) => {
-    const eventJson = event.toJSON()
-    return Object.assign({}, eventJson, {
-      meta: JSON.parse(eventJson.meta),
-      payload: JSON.parse(eventJson.payload)
-    })
-  }
-
-  router.get('/events', createCollectionFindAllHandler(Events, 'timestamp', exportEvent))
+  router.get('/events', createCollectionFindAllHandler(Events, 'timestamp'))
   router.get('/notes', createCollectionFindAllHandler(Notes, 'createdAt'))
 }
 
