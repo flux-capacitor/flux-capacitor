@@ -20,8 +20,13 @@ async function setUpStore () {
 module.exports = setUpStore
 
 function connectToDatabase () {
-  if (!process.env.DB_CONNECTION_URL) {
-    throw new Error(`Environment variable 'DB_CONNECTION_URL' must be set. Check your '.env' file. See '.env.default', too.`)
+  if (!process.env.DB_CONNECTION) {
+    throw new Error(`Environment variable 'DB_CONNECTION' must be set. Check your '.env' file. See '.env.default', too.`)
   }
-  return connectTo(process.env.DB_CONNECTION_URL, createCollections)
+
+  const connectionSettings = process.env.DB_CONNECTION.startsWith('{')
+    ? JSON.parse(process.env.DB_CONNECTION)
+    : process.env.DB_CONNECTION
+
+  return connectTo(connectionSettings, createCollections)
 }
