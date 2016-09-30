@@ -10,12 +10,12 @@ module.exports = connectTo
 /**
  * Connect to a database using Sequelize ORM.
  *
- * @param {string} connectionUrl        For instance: `sqlite://path/to/db.sqlite`
- * @param {Function} createCollections  (sequelize: Sequelize, createCollection: (name: string, model: Sequelize.Model) => Collection) => Array<Collection>
+ * @param {string|object} connectionSettings  Connection URL like `sqlite://path/to/db.sqlite` or object: `{ database: string, host: string, dialect: string, ... }`
+ * @param {Function} createCollections        (sequelize: Sequelize, createCollection: (name: string, model: Sequelize.Model) => Collection) => Array<Collection>
  * @return {Database}
  */
-function connectTo (connectionUrl, createCollections) {
-  const sequelize = new Sequelize(connectionUrl)
+function connectTo (connectionSettings, createCollections) {
+  const sequelize = new Sequelize(connectionSettings)
   const collections = createCollections(sequelize, createCollection)
 
   const database = {
