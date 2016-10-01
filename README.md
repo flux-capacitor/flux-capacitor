@@ -5,14 +5,14 @@
 [![Build Status](https://travis-ci.org/flux-capacitor/flux-capacitor.svg?branch=master)](https://travis-ci.org/flux-capacitor/flux-capacitor)
 [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
-- Works like [Redux](https://github.com/reactjs/redux), but in the backend and with persistent data
+- Works like <a href="https://github.com/reactjs/redux" rel="nofollow">Redux</a>, but in the backend and with persistent data
 - Not a new kind of database, but microservice on top of popular databases
 - Provides complex features with little effort (see [No code is good code](#no-code-is-good-code))
 - Isomorphic reducers: Can re-use the store's reducers in the frontend!
 
-Check out the 👉 [**Sample App**](https://flux-capacitor-notes.now.sh/) to see it in action.
+Check out the 👉 [**Sample App**](https://flux-capacitor-notes.now.sh/) to see the flux capacitor in action.
 
-**Alpha release - Keep your seatbelt fastened during the entire flight**
+**Alpha release - Keep your seatbelt fastened during the entire flight.**
 
 
 ## Features
@@ -147,7 +147,7 @@ Check out the [sample app](./sample/server) to see the whole picture 🖼
 
 #### What does an event look like?
 
-The events passed into the store are supposed to be [Flux standard actions](https://github.com/acdlite/flux-standard-action):
+The events passed into the flux capacitor store are supposed to be <a href="https://github.com/acdlite/flux-standard-action" rel="nofollow">Flux standard actions</a>:
 
 ```js
 {
@@ -161,7 +161,7 @@ The events passed into the store are supposed to be [Flux standard actions](http
 }
 ```
 
-After dispatching the persisted events also contains:
+The persisted events also contain (fields are added on `dispatch()`):
 
 ```js
   id:        'c4490491-2c55-43e7-ae88-8ca8045c0fd2'   // some random UUIDv4
@@ -215,25 +215,32 @@ bug-free code that achieves the same!
 
 ## Concept
 
-So how does it work? Find details here: [Concept](./flux-capacitor/CONCEPT.md).
+So how does it work? Find details here: [Flux Capacitor Concept](./flux-capacitor/CONCEPT.md).
 
 
 ## Differences to Redux
 
 - Reducers work slightly different (`(collection, event) => changeset`)
-  - Get a collection, not the whole state and return a changeset, not another complete state
+  - Get a collection, not the whole state
+  - Return a set of database operations, not another complete state
 - `aggregateReducers()` instead of `combineReducers()`
   - `aggregateReducers` does pretty much the same, but takes an array of reducers, rather than an object (since a tree of reducers doesn't make much sense when working on DB collections)
 
 
 ## Differences to real CQRS
 
-It is related to CQRS, but no real CQRS. Rather something between common CRUD and real CQRS.
+It is related to CQRS, but no traditional CQRS. Rather something between common CRUD and real CQRS.
 
 - No distributed system, but just one data storage service (could be easily turned into a master-slave cluster, though)
 - No aggregates, just one read model
 - This one read model is also used to check business rules when handling an event
 - Depends on database transactions to ensure data consistency
+
+Sacrificing the outstanding scalibility potential of full CQRS gives us the freedom to come up with some other nifty features instead:
+
+- The flux capacitor is very easy to set-up and use
+- Using the read model for validation simplifies things a lot!
+- Can easily be integrated into existing projects
 
 
 ## Features to come
