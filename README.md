@@ -15,12 +15,46 @@ Check out the 👉 [**Sample App**](https://flux-capacitor-notes.now.sh/) to see
 **Alpha release - Keep your seatbelt fastened during the entire flight.**
 
 
+## How does it work?
+
+```
++------------------------+
+| Event: addUser         |   dispatch    +----------------------------------------+
+| "Hillary"              | ============> | Flux Capacitor Store                   |
++------------------------+               +----------------------------------------+        
+                                         |                                        |        +==> Subscriber
++------------------------+               |  Event  +-------------+  DB operations |  Event ||   (Websocket)
+| Event: grantAccess     |   dispatch    | ======> | UserReducer | ======         | =======++
+| "Hillary": "President" | ============> |         +-------------+     ||         |        ||
++------------------------+               |                             ||         |        +==> Subscriber
+                                         +-----------------------------||---------+        ||   (Logger)
+                                                                       ||                  ||
+            +----------------------------------------------------------||---+              +==> ...
+            | Database (after dispatching)                             \/   |
+            +---------------------------------------------------------------+
+            | +-----------------------------------------------------------+ |
+            | | Events                                                    | |
+            | +-----------------------------------------------------------+ |
+            | | Dec 15 2008, 23:16:38  addUser "Barack"                   | |
+            | | Dec 15 2008, 23:17:14  grantAccess "Barack": "President"  | |
+            | | Dec 19 2016, 22:40:05  addUser "Hillary"                  | |
+            | | Dec 19 2016, 22:40:23  grantAccess "Hillary": "President" | |
+            | +-----------------------------------------------------------+ |
+            |                                                               |
+            | +---------------+   +------------------------+                |
+            | | Users         |   | UserRights             |                |
+            | +---------------+   +------------------------+                |
+            | | Barack        |   | Barack  "Ex-President" |                |
+            | | Hillary       |   | Hillary "President"    |                |
+            | +---------------+   +------------------------+                |
+            +---------------------------------------------------------------+
+```
+
+
 ## Features
 
-- Dispatch events to change data
-- Events (basically flux actions) are persisted, too
-- Realtime data and powerful analytics come for free
-- For critical data and collaboration: Trace back which events produced today's data
+- For critical data, collaboration and debugging: Trace back which events produced today's data
+- Realtime data updates and powerful analytics come for free
 - Isomorphic reducers - Use same code in frontend and backend to update data
 - Middleware concept, compatible with Redux middleware
 - Upcoming feature: Never write a database migration again - Replay events with new reducers
