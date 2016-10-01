@@ -80,7 +80,7 @@ class App extends Component {
               <EventLog />
             </div>
             <div className='text-justify'>
-              <h5>What is happening here?</h5>
+              <h4>What is happening here?</h4>
               <p>
                 The <a href="https://github.com/flux-capacitor/flux-capacitor">⚛&nbsp;<b>Flux Capacitor</b></a> powers
                 the event log and the realtime updates. It handles the dispatched events (actions) and invokes the reducers.
@@ -96,6 +96,14 @@ class App extends Component {
               <p>
                 All the data here is live data from the server. Try opening this app in
                 a new window and change something there!
+              </p>
+              <h4>Pants down. Show me the sources!</h4>
+              <p>
+                <span>Check out the </span>
+                <a href="https://github.com/flux-capacitor/flux-capacitor/tree/master/sample/frontend" rel="nofollow">Frontend</a>
+                <span> and </span>
+                <a href="https://github.com/flux-capacitor/flux-capacitor/tree/master/sample/server" rel="nofollow">Server</a>
+                <span> sources.</span>
               </p>
             </div>
           </section>
