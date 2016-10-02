@@ -78,9 +78,8 @@ const { aggregateReducers, createStore, eventLogReducer } = require('flux-capaci
 const { connectTo } = require('flux-capacitor-sequelize')
 
 const uuid = require('uuid')
+const createCollections = require('./database')
 const reducer = require('./reducer')
-
-const ADD_ISSUE = 'addIssue'
 
 run().catch((error) => console.error(error.stack))
 
@@ -99,7 +98,7 @@ async function run () {
 
   // Create a new issue
   await store.dispatch({
-    type: ADD_ISSUE,
+    type: 'addIssue',
     payload: {
       id: uuid.v4(),
       title: 'How to use your product?',
@@ -110,13 +109,16 @@ async function run () {
   // Print all issues
   console.log(await getAllIssues(database))
 }
+
+async function getAllIssues (database) {
+  const { Issues } = database.collections
+
+  return await Issues.findAll()
+}
 ```
 
 ```js
-// reducer.js
-
-const createEventModel = require('flux-capacitor-sequelize').createEventModel
-const Sequelize = require('sequelize')
+// reducer.js - Handles events, updates database according to these events
 
 module.exports = reducer
 
@@ -125,12 +127,21 @@ function reducer (database, event) {
   const { Issues } = database.collections
 
   switch (event.type) {
-    case ADD_ISSUE:
+    case 'addIssue':
       return Issues.create(event.payload)
     default:
       return Issues.noChange()
   }
 }
+```
+
+```js
+// database.js - Set up data model
+
+const createEventModel = require('flux-capacitor-sequelize').createEventModel
+const Sequelize = require('sequelize')
+
+module.exports = createCollections
 
 function createCollections (sequelize, createCollection) {
   return [
@@ -145,12 +156,6 @@ function createIssueModel (sequelize) {
     title: { type: Sequelize.STRING, allowNull: false },
     content: { type: Sequelize.TEXT },
   })
-}
-
-async function getAllIssues (database) {
-  const { Issues } = database.collections
-
-  return await Issues.findAll()
 }
 ```
 
