@@ -6,30 +6,31 @@
 [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 - Works like <a href="https://github.com/reactjs/redux" rel="nofollow">Redux</a>, but in the backend and with persistent data
-- Not a new kind of database, but microservice on top of popular databases
-- Provides complex features with little effort (see [No code is good code](#no-code-is-good-code))
+- Not a new kind of database, but storage service on top of popular databases
+- Provides complex features with little effort (see [*No code* is good code](#no-code-is-good-code))
 - Isomorphic reducers: Can re-use the store's reducers in the frontend!
+- Great for critical data, collaborative software and debugging
 
 Check out the 👉 [**Sample App**](https://flux-capacitor-notes.now.sh/) to see the flux capacitor in action.
 
 **Alpha release - Keep your seatbelt fastened during the entire flight.**
 
 
-## How does it work?
+## White House Users example
 
 ```
 +------------------------+
 | Event: addUser         |   dispatch    +----------------------------------------+
 | "Hillary"              | ============> | Flux Capacitor Store                   |
 +------------------------+               +----------------------------------------+        
-                                         |                                        |        +==> Subscriber
-+------------------------+               |  Event  +-------------+  DB operations |  Event ||   (Websocket)
-| Event: grantAccess     |   dispatch    | ======> | UserReducer | ======         | =======++
-| "Hillary": "President" | ============> |         +-------------+     ||         |        ||
-+------------------------+               |                             ||         |        +==> Subscriber
-                                         +-----------------------------||---------+        ||   (Logger)
-                                                                       ||                  ||
-            +----------------------------------------------------------||---+              +==> ...
+                                         |                                        |         +==> Subscriber
++------------------------+               |  Event  +-------------+  DB operations |  Event  ||   (Websocket)
+| Event: grantAccess     |   dispatch    | ======> | UserReducer | ======         | ========++
+| "Hillary": "President" | ============> |         +-------------+     ||         |         ||
++------------------------+               |                             ||         |         +==> Subscriber
+                                         +-----------------------------||---------+         ||   (Logger)
+                                                                       ||                   ||
+            +----------------------------------------------------------||---+               +==> ...
             | Database (after dispatching)                             \/   |
             +---------------------------------------------------------------+
             | +-----------------------------------------------------------+ |
@@ -53,12 +54,16 @@ Check out the 👉 [**Sample App**](https://flux-capacitor-notes.now.sh/) to see
 
 ## Features
 
-- For critical data, collaboration and debugging: Trace back which events produced today's data
-- Realtime data updates and powerful analytics come for free
-- Isomorphic reducers - Use same code in frontend and backend to update data
-- Middleware concept, compatible with Redux middleware
+- Eventlog tracks past events (history of data manipulations)
+- Pushing realtime data becomes trivial
+- Better access control - Control write access by event type, not by table
 - Upcoming feature: Never write a database migration again - Replay events with new reducers
 - Upcoming feature: Time machine - view the database contents at some point in the past
+
+#### Technical gimmicks
+
+- Isomorphic reducers - Re-use backend code in frontend
+- Middleware concept, compatible with Redux middleware
 - Works with PostgreSQL, MySQL, SQLite & MSSQL using Sequelize right now
 
 
@@ -164,7 +169,7 @@ const reduxRootReducer = combineReducers({ foo: reduxReducer })
 ```
 
 
-### If you want to see it all
+### See it in use
 
 Check out the [sample app](./sample/server) to see the whole picture 🖼
 
@@ -226,10 +231,9 @@ See the contents of the sample app's database after some operations:
 **As you can see we now have much more data than we would usually have. We can restore the deleted note with all its contents. We can trace back any changes made to the notes. And we even have a detailed log showing when any event was dispatched and by whom** 🎉
 
 
-## No code is good code
+## *No code* is good code
 
-You know what's better than writing a lot of bug-free code? Writing only very few
-bug-free code that achieves the same!
+You know what's better than writing a lot of good code? Writing only very few code that achieves the same!
 
 #### Code to initialize the store (sample app)
 < 20 SLOC
