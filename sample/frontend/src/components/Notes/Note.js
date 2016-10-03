@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import notie from 'notie'
 import { connect } from 'react-redux'
 import { postJson } from '../../communication/rest'
-import { removeUnsavedNote } from '../../ducks/notes'
+import { removeUnsavedNote, saveNewNote } from '../../ducks/notes'
 import ActionButtons from './ActionButtons'
 import './Note.css'
 
@@ -53,11 +53,11 @@ class Note extends Component {
   }
 
   saveNote () {
-    const { userName, onSaveNewNote, onRemoveUnsaved } = this.props
+    const { userName, onSaveNewNote } = this.props
     const note = Object.assign({}, this.props.note, this.state.noteData)
 
     if (this.isJustCreated()) {
-      onSaveNewNote(note, userName).then(() => onRemoveUnsaved())
+      onSaveNewNote(note)
     } else {
       this.saveUpdatedNote(this.props.note, note, userName)
     }
@@ -126,7 +126,7 @@ function mapDispatchToProps (dispatch) {
   return {
     onDestroy: (noteId, userName) => postJson(`/api/command/removeNote?user=${userName}`, { id: noteId }),
     onRemoveUnsaved: () => dispatch(removeUnsavedNote()),
-    onSaveNewNote: (note, userName) => postJson(`/api/command/addNote?user=${userName}`, note),
+    onSaveNewNote: (note) => dispatch(saveNewNote(note)),
     onUpdateText: (note, userName) => postJson(`/api/command/editNoteContent?user=${userName}`, note),
     onUpdateTitle: (note, userName) => postJson(`/api/command/editNoteTitle?user=${userName}`, note)
   }
