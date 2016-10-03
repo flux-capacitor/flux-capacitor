@@ -5,10 +5,10 @@
 [![Build Status](https://travis-ci.org/flux-capacitor/flux-capacitor.svg?branch=master)](https://travis-ci.org/flux-capacitor/flux-capacitor)
 [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
-- Works like <a href="https://github.com/reactjs/redux" rel="nofollow">Redux</a>, but in the backend and with persistent data
-- Not a new kind of database, but storage service on top of popular databases
-- Provides complex features with little effort (see [*No code* is good code](#no-code-is-good-code))
-- Isomorphic reducers: Can re-use the store's reducers in the frontend!
+- The flux capacitor works like <a href="https://github.com/reactjs/redux" rel="nofollow">Redux</a>, but in the backend and with persistent data
+- A store to handle database write access
+- Complex features come with little effort (see [*No code* is good code](#no-code-is-good-code))
+- Isomorphic reducers - Can re-use backend code in the frontend!
 - Great for critical data, collaborative software and debugging
 
 Check out the 👉 [**Sample App**](https://flux-capacitor-notes.now.sh/) to see the flux capacitor in action.
@@ -69,7 +69,7 @@ Check out the 👉 [**Sample App**](https://flux-capacitor-notes.now.sh/) to see
 
 ## Show me some code!
 
-Find code samples and real-live database snippets here:
+Find code samples and real database data here:
 
 👉 [**Getting started**](./USAGE.md)
 
@@ -108,9 +108,9 @@ So how does it work? Find details here: [Flux Capacitor Concept](./flux-capacito
   - `aggregateReducers` does pretty much the same, but takes an array of reducers, rather than an object (since a tree of reducers doesn't make much sense when working on DB collections)
 
 
-## Differences to real CQRS
+## Differences to traditional CQRS
 
-It is related to CQRS, but no traditional CQRS. Rather something between common CRUD and real CQRS.
+It is related to CQRS, but no traditional CQRS. Rather something between common CRUD and traditional CQRS.
 
 - No distributed system, but just one data storage service (could be easily turned into a master-slave cluster, though)
 - No aggregates, just one read model
