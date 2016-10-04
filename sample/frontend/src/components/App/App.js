@@ -75,7 +75,7 @@ class App extends Component {
           </div>
           <section className='App-intro'>
             <AuthBox />
-            <div className='clear flex-row'>
+            <div className='clear flex-row flex-wrap'>
               <Notes />
               <EventLog />
             </div>

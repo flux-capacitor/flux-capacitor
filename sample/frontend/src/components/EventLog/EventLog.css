@@ -4,6 +4,7 @@
 
 .EventLogList {
   width: 400px;
+  max-width: calc(100vw - 40px);    /* full screen - padding */
   max-height: 400px;
   padding: 0;
   font-size: medium;

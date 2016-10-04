@@ -2,6 +2,7 @@
   padding: 24px 5vw 0;
   flex-grow: 1;
   min-height: 300px;
+  min-width: 250px;
   text-align: left;
 }
 
