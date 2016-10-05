@@ -9,7 +9,7 @@
 - A store to handle database write access
 - Complex features come with little effort (see [*No code* is good code](#no-code-is-good-code))
 - Isomorphic reducers - Can re-use backend code in the frontend!
-- Great for critical data, collaborative software and debugging
+- Great for building collaborative software, activity feeds and debugging
 
 Check out the 👉 [**Sample App**](https://flux-capacitor-notes.now.sh/) to see the flux capacitor in action.
 
@@ -19,19 +19,18 @@ Check out the 👉 [**Sample App**](https://flux-capacitor-notes.now.sh/) to see
 ## White House Users example
 
 ```
-+------------------------+
-| Event: addUser         |   dispatch    +----------------------------------------+
-| "Hillary"              | ============> | Flux Capacitor Store                   |
-+------------------------+               +----------------------------------------+        
-                                         |                                        |         +==> Subscriber
-+------------------------+               |  Event  +-------------+  DB operations |  Event  ||   (Websocket)
-| Event: grantAccess     |   dispatch    | ======> | UserReducer | ======         | ========++
-| "Hillary": "President" | ============> |         +-------------+     ||         |         ||
-+------------------------+               |                             ||         |         +==> Subscriber
-                                         +-----------------------------||---------+         ||   (Logger)
-                                                                       ||                   ||
-            +----------------------------------------------------------||---+               +==> ...
-            | Database (after dispatching)                             \/   |
++------------------------+             +--------------------------------+
+| Event: addUser         |  dispatch   | Flux Capacitor Store           |         ╔══▷ Subscriber
+| "Hillary"              | ══════════▷ +--------------------------------+         ║     (Websocket)
++------------------------+             |  Event  +-------------+        |  Event  ║
+                                       | ══════> | UserReducer | ════╗  | ════════╬══▷ Subscriber
++------------------------+  dispatch   |         +-------------+     ║  |         ║
+| Event: grantAccess     | ══════════▷ |                             ║  |         ║
+| "Hillary": "President" |             |               DB operations ║  |         ╚══▷ ...
++------------------------+             +-----------------------------║--+
+                                                                     ║
+            +--------------------------------------------------------║------+
+            | Database (after dispatching)                           ▽      |
             +---------------------------------------------------------------+
             | +-----------------------------------------------------------+ |
             | | Events                                                    | |
