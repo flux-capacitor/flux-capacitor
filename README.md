@@ -20,13 +20,13 @@ Check out the 👉 [**Sample App**](https://flux-capacitor-notes.now.sh/) to see
 
 ```
 +------------------------+             +--------------------------------+
-| Event: addUser         |  dispatch   | Flux Capacitor Store           |         ╔══▷ Subscriber
-| "Hillary"              | ══════════▷ +--------------------------------+         ║     (Websocket)
+| Event: addUser         |  dispatch   | Flux Capacitor Store           |         ╔══> Subscriber
+| "Hillary"              | ══════════> +--------------------------------+         ║     (Websocket)
 +------------------------+             |  Event  +-------------+        |  Event  ║
-                                       | ══════> | UserReducer | ════╗  | ════════╬══▷ Subscriber
+                                       | ══════> | UserReducer | ════╗  | ════════╬══> Subscriber
 +------------------------+  dispatch   |         +-------------+     ║  |         ║
-| Event: grantAccess     | ══════════▷ |                             ║  |         ║
-| "Hillary": "President" |             |               DB operations ║  |         ╚══▷ ...
+| Event: grantAccess     | ══════════> |                             ║  |         ║
+| "Hillary": "President" |             |               DB operations ║  |         ╚══> ...
 +------------------------+             +-----------------------------║--+
                                                                      ║
             +--------------------------------------------------------║------+
