@@ -122,6 +122,7 @@ Sacrificing the outstanding scalibility potential of full CQRS gives us the free
 - The flux capacitor is very easy to set-up and use
 - Using the read model for validation simplifies things a lot!
 - Can easily be integrated into existing projects
+- Not eventually consistent data, it's consistent data
 
 
 ## Features to come
