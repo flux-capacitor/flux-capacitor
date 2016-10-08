@@ -1,14 +1,15 @@
 # ![Flux Capacitor](./flux-capacitor/media/logo-big.png)
 
-*"Your UI and data flow are reactive and event-oriented. So why isn't your database?"*
+*"Make your database a flux store. Realtime data and time travel capabilities included."*
 
 [![Build Status](https://travis-ci.org/flux-capacitor/flux-capacitor.svg?branch=master)](https://travis-ci.org/flux-capacitor/flux-capacitor)
 [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
-- The flux capacitor works like <a href="https://github.com/reactjs/redux" rel="nofollow">Redux</a>, but in the backend and with persistent data
-- A store to handle database write access
-- Complex features come with little effort (see [*No code* is good code](#no-code-is-good-code))
-- Isomorphic reducers - Can re-use backend code in the frontend!
+- Flux store for your back end's database
+- Works like <a href="https://github.com/reactjs/redux" rel="nofollow">Redux</a>
+- Dispatch events to change database data
+- Events are persisted, thus tracking the database's history
+- Pushing realtime data becomes trivial, since you can subscribe to the store for updates
 - Great for building collaborative software, activity feeds and debugging
 
 Check out the 👉 [**Sample App**](https://flux-capacitor-notes.now.sh/) to see the flux capacitor in action.
@@ -53,17 +54,17 @@ Check out the 👉 [**Sample App**](https://flux-capacitor-notes.now.sh/) to see
 
 ## Features
 
-- Eventlog tracks past events (history of data manipulations)
-- Pushing realtime data becomes trivial
-- Better access control - Control write access by event type, not by table
-- Upcoming feature: Never write a database migration again - Replay events with new reducers
-- Upcoming feature: Time machine - view the database contents at some point in the past
-
-#### Technical gimmicks
-
-- Isomorphic reducers - Re-use backend code in frontend
+- Isomorphic reducers - Share code between back end and front end
 - Middleware concept, compatible with Redux middleware
+- No lock-in: Ability to opt-out any time and just use the underlying database directly
+- Finer-grained access control - Control write access by event type, not only by table
 - Works with PostgreSQL, MySQL, SQLite & MSSQL using Sequelize right now
+
+## Upcoming features
+
+- Time machine - Explore database contents at a random point in the past
+- Restore deleted data (can be reconstructed using the event log)
+- Never write a database migration again - Replay events with new reducers
 
 
 ## Show me some code!
@@ -122,19 +123,6 @@ Sacrificing the outstanding scalibility potential of full CQRS gives us the free
 - Using the read model for validation simplifies things a lot!
 - Can easily be integrated into existing projects
 - Not eventually consistent data, it's consistent data
-
-
-## Features to come
-
-- Easier store setup
-- **Easy replaying with updated reducers a.k.a migrating to new data model without writing migrations and with zero down-time**
-- **Time machine: Periodical snapshots and easy way to recreate state of data at a random point of time**
-- New collection methods: `updateWhere`, `destroyWhere`
-- Flow types
-- Saga support
-- Make reducers usable in frontend with other libs than Redux as well: MobX, RxJs
-- Move old events periodically to "icelog" (some other, possibly slower, but cheaper storage: Amazon Glacier for instance)
-- Support for other storage engines (Mongo, ...)
 
 
 ## License
