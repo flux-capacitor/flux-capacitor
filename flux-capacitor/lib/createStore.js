@@ -134,7 +134,7 @@ function prepareForEventLog (event, database) {
   return Object.assign({}, event, {
     // setting `id` & `timestamp` here instead by DB query / default value, so we
     // can dispatch a complete event to the subscribers without an additional DB read
-    id: database.createEventId(),
+    id: event.id || database.createEventId(),
     timestamp: (new Date(Date.now())).toISOString()
   })
 }
