@@ -1,0 +1,13 @@
+{
+  "name": "flux-capacitor-boot",
+  "scripts": {
+    "test": "standard && ava"
+  },
+  "engines": {
+    "node": ">= 4.0"
+  },
+  "devDependencies": {
+    "ava": "^0.16.0",
+    "standard": "^8.4.0"
+  }
+}
