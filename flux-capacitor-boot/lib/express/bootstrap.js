@@ -43,7 +43,7 @@ function checkIfReadyToBoot (meta) {
 
 function promisifiedListen (app, port, hostname) {
   return new Promise((resolve, reject) => {
-    const server = app.listen(port, hostname, () => {
+    const server = app.listen(port || 0, hostname, () => {
       const address = server.address()
       console.log(`⚛ Flux Capacitor running on ${address.address}:${address.port}...`)
       resolve(server)
