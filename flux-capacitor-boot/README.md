@@ -13,7 +13,7 @@ require('dotenv').config()
 const authorize = require('flux-capacitor-boot/authorize')
 const { connectTo } = require('flux-capacitor-sequelize')
 const {
-  bootstrap, createExpressApp, createDispatcher, createRetrievalRoutes, createStore, createWebSocket, use
+  bootstrap, createExpressApp, createDispatcher, createStore, createWebSocket, use
 } = require('flux-capacitor-boot/express')
 
 const commands = require('./commands')
@@ -25,7 +25,8 @@ bootstrap([
   use.app(createExpressApp()),
   use.store(createStore(rootReducer, connectTo(process.env.DB_CONNECTION, createCollections))),
   use.route('/dispatch/:commandName', createDispatcher(commands)/*, (req) => authorize.allow()*/),
-  use.route('/:collectionName', createRetrievalRoutes([ 'events', 'notes' ])/*, (req) => authorize.allow()*/),
+  use.route('/events(/:id)?', createReadRoute('events', { sortBy: 'timestamp', sortOrder: 'DESC' })),
+  use.route('/notes(/:id)?', createReadRoute('notes')/*, (req) => authorize.allow()*/),
   use.route('/websocket', createWebSocket({
     /*authorize: (message, websocket) => authorize.allow(),*/
   }))
@@ -33,6 +34,11 @@ bootstrap([
   // Optionally add custom express middlewares you need:
   // use.expressMiddleware([ someMiddleware ])
 ]).listen(process.env.PORT)
+
+function readEvents (collection, createQueryOptions) {
+  const options = createQueryOptions('id', 'timestamp')
+  return collection.findAll(options)
+}
 ```
 
 ## Use custom express app
