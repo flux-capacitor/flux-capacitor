@@ -16,7 +16,7 @@ module.exports = createReadRoute
  */
 function createReadRoute (collectionName, options) {
   /**
-   * @param {Express.Route} route   Path must contain a `:collection` or `:collectionName` route param.
+   * @param {Express.Route} route   Path may or may not contain an `:id` (alias `:entityId`) route param.
    * @param {Object} bootstrapped   Internal state of `bootstrap()`.
    * @return {Express.Route}
    */
