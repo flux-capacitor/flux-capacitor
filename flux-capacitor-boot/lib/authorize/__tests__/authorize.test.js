@@ -30,3 +30,11 @@ test(`authorize.deny(string) works`, (t) => {
     return true
   })
 })
+
+test(`authorize.isAuthorized(() => authorize.allow()) works`, (t) => {
+  t.true(authorize.isAuthorized(() => authorize.allow()))
+})
+
+test(`authorize.isAuthorized(() => authorize.deny()) works`, (t) => {
+  t.false(authorize.isAuthorized(() => authorize.deny()))
+})
