@@ -28,7 +28,7 @@ bootstrap([
   use.route('/events(/:id)?', createReadRoute('events', { sortBy: 'timestamp', sortOrder: 'DESC' })),
   use.route('/notes(/:id)?', createReadRoute('notes')/*, (req) => authorize.allow()*/),
   use.route('/websocket', createWebSocket({
-    /*authorize: (message, websocket) => authorize.allow(),*/
+    /* (event, websocket) => authorize.allow(), */
   }))
 
   // Optionally add custom express middlewares you need:

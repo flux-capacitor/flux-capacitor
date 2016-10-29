@@ -1,8 +1,11 @@
 import test from 'ava'
+import { timeout } from 'promise-timeout'
 import request from 'request-promise'
 import sinon from 'sinon'
+import WebSocket from 'ws'
+import authorize from '../../../authorize'
 import {
-  bootstrap, createExpressApp, createDispatcher, createReadRoute, /* createWebSocket, */ use
+  bootstrap, createExpressApp, createDispatcher, createReadRoute, createWebSocket, use
 } from '../../../express'
 
 const commands = {
@@ -61,16 +64,67 @@ test(`reading a single event works`, async (t) => {
   server.close()
 })
 
+test(`websocket propagates dispatched events`, async (t) => {
+  t.plan(3)
+
+  const authorizer = sinon.spy(
+    (event) => event.type === 'restrictedEvent' ? authorize.deny() : authorize.allow()
+  )
+  const wsMiddleware = use.route('/websocket', createWebSocket(authorizer))
+
+  const store = mockStore()
+  const server = await bootstrapServer(store, [ wsMiddleware ])
+  const { port } = server.address()
+
+  const ws = new WebSocket(`ws://localhost:${port}/websocket`)
+
+  await new Promise((resolve) =>
+    ws.on('open', () => resolve(t.pass())
+  ))
+
+  const recvPromise = new Promise((resolve) => {
+    ws.on('message', (data) => {
+      t.deepEqual(JSON.parse(data), [
+        {
+          type: 'someEvent',
+          payload: { foo: 'bar' }
+        }
+      ])
+      resolve()
+    })
+  })
+
+  store.dispatch([
+    {
+      type: 'restrictedEvent',
+      payload: { secret: 'secret' }
+    }, {
+      type: 'someEvent',
+      payload: { foo: 'bar' }
+    }
+  ])
+
+  await timeout(recvPromise, 1000)
+  t.is(authorizer.callCount, 2)
+
+  server.close()
+})
+
 function mockStore () {
+  const listeners = []
   const store = {
     dispatch (events) {
       events = Array.isArray(events) ? events : [ events ]
+      listeners.forEach((listener) => listener(events))
       return Promise.resolve(events)
     },
     getDatabase () {
       return mockDatabase()
     },
-    subscribe () {}
+    subscribe (listener) {
+      listeners.push(listener)
+      return () => {}
+    }
   }
 
   sinon.spy(store, 'dispatch')
@@ -108,7 +162,7 @@ function mockCollection (name, rows) {
   return { name, fields, findAll, findById }
 }
 
-function bootstrapServer (store) {
+function bootstrapServer (store, additionalMiddleware = []) {
   return bootstrap([
     // ({ app, routes, store }) => Promise.resolve({ app, routes, store }),
     use.app(createExpressApp()),
@@ -116,11 +170,7 @@ function bootstrapServer (store) {
     use.route('/dispatch/:commandName', createDispatcher(commands)/* , (req) => authorize.allow() */),
     use.route('/events/:id?', createReadRoute('events', { sortBy: 'timestamp', sortOrder: 'DESC' })),
     use.route('/users/:id?', createReadRoute('users'))
-//    use.route('/:collectionName', createRetrievalRoutes([ 'events', 'users' ])/* , (req) => authorize.allow() */),
-//    use.route('/websocket', createWebSocket({
-//      /* authorize: (message, websocket) => authorize.allow(), */
-//    }))
-  ]).listen()
+  ].concat(additionalMiddleware)).listen()
 }
 
 function post (uri, body) {

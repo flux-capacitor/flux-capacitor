@@ -29,7 +29,7 @@ module.exports = {
       assert(app, `route(): No app set yet. Use 'use.app()' before.`)
 
       const route = app.route(path).all(useAsyncHandler(preHandler))
-      handler(route, bootstrapped)
+      handler(route, bootstrapped, path)
     }
   },
 

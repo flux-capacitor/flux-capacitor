@@ -13,15 +13,18 @@
   "devDependencies": {
     "ava": "^0.16.0",
     "flux-capacitor": "^0.2.1",
+    "promise-timeout": "^1.0.0",
     "request": "^2.75.0",
     "request-promise": "^4.1.1",
     "sinon": "^1.17.6",
-    "standard": "^8.4.0"
+    "standard": "^8.4.0",
+    "ws": "^1.1.1"
   },
   "dependencies": {
     "assert": "^1.4.1",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
+    "express-ws": "^2.0.0",
     "helmet": "^2.3.0"
   }
 }
