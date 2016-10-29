@@ -28,7 +28,7 @@
   "repository": "flux-capacitor/flux-capacitor",
   "bugs": "https://github.com/flux-capacitor/flux-capacitor/issues",
   "peerDependencies": {
-    "flux-capacitor": "^0.2.1"
+    "flux-capacitor": "^0.2.2"
   },
   "devDependencies": {
     "ava": "^0.16.0",
@@ -37,7 +37,7 @@
     "babel-preset-es2016": "^6.16.0",
     "babel-preset-es2017": "^6.16.0",
     "babel-register": "^6.18.0",
-    "flux-capacitor": "^0.2.1",
+    "flux-capacitor": "^0.2.2",
     "promise-timeout": "^1.0.0",
     "request": "^2.75.0",
     "request-promise": "^4.1.1",
