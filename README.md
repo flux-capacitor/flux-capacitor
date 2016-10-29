@@ -1,6 +1,6 @@
 # ![Flux Capacitor](./flux-capacitor/media/logo-big.png)
 
-*"Make your database a flux store. Realtime data and time travel capabilities included."*
+👉 *Flux architecture for the backend. Realtime data and time travel capabilities included.*
 
 [![Build Status](https://travis-ci.org/flux-capacitor/flux-capacitor.svg?branch=master)](https://travis-ci.org/flux-capacitor/flux-capacitor)
 [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
