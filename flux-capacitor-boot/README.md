@@ -3,10 +3,12 @@
 [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 [![NPM Version](https://img.shields.io/npm/v/flux-capacitor-boot.svg)](https://www.npmjs.com/package/flux-capacitor-boot)
 
-Bootstrapping utils for the [Flux Capacitor](https://github.com/flux-capacitor/flux-capacitor) for setting it up as an HTTP service in a simple, yet customizable way.
+Bootstrapping utils for the [Flux Capacitor](https://github.com/flux-capacitor/flux-capacitor). Setting up a flux capacitor HTTP service in a simple, yet customizable way by using feature middlewares.
 
 
 ## Usage
+
+This will set up a flux capacitor service with RESTful routes for reading data, dispatching events and pushing realtime updates using a websocket:
 
 ```js
 require('dotenv').config()
@@ -24,6 +26,7 @@ bootstrap([
   // ({ app, routes, store }) => Promise.resolve({ app, routes, store }),
   use.app(createExpressApp()),
   use.store(createStore(rootReducer, connectTo(process.env.DB_CONNECTION, createCollections))),
+  // use.logger(winston),
   use.route('/dispatch/:commandName', createDispatcher(commands)/*, (req) => authorize.allow()*/),
   use.route('/events(/:id)?', createReadRoute('events', { sortBy: 'timestamp', sortOrder: 'DESC' })),
   use.route('/notes(/:id)?', createReadRoute('notes')/*, (req) => authorize.allow()*/),
