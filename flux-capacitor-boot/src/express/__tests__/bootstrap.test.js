@@ -21,7 +21,7 @@ test('bootstrap() returns a Promise with listen()', (t) => {
     () => ({ app: {}, store: {} })
   ])
 
-  t.true(result instanceof Promise, 'Expected bootstrap() result to be a Promise')
+  t.is(typeof result.then, 'function')
   t.is(typeof result.listen, 'function')
 })
 

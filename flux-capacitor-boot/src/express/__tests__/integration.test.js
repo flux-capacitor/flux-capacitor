@@ -18,7 +18,6 @@ test(`bootstrapping a server from scratch`, async (t) => {
     use.store(mockStore())
   ]).listen()
 
-  t.is(server.listening, true)
   server.close()
 })
 
