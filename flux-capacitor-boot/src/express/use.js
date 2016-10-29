@@ -21,9 +21,7 @@ module.exports = {
    * @param {Function} handler      (Express.Route) => void
    * @param {Function} [preHandler] For authorization and such. (Request, Response) => Promise|void
    */
-  route (path, handler, preHandler) {
-    preHandler = preHandler || allowAll
-
+  route (path, handler, preHandler = allowAll) {
     return (bootstrapped) => {
       const { app } = bootstrapped
       assert(app, `route(): No app set yet. Use 'use.app()' before.`)

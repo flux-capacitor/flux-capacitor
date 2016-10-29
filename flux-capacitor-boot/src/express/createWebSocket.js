@@ -8,9 +8,7 @@ module.exports = createWebSocket
  * @param {Function} [authorizer] (Event, WebSocket) => Authorize.*
  * @return {Function}             (Express.Route, bootstrapped: Object) => Express.Route
  */
-function createWebSocket (authorizer) {
-  authorizer = authorizer || (() => authorize.allow())
-
+function createWebSocket (authorizer = allowAll) {
   /**
    * @param {Express.Route} route       Path must contain a `:collection` or `:collectionName` route param.
    * @param {Object} bootstrapped       Internal state of `bootstrap()`.
@@ -66,4 +64,11 @@ function createSocketHandler (store, authorizer) {
  */
 function createEventAuthorizer (socket, authorizer) {
   return (event) => authorize.isAuthorized(() => authorizer(event, socket))
+}
+
+/**
+ * @return {Authorize.allow()}
+ */
+function allowAll () {
+  return authorize.allow()
 }

@@ -16,12 +16,12 @@ module.exports = createReadRoute
  */
 function createReadRoute (collectionName, options) {
   /**
-   * @param {Express.Route} route   Path may or may not contain an `:id` (alias `:entityId`) route param.
-   * @param {Object} bootstrapped   Internal state of `bootstrap()`.
+   * @param {Express.Route} route       Path may or may not contain an `:id` (alias `:entityId`) route param.
+   * @param {Object} bootstrapped       Internal state of `bootstrap()`.
+   * @param {Store}  bootstrapped.store Flux capacitor store.
    * @return {Express.Route}
    */
-  return function setUpRetrievalRoute (route, bootstrapped) {
-    const { store } = bootstrapped
+  return function setUpRetrievalRoute (route, { store }) {
     assert(store, `createReadRoute(): No store set yet. Use 'use.store()' before.`)
 
     const { collections } = store.getDatabase()

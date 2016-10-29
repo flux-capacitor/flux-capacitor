@@ -9,19 +9,17 @@ module.exports = createDispatcher
  * @param {Function} [options.createMeta]   (Request, commandName: string) => Promise<EventMeta>|EventMeta
  * @return {Function}                       (Express.Route, bootstrapped: Object) => Express.Route
  */
-function createDispatcher (commands, options) {
-  options = options || {}
-
+function createDispatcher (commands, options = {}) {
   const defaultCreateMeta = (req) => ('user' in req ? { user: req.user } : {})
   const createMeta = options.createMeta || defaultCreateMeta
 
   /**
-   * @param {Express.Route} route   Path must contain a `:command` or `:commandName` route param.
-   * @param {Object} bootstrapped   Internal state of `bootstrap()`.
+   * @param {Express.Route} route       Path must contain a `:command` or `:commandName` route param.
+   * @param {Object} bootstrapped       Internal state of `bootstrap()`.
+   * @param {Store}  bootstrapped.store Flux capacitor store.
    * @return {Express.Route}
    */
-  return function setUpDispatchRoute (route, bootstrapped) {
-    const { store } = bootstrapped
+  return function setUpDispatchRoute (route, { store }) {
     assert(store, `createDispatcher(): No store set yet. Use 'use.store()' before.`)
 
     const dispatchHandler = createDispatchHandler(store, commands, createMeta)

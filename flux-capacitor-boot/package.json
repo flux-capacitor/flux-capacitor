@@ -1,7 +1,13 @@
 {
   "name": "flux-capacitor-boot",
   "scripts": {
-    "test": "standard && ava"
+    "build": "babel src/ --out-dir lib/ --ignore __tests__ --source-maps",
+    "test": "standard && ava",
+    "prepublish": "npm run build && npm test",
+    "pretest": "npm run build"
+  },
+  "babel": {
+    "presets": ["es2015"]
   },
   "engines": {
     "node": ">= 4.0"
@@ -15,6 +21,8 @@
   },
   "devDependencies": {
     "ava": "^0.16.0",
+    "babel-cli": "^6.18.0",
+    "babel-preset-es2015": "^6.18.0",
     "flux-capacitor": "^0.2.1",
     "promise-timeout": "^1.0.0",
     "request": "^2.75.0",
