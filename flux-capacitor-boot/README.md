@@ -11,7 +11,6 @@ Bootstrapping utils for the [Flux Capacitor](https://github.com/flux-capacitor/f
 This will set up a flux capacitor service with RESTful routes for reading data, dispatching events and pushing realtime updates using a websocket:
 
 ```js
-require('dotenv').config()
 const authorize = require('flux-capacitor-boot/authorize')
 const { connectTo } = require('flux-capacitor-sequelize')
 const {
@@ -23,28 +22,31 @@ const createCollections = require('./collections')
 const rootReducer = require('./reducers')
 
 bootstrap([
-  // ({ app, routes, store }) => Promise.resolve({ app, routes, store }),
   use.app(createExpressApp()),
   use.store(createStore(rootReducer, connectTo(process.env.DB_CONNECTION, createCollections))),
-  // use.logger(winston),
-  use.route('/dispatch/:commandName', createDispatcher(commands)/*, (req) => authorize.allow()*/),
+  use.route('/dispatch/:commandName', createDispatcher(commands), (req) => authorize.allow()),
   use.route('/events(/:id)?', createReadRoute('events', { sortBy: 'timestamp', sortOrder: 'DESC' })),
-  use.route('/notes(/:id)?', createReadRoute('notes')/*, (req) => authorize.allow()*/),
-  use.route('/websocket', createWebSocket({
-    /* (event, websocket) => authorize.allow(), */
-  }))
-
-  // Optionally add custom express middlewares you need:
-  // use.expressMiddleware([ someMiddleware ])
+  use.route('/notes(/:id)?', createReadRoute('notes')),
+  use.route('/websocket', createWebSocket())
 ]).listen(process.env.PORT)
-
-function readEvents (collection, createQueryOptions) {
-  const options = createQueryOptions('id', 'timestamp')
-  return collection.findAll(options)
-}
 ```
 
-## Use custom express app
+## Customize
+
+```js
+const { bootstrap, use } = require('flux-capacitor-boot/express')
+
+bootstrap([
+  ...
+
+  // Optionally add custom express middlewares you need:
+  use.expressMiddleware([ someMiddleware ]),
+
+  // `use.*` just returns a function of this type:
+  ({ app, store }) => Promise.resolve({ app, store })
+])
+```
+
 
 If you want to use an existing express app or want to use some custom app then just pass it to `use.app()` instead of using `createExpressApp()`:
 
@@ -67,14 +69,15 @@ bootstrap([
 
 ```js
 const authorize = require('flux-capacitor-boot/authorize')
-const { bootstrap, use } = require('flux-capacitor-boot/express')
+const { bootstrap, createWebSocket, use } = require('flux-capacitor-boot/express')
 
 bootstrap([
-  use.route('/some/route', someHandler, authorize)
+  use.route('/some/route', someHandler, authorizeRoute),
+  use.route('/websocket', createWebSocket(authorizeEventPropagation))
 ])
 
 // Must return authorize.allow() or authorize.deny(Error) or a promise.
-function authorize (req) {
+function authorizeRoute (req) {
   if (!req.user) {
     return authorize.deny('You are not logged in or there is no express middleware for authentication set.')
   }
@@ -85,6 +88,10 @@ function authorize (req) {
     // Can also pass an error object to `authorize.deny()`
     return authorize.deny('Only John is allowed to use this route.')
   }
+}
+
+function authorizeEventPropagation (event, websocket) {
+  return authorize.allow()
 }
 ```
 
