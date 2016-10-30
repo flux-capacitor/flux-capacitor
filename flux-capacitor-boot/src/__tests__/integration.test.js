@@ -3,10 +3,10 @@ import { timeout } from 'promise-timeout'
 import request from 'request-promise'
 import sinon from 'sinon'
 import WebSocket from 'ws'
-import authorize from '../../../authorize'
+import authorize from '../../authorize'
 import {
   bootstrap, createExpressApp, createDispatcher, createReadRoute, createWebSocket, use
-} from '../../../express'
+} from '../../express'
 
 const commands = {
   addUser: (payload) => ({ type: 'addUser', ...payload })
