@@ -9,6 +9,8 @@ function createCollection (name, model) {
   const collection = {
     name,
 
+    fields: model.attributes,
+
     ////////////
     // Queries:
 

@@ -1,0 +1,56 @@
+{
+  "name": "flux-capacitor-boot",
+  "version": "0.2.0",
+  "scripts": {
+    "build": "babel src/ --out-dir lib/ --ignore __tests__ --source-maps",
+    "test": "standard && ava",
+    "prepublish": "npm run build && npm test",
+    "pretest": "npm run build"
+  },
+  "ava": {
+    "require": [
+      "babel-register"
+    ]
+  },
+  "babel": {
+    "ignore": [
+      "lib/"
+    ],
+    "presets": [
+      "es2015-node4",
+      "es2016",
+      "es2017"
+    ]
+  },
+  "engines": {
+    "node": ">= 4.0"
+  },
+  "author": "Andy Wermke <andy@dev.next-step-software.com>",
+  "repository": "flux-capacitor/flux-capacitor",
+  "bugs": "https://github.com/flux-capacitor/flux-capacitor/issues",
+  "peerDependencies": {
+    "flux-capacitor": "^0.2.2"
+  },
+  "devDependencies": {
+    "ava": "^0.16.0",
+    "babel-cli": "^6.18.0",
+    "babel-preset-es2015-node4": "^2.1.0",
+    "babel-preset-es2016": "^6.16.0",
+    "babel-preset-es2017": "^6.16.0",
+    "babel-register": "^6.18.0",
+    "flux-capacitor": "^0.2.2",
+    "promise-timeout": "^1.0.0",
+    "request": "^2.75.0",
+    "request-promise": "^4.1.1",
+    "sinon": "^1.17.6",
+    "standard": "^8.4.0",
+    "ws": "^1.1.1"
+  },
+  "dependencies": {
+    "assert": "^1.4.1",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "express-ws": "^2.0.0",
+    "helmet": "^2.3.0"
+  }
+}
