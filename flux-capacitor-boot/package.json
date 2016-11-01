@@ -1,5 +1,6 @@
 {
   "name": "flux-capacitor-boot",
+  "version": "0.2.0",
   "scripts": {
     "build": "babel src/ --out-dir lib/ --ignore __tests__ --source-maps",
     "test": "standard && ava",
