@@ -3,7 +3,7 @@
   "license": "MIT",
   "scripts": {
     "postinstall": "lerna bootstrap",
-    "test": "lerna test"
+    "test": "lerna run test"
   },
   "devDependencies": {
     "lerna": "2.0.0-beta.30"
