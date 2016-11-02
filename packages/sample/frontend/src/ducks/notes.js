@@ -20,7 +20,8 @@ export default function notesReducer (notes = [], action) {
 
     case SAVE_NEW_NOTE:
       const note = action.payload
-      return [ note ].concat( notes.filter((noteIt) => (noteIt.id !== note.id)) )
+      const otherNotes = notes.filter((noteIt) => (noteIt.id !== note.id))
+      return [ note ].concat(otherNotes)
 
     case REMOVE_UNSAVED_NOTE:
       return notes.filter((note) => !!note.createdAt)

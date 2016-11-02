@@ -64,11 +64,11 @@ class App extends Component {
         <div className='App'>
           <GithubCorner
             href='https://github.com/flux-capacitor/flux-capacitor'
-            bannerColor="#FD6C6C"
-            octoColor="#fff"
+            bannerColor='#FD6C6C'
+            octoColor='#fff'
             width={80}
             height={80}
-            direction="right"
+            direction='right'
           />
           <div className='App-header'>
             <img src={logo} className='App-logo' alt='logo' />
@@ -82,7 +82,7 @@ class App extends Component {
             <div className='text-justify'>
               <h4>What is happening here?</h4>
               <p>
-                The <a href="https://github.com/flux-capacitor/flux-capacitor">⚛&nbsp;<b>Flux Capacitor</b></a> powers
+                The <a href='https://github.com/flux-capacitor/flux-capacitor'>⚛&nbsp;<b>Flux Capacitor</b></a> powers
                 the event log and the realtime updates. It handles the dispatched events (actions) and invokes the reducers.
               </p>
               <p>
@@ -91,7 +91,7 @@ class App extends Component {
               </p>
               <p>
                 The pushed events are reduced on the client to update the notes
-                using the backend reducer and <a href="https://www.npmjs.com/package/flux-capacitor-reduxify">reduxify</a>.
+                using the backend reducer and <a href='https://www.npmjs.com/package/flux-capacitor-reduxify'>reduxify</a>.
               </p>
               <p>
                 All the data here is live data from the server. Try opening this app in
@@ -100,9 +100,9 @@ class App extends Component {
               <h4>Pants down. Show me the sources!</h4>
               <p>
                 <span>Check out the </span>
-                <a href="https://github.com/flux-capacitor/flux-capacitor/tree/master/sample/frontend" rel="nofollow">Frontend</a>
+                <a href='https://github.com/flux-capacitor/flux-capacitor/tree/master/sample/frontend' rel='nofollow'>Frontend</a>
                 <span> and </span>
-                <a href="https://github.com/flux-capacitor/flux-capacitor/tree/master/sample/server" rel="nofollow">Server</a>
+                <a href='https://github.com/flux-capacitor/flux-capacitor/tree/master/sample/server' rel='nofollow'>Server</a>
                 <span> sources.</span>
               </p>
             </div>
