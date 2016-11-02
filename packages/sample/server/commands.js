@@ -28,8 +28,7 @@ function addNote ({ id, title, text }, meta) {
   return {
     type: 'noteAdded',
     payload: {
-      id, title, text,
-      createdAt: new Date(Date.now())
+      id, title, text, createdAt: new Date(Date.now())
     },
     meta
   }
