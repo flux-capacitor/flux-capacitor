@@ -1,6 +1,4 @@
 {
-  "name": "flux-capacitor-sample-notes",
-  "version": "0.0.0",
   "license": "MIT",
   "private": true,
   "scripts": {
@@ -8,5 +6,8 @@
     "start": "cd server/ && npm start",
     "test": "cd server/ && npm test && cd ../frontend && npm test",
     "postinstall": "cd frontend/ && npm install && cd ../server && npm install"
+  },
+  "devDependencies": {
+    "nothing-to-see-here": "^1.0.1"
   }
 }
