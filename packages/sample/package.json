@@ -6,7 +6,7 @@
   "scripts": {
     "build": "cd frontend/ && npm run build",
     "start": "cd server/ && npm start",
-    "test": "cd server/ && npm test && cd ../frontend && npm test",
+    "test": "cd server/ && npm install && npm test && cd ../frontend && npm install && npm test",
     "postinstall": "cd frontend/ && npm install && cd ../server && npm install"
   },
   "devDependencies": {
