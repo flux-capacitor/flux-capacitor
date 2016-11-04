@@ -4,7 +4,8 @@
   "description": "Redux-like data storage in the backend. Easy to use, event-based, functional. Gives you control over time and data.",
   "license": "MIT",
   "scripts": {
-    "prepublish": "npm test",
+    "prepublish": "npm test && npm run docs",
+    "docs": "documentation build lib/index.js -g -f md --name flux-capacitor --sort-order alpha > API.md",
     "test": "standard --parser babel-eslint && ava"
   },
   "main": "lib/index",
@@ -35,6 +36,7 @@
   "devDependencies": {
     "ava": "^0.16.0",
     "babel-eslint": "^6.1.2",
+    "documentation": "^4.0.0-beta11",
     "sinon": "^1.17.6",
     "standard": "^8.1.0"
   }

@@ -3,14 +3,15 @@
 const combineChangesets = require('./database/combineChangesets')
 
 /**
- * Creates a store that manages the event log as well as the reduced tables.
+ * Creates a store that manages the event log as well as the reduced tables.<br/>
  * Never mutate the database's tables manually. Always call `.dispatch()` on
- * this store.
+ * this store instead.
  *
- * @param {Function} reducer      (collection: Collection, event: Event) => Changeset
- * @param {Database} database
- * @param {Function} [enhancer]   Used to supply middleware(s).
- * @return {Store}
+ * @param {Function} reducer      `(collection: Collection, event: Event) => Changeset`
+ * @param {Database} database     As returned by `connectTo` (`flux-capacitor-sequelize` package)
+ * @param {Function} [enhancer]   Used to supply middleware(s). Signature:
+ *                                `(createStore: Function) => (reducer: Function, database: Database) => Store`
+ * @return {Store}                Store instance.
  */
 function createStore (reducer, database, enhancer) {
   if (typeof database === 'function' && typeof enhancer === 'undefined') {
@@ -43,7 +44,8 @@ module.exports = createStore
  * @param {Function} reducer
  * @param {Database} database
  * @return {Store}
-*/
+ * @private
+ */
 function _createStore (reducer, database) {
   let currentListeners = []
 
@@ -54,6 +56,7 @@ function _createStore (reducer, database) {
    *
    * @param {Event|Array<Event>} event
    * @return {Promise<Array<Event>>}
+   * @alias Store.dispatch
    */
   function dispatch (event) {
     if (!Array.isArray(event) && typeof event !== 'object') {
@@ -76,6 +79,12 @@ function _createStore (reducer, database) {
       })
   }
 
+  /**
+   * Return the `Database` instance used.
+   *
+   * @return {Database}
+   * @alias Store.getDatabase
+   */
   function getDatabase () {
     return database
   }
@@ -85,8 +94,9 @@ function _createStore (reducer, database) {
    * Passing an array of events to the listener, since you can dispatch an array of events
    * (instead of a single one) and they will share the same database transaction.
    *
-   * @param {Function} listener     (events: Array<Event>) => void
-   * @return {Function} unsubscribe () => void
+   * @param {Function} listener     `(events: Array<Event>) => void`
+   * @return {Function} unsubscribe `() => void`
+   * @alias Store.subscribe
    */
   function subscribe (listener) {
     if (typeof listener !== 'function') {
@@ -105,6 +115,12 @@ function _createStore (reducer, database) {
     }
   }
 
+  /**
+   * @typedef {Object} Store
+   * @property {Function} dispatch
+   * @property {Function} getDatabase
+   * @property {Function} subscribe
+   */
   return {
     dispatch, getDatabase, subscribe
   }
@@ -115,6 +131,7 @@ function _createStore (reducer, database) {
  * @param {Database} database
  * @param {Array<Event>} inputEvents
  * @return {Promise<Array<Event>>}
+ * @private
  */
 function _dispatch (reducer, database, inputEvents) {
   const events = inputEvents.map((inputEvent) => prepareForEventLog(inputEvent, database))

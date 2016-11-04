@@ -4,10 +4,11 @@ const createChangeset = require('./createChangeset')
 
 /**
  * Takes an array of changesets and returns a single changeset that contains
- * all of the input changeset's DB operations.
+ * all of the input changeset's DB operations. To be used by database connectors.
  *
  * @param {Changeset[]} changesets
  * @return {Changeset}
+ * @private
  */
 function combineChangesets (changesets) {
   const actions = changesets.map((changeset) => changeset.apply)

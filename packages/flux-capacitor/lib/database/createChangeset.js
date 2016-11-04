@@ -1,10 +1,13 @@
 'use strict'
 
 /**
+ * Create a new changeset (a new DB operation). To be used by database connectors.
+ *
  * @param {Function}   action     Some function that performs the actual operation(s).
  * @param {object}     [meta]
  * @param {Collection} [meta.collection]
  * @return {Changeset}
+ * @private
  */
 function createChangeset (action, meta) {
   const errorHandler = meta && meta.collection && meta.collection.name
