@@ -1,6 +1,9 @@
-module.exports = init
+import path from 'path'
+import { recursiveFileList } from '../util/fs'
 
-function init (options, args) {
+export default init
+
+async function init (options, args) {
   const defaultDatabase = 'sqlite://db.sqlite'
   const { database = defaultDatabase } = options
 
@@ -13,6 +16,9 @@ function init (options, args) {
   if (Array.isArray(database)) {
     throw new Error(`Only one database connection URL allowed.`)
   }
+
+  const files = await recursiveFileList(path.resolve(__dirname, '..', '..', 'template'))
+  console.log('Files:', files)
 
   // TODO: Check that template files can be safely copied / directories created
   // TODO: Copy template

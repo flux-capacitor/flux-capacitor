@@ -1,1 +1,1 @@
-exports.init = require('./init')
+export { default as init } from './init'

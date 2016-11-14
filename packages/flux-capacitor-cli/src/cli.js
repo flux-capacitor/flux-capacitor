@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const meow = require('meow')
-const commands = require('./commands')
+import meow from 'meow'
+import * as commands from './commands'
 
 const cli = meow(`
   Usage
