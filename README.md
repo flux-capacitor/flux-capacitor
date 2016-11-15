@@ -1,4 +1,4 @@
-# ![Flux Capacitor](./flux-capacitor/media/logo-big.png)
+# ![Flux Capacitor](./media/logo-big.png)
 
 👉 *Flux architecture for the backend. Realtime data and time travel capabilities included.*
 
