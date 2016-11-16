@@ -1,5 +1,5 @@
-const fs = require('mz/fs')
-const path = require('path')
+import fs from 'mz/fs'
+import path from 'path'
 
 export {
   recursiveFileList
