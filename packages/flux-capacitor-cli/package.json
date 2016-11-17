@@ -41,6 +41,8 @@
     "standard": "^8.4.0"
   },
   "dependencies": {
+    "fs-extra": "^1.0.0",
+    "json-update": "^3.0.0",
     "meow": "^3.7.0",
     "mkdirp-promise": "^4.0.1",
     "mz": "^2.5.0",

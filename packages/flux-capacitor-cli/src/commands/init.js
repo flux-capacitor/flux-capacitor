@@ -1,8 +1,11 @@
+import fs from 'mz/fs'
+import { copy } from 'fs-extra'
+import { update as updateJson } from 'json-update'
 import mkdirp from 'mkdirp-promise'
 import exists from 'path-exists'
 import path from 'path'
 import uniq from 'uniq'
-import { recursiveFileList } from '../util/fs'
+import { locatePackageJson, recursiveFileList } from '../util/fs'
 
 export default init
 
@@ -20,13 +23,15 @@ async function init (options, args) {
     throw new Error(`Only one database connection URL allowed.`)
   }
 
-  const files = await recursiveFileList(path.resolve(__dirname, '..', '..', 'template'))
+  const destPath = process.cwd()
+  const templatePath = path.resolve(__dirname, '..', '..', 'template')
+  const files = await recursiveFileList(templatePath)
+  const packageJsonPath = await locateOrCreatePackageJson()
 
   await assertFilesCanBeCopied(files)
-  console.log('Files:', files)
+  await copyTemplate(templatePath, files, destPath)
+  await patchPackageJson(packageJsonPath, path.join(destPath, 'store.js'))
 
-  // TODO: Copy template
-  // TODO: Add `flux` to package.json
   // TODO: npm install --save (don't forget DB driver)
 }
 
@@ -46,11 +51,40 @@ async function assertExistsNot (filePath) {
   }
 }
 
-// TODO: Can this be removed?
-async function distinctDirPaths (filePaths) {
-  const dirPaths = filePaths
-    .map((filePath) => path.dirname(filePath))
-    .filter((dirPath) => dirPath !== '.')
+async function locateOrCreatePackageJson () {
+  try {
+    const filePath = await locatePackageJson()
+    console.log(`Found package.json: ${filePath}`)
+    return filePath
+  } catch (error) {
+    const filePath = 'package.json'
+    console.log(`Creating empty ${filePath}...`)
+    await fs.writeFile(filePath, '{}\n')
+    return filePath
+  }
+}
 
-  return uniq(dirPaths)
+async function patchPackageJson (filePath, storeJsPath) {
+  return await updateJson(filePath, {
+    flux: {
+      store: path.relative(path.dirname(filePath), storeJsPath)
+    }
+  })
+}
+
+async function copyTemplate (templatePath, files, destPath) {
+  return await Promise.all(
+    files.map((relativeFilePath) => copyFile(
+      path.join(templatePath, relativeFilePath),
+      path.join(destPath, relativeFilePath)
+    ))
+  )
+}
+
+function copyFile (from, to) {
+  return new Promise((resolve, reject) => {
+    copy(from, to, (error) => {
+      error ? reject(error) : resolve()
+    })
+  })
 }
