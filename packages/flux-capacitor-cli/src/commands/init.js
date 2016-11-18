@@ -4,9 +4,11 @@ import { copy } from 'fs-extra'
 import { load as loadJson, update as updateJson } from 'json-update'
 import mkdirp from 'mkdirp-promise'
 import exists from 'path-exists'
+import Listr from 'listr'
 import path from 'path'
 import uniq from 'uniq'
 import url from 'url'
+import { step } from '../util/cli'
 import { locatePackageJson, recursiveFileList } from '../util/fs'
 
 export default init
@@ -19,7 +21,7 @@ async function init (options, args) {
     throw new Error(`Expected no arguments.`)
   }
   if (!('database' in options)) {
-    console.log(`No --database passed. Using default: ${defaultDatabase}\n`)
+    console.log(`No --database passed. Using default: ${defaultDatabase}`)
   }
   if (Array.isArray(database)) {
     throw new Error(`Only one database connection URL allowed.`)
@@ -32,10 +34,23 @@ async function init (options, args) {
   const files = await recursiveFileList(templatePath)
   const packageJsonPath = await locateOrCreatePackageJson()
 
-  await assertFilesCanBeCopied(files)
-  await copyTemplate(templatePath, files, destPath)
-  await patchPackageJson(packageJsonPath, path.join(destPath, 'store.js'), path.join(destPath, 'server.js'))
-  await installPackages(dbDriverPackage)
+  console.log('')   // just for the newline
+
+  await new Listr([
+    step('Copy boilerplate files', async () => {
+      await assertFilesCanBeCopied(files)
+      await copyTemplate(templatePath, files, destPath)
+    }),
+    step('Update package.json', async () => {
+      await patchPackageJson(packageJsonPath, path.join(destPath, 'store.js'), path.join(destPath, 'server.js'))
+    }),
+    step('Install packages', async () => {
+      const packages = [
+        'dotenv', 'flux-capacitor', 'flux-capacitor-boot', 'flux-capacitor-sequelize', dbDriverPackage
+      ]
+      await installPackages(packages)
+    })
+  ]).run()
 }
 
 async function assertFilesCanBeCopied (filePaths) {
@@ -98,10 +113,7 @@ function copyFile (from, to) {
   })
 }
 
-async function installPackages (dbDriverPackage) {
-  const packagesToInstall = [ 'dotenv', 'flux-capacitor', 'flux-capacitor-boot', 'flux-capacitor-sequelize', dbDriverPackage ]
-  const npmInstallCommand = `npm install --save ${packagesToInstall.join(' ')}`
-
-  console.log(npmInstallCommand)
+async function installPackages (packageNames) {
+  const npmInstallCommand = `npm install --save ${packageNames.join(' ')}`
   return await execa.shell(npmInstallCommand)
 }
