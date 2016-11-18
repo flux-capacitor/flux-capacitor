@@ -1,10 +1,12 @@
+import execa from 'execa'
 import fs from 'mz/fs'
 import { copy } from 'fs-extra'
-import { update as updateJson } from 'json-update'
+import { load as loadJson, update as updateJson } from 'json-update'
 import mkdirp from 'mkdirp-promise'
 import exists from 'path-exists'
 import path from 'path'
 import uniq from 'uniq'
+import url from 'url'
 import { locatePackageJson, recursiveFileList } from '../util/fs'
 
 export default init
@@ -25,14 +27,15 @@ async function init (options, args) {
 
   const destPath = process.cwd()
   const templatePath = path.resolve(__dirname, '..', '..', 'template')
+  const dbDriverPackage = url.parse(database).protocol.replace(/:$/, '')
+
   const files = await recursiveFileList(templatePath)
   const packageJsonPath = await locateOrCreatePackageJson()
 
   await assertFilesCanBeCopied(files)
   await copyTemplate(templatePath, files, destPath)
-  await patchPackageJson(packageJsonPath, path.join(destPath, 'store.js'))
-
-  // TODO: npm install --save (don't forget DB driver)
+  await patchPackageJson(packageJsonPath, path.join(destPath, 'store.js'), path.join(destPath, 'server.js'))
+  await installPackages(dbDriverPackage)
 }
 
 async function assertFilesCanBeCopied (filePaths) {
@@ -64,12 +67,18 @@ async function locateOrCreatePackageJson () {
   }
 }
 
-async function patchPackageJson (filePath, storeJsPath) {
-  return await updateJson(filePath, {
+async function patchPackageJson (filePath, storeJsPath, serverJsPath) {
+  const previousContent = await loadJson(filePath)
+  const diff = {
     flux: {
       store: path.relative(path.dirname(filePath), storeJsPath)
-    }
-  })
+    },
+    scripts: Object.assign({
+      start: `node ${path.relative(path.dirname(filePath), serverJsPath)}`
+    }, previousContent.scripts)
+  }
+
+  return await updateJson(filePath, diff)
 }
 
 async function copyTemplate (templatePath, files, destPath) {
@@ -87,4 +96,12 @@ function copyFile (from, to) {
       error ? reject(error) : resolve()
     })
   })
+}
+
+async function installPackages (dbDriverPackage) {
+  const packagesToInstall = [ 'dotenv', 'flux-capacitor', 'flux-capacitor-boot', 'flux-capacitor-sequelize', dbDriverPackage ]
+  const npmInstallCommand = `npm install --save ${packagesToInstall.join(' ')}`
+
+  console.log(npmInstallCommand)
+  return await execa.shell(npmInstallCommand)
 }
