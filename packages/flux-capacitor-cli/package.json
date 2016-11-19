@@ -2,6 +2,9 @@
   "name": "flux-capacitor-cli",
   "version": "0.2.0",
   "license": "MIT",
+  "bin": {
+    "flux": "./lib/cli.js"
+  },
   "scripts": {
     "build": "babel src/ --out-dir lib/ --ignore __tests__ --source-maps",
     "test": "standard src/ && ava",
