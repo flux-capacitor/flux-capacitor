@@ -1,5 +1,10 @@
 export {
+  info,
   step
+}
+
+function info (message) {
+  console.log(` ℹ️ ${message}`)
 }
 
 /**
