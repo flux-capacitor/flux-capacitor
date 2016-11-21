@@ -37,7 +37,13 @@ test('initializing an empty directory', async (t) => {
   await rimraf(destPath)
 })
 
-test.todo('initializing a directory containing conflicting files fails properly')
+test('initializing a directory containing conflicting files fails properly', async (t) => {
+  const destPath = await createTempDir()
+  await fs.writeFile(path.join(destPath, '.env'), 'PORT=4000', { encoding: 'utf-8' })
+
+  await t.throws(initInDirectory(destPath, 'sqlite://db.sqlite'), /File\/directory already exists:.*\.env$/)
+  await rimraf(destPath)
+})
 
 async function createTempDir () {
   return await fs.mkdtemp(path.join(os.tmpdir(), 'flux-cli-test-'))
