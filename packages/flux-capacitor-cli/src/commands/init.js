@@ -16,11 +16,13 @@ export default initCommand
 export { initInDirectory }
 
 async function initCommand (options, args) {
+  const destPath = args.length > 0 ? args[0] : process.cwd()
+
   const defaultDatabase = 'sqlite://db.sqlite'
   const { database = defaultDatabase } = options
 
-  if (args.length > 0) {
-    throw new Error(`Expected no arguments.`)
+  if (args.length > 1) {
+    throw new Error(`Unexpected multiple arguments.`)
   }
   if (!('database' in options)) {
     info(`No --database passed. Using default: ${defaultDatabase}`)
@@ -29,7 +31,7 @@ async function initCommand (options, args) {
     throw new Error(`Only one database connection URL allowed.`)
   }
 
-  await initInDirectory(process.cwd(), database)
+  await initInDirectory(destPath, database)
 }
 
 async function initInDirectory (destPath, database) {

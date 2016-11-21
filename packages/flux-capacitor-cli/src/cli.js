@@ -5,7 +5,7 @@ import * as commands from './commands'
 
 const cli = meow(`
   Usage
-    $ flux init [--database=<DB connection URL>]
+    $ flux init [<target directory>] [--database=<DB connection URL>]
 
   Commands
     init        Install a fresh flux capacitor instance in the current directory.
