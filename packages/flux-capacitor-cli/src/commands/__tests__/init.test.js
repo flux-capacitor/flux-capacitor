@@ -3,10 +3,14 @@ import fs from 'mz/fs'
 import os from 'os'
 import path from 'path'
 import rimraf from 'rimraf-promise'
+import temp from 'temp'
 import { initInDirectory } from '../init'
 import { recursiveFileList } from '../../util/fs'
 
 const TEMPLATE_PATH = path.join(__dirname, '..', '..', '..', 'template')
+
+// Automatically track and cleanup files at exit
+temp.track()
 
 test('initializing an empty directory', async (t) => {
   const destPath = await createTempDir()
@@ -46,7 +50,10 @@ test('initializing a directory containing conflicting files fails properly', asy
 })
 
 async function createTempDir () {
-  return await fs.mkdtemp(path.join(os.tmpdir(), 'flux-cli-test-'))
+  return new Promise((resolve, reject) => {
+    temp.mkdir('flux-cli-test-', (error, dirPath) => (error ? reject(error) : resolve(dirPath)))
+  })
+  return await fs.mkdtemp(path.join(os.tmpdir(), ))
 }
 
 async function readFile (filePath) {
