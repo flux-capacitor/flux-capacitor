@@ -44,6 +44,7 @@
     "standard": "^8.4.0"
   },
   "dependencies": {
+    "deindent": "^0.1.0",
     "execa": "^0.5.0",
     "fs-extra": "^1.0.0",
     "json-update": "^3.0.0",

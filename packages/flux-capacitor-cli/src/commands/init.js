@@ -1,3 +1,4 @@
+import deindent from 'deindent'
 import execa from 'execa'
 import fs from 'mz/fs'
 import { copy } from 'fs-extra'
@@ -31,15 +32,22 @@ async function init (options, args) {
   const templatePath = path.resolve(__dirname, '..', '..', 'template')
   const dbDriverPackage = url.parse(database).protocol.replace(/:$/, '')
 
-  const files = await recursiveFileList(templatePath)
+  const generatedFiles = [ '.env' ]
+  const templateFiles = await recursiveFileList(templatePath)
   const packageJsonPath = await locateOrCreatePackageJson()
 
   console.log('')   // just for the newline
 
   await new Listr([
     step('Copy boilerplate files', async () => {
-      await assertFilesCanBeCopied(files)
-      await copyTemplate(templatePath, files, destPath)
+      await assertFilesCanBeCopied(destPath, templateFiles.concat(generatedFiles))
+      await copyTemplate(templatePath, templateFiles, destPath)
+    }),
+    step('Write .env file', async () => {
+      await fs.writeFile('.env', deindent`
+        PORT=3000
+        DB_CONNECTION=${database}
+      `.trimLeft())
     }),
     step('Update package.json', async () => {
       await patchPackageJson(packageJsonPath, path.join(destPath, 'store.js'), path.join(destPath, 'server.js'))
@@ -53,13 +61,15 @@ async function init (options, args) {
   ]).run()
 }
 
-async function assertFilesCanBeCopied (filePaths) {
+async function assertFilesCanBeCopied (destPath, filePaths) {
   const topLevelFileDirNames = uniq(filePaths
     .map((filePath) => filePath.split(path.sep).shift())
   )
 
   await Promise.all(
-    topLevelFileDirNames.map((fileName) => assertExistsNot(fileName))
+    topLevelFileDirNames
+      .map((fileName) => path.join(destPath, fileName))
+      .map((filePath) => assertExistsNot(filePath))
   )
 }
 
