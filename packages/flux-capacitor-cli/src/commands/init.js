@@ -12,9 +12,10 @@ import url from 'url'
 import { info, step } from '../util/cli'
 import { locatePackageJson, recursiveFileList } from '../util/fs'
 
-export default init
+export default initCommand
+export { initInDirectory }
 
-async function init (options, args) {
+async function initCommand (options, args) {
   const defaultDatabase = 'sqlite://db.sqlite'
   const { database = defaultDatabase } = options
 
@@ -28,13 +29,16 @@ async function init (options, args) {
     throw new Error(`Only one database connection URL allowed.`)
   }
 
-  const destPath = process.cwd()
+  await initInDirectory(process.cwd(), database)
+}
+
+async function initInDirectory (destPath, database) {
   const templatePath = path.resolve(__dirname, '..', '..', 'template')
   const dbDriverPackage = url.parse(database).protocol.replace(/:$/, '')
 
   const generatedFiles = [ '.env' ]
   const templateFiles = await recursiveFileList(templatePath)
-  const packageJsonPath = await locateOrCreatePackageJson()
+  const packageJsonPath = await locateOrCreatePackageJson(destPath)
 
   console.log('')   // just for the newline
 
@@ -44,7 +48,8 @@ async function init (options, args) {
       await copyTemplate(templatePath, templateFiles, destPath)
     }),
     step('Write .env file', async () => {
-      await fs.writeFile('.env', deindent`
+      const dotEnvFilePath = path.join(destPath, '.env')
+      await fs.writeFile(dotEnvFilePath, deindent`
         PORT=3000
         DB_CONNECTION=${database}
       `.trimLeft())
@@ -56,7 +61,7 @@ async function init (options, args) {
       const packages = [
         'dotenv', 'flux-capacitor', 'flux-capacitor-boot', 'flux-capacitor-sequelize', dbDriverPackage
       ]
-      await installPackages(packages)
+      await installPackages(packages, destPath)
     })
   ]).run()
 }
@@ -79,13 +84,13 @@ async function assertExistsNot (filePath) {
   }
 }
 
-async function locateOrCreatePackageJson () {
+async function locateOrCreatePackageJson (searchStartDirPath) {
   try {
-    const filePath = await locatePackageJson()
+    const filePath = await locatePackageJson(searchStartDirPath)
     info(`Found package.json: ${filePath}`)
     return filePath
   } catch (error) {
-    const filePath = 'package.json'
+    const filePath = path.join(searchStartDirPath, 'package.json')
     info(`Creating empty ${filePath}...`)
     await fs.writeFile(filePath, '{}\n')
     return filePath
@@ -123,7 +128,7 @@ function copyFile (from, to) {
   })
 }
 
-async function installPackages (packageNames) {
+async function installPackages (packageNames, cwd = process.cwd()) {
   const npmInstallCommand = `npm install --save ${packageNames.join(' ')}`
-  return await execa.shell(npmInstallCommand)
+  return await execa.shell(npmInstallCommand, { cwd })
 }
