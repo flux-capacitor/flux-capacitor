@@ -12,7 +12,7 @@ export {
  * @return {Promise<string[]>}    Array of paths to all files (no directories) in `dirPath` and its sub-directories.
  */
 async function recursiveFileList (dirPath) {
-  const basenames = await fs.readdir(dirPath, 'UTF-8')
+  const basenames = await fs.readdir(dirPath)
   const stats = await Promise.all(
     basenames.map((basename) => fs.stat(path.join(dirPath, basename)))
   )
