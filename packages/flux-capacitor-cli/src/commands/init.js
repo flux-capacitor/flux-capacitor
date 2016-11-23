@@ -38,7 +38,7 @@ async function initInDirectory (destPath, database) {
   const templatePath = path.resolve(__dirname, '..', '..', 'template')
   const dbDriverPackage = url.parse(database).protocol.replace(/:$/, '')
 
-  const generatedFiles = [ '.env' ]
+  const generatedFiles = [ '.gitignore', '.env' ]
   const templateFiles = await recursiveFileList(templatePath)
   const packageJsonPath = await locateOrCreatePackageJson(destPath)
 
@@ -49,12 +49,8 @@ async function initInDirectory (destPath, database) {
       await assertFilesCanBeCopied(destPath, templateFiles.concat(generatedFiles))
       await copyTemplate(templatePath, templateFiles, destPath)
     }),
-    step('Write .env file', async () => {
-      const dotEnvFilePath = path.join(destPath, '.env')
-      await fs.writeFile(dotEnvFilePath, deindent`
-        PORT=3000
-        DB_CONNECTION=${database}
-      `.trimLeft())
+    step('Create .gitignore & .env file', async () => {
+      await createDotFiles(destPath, { database })
     }),
     step('Update package.json', async () => {
       await patchPackageJson(packageJsonPath, path.join(destPath, 'store.js'), path.join(destPath, 'server.js'))
@@ -128,6 +124,21 @@ function copyFile (from, to) {
       error ? reject(error) : resolve()
     })
   })
+}
+
+async function createDotFiles (destPath, { database }) {
+  const envFilePath = path.join(destPath, '.env')
+  const gitIgnoreFilePath = path.join(destPath, '.gitignore')
+
+  await fs.writeFile(envFilePath, deindent`
+    PORT=3000
+    DB_CONNECTION=${database}
+  `.trimLeft())
+
+  await fs.writeFile(gitIgnoreFilePath, deindent`
+    node_modules/
+    npm-debug.log
+  `.trimLeft())
 }
 
 async function installPackages (packageNames, cwd = process.cwd()) {

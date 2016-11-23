@@ -24,12 +24,23 @@ test('initializing an empty directory', async (t) => {
     DB_CONNECTION=sqlite://db.sqlite
   `))
 
+  const dotGitIgnoreContents = await readFile(path.join(destPath, '.gitignore'))
+  t.is(trim(dotGitIgnoreContents), trim(`
+    node_modules/
+    npm-debug.log
+  `))
+
+  const installedPackages = await fs.readdir(path.join(destPath, 'node_modules'))
+  const expectedPackages = [
+    'dotenv', 'flux-capacitor', 'flux-capacitor-boot', 'flux-capacitor-sequelize', 'sqlite'
+  ]
+
+  expectedPackages.forEach((pkgName) => t.true(installedPackages.indexOf(pkgName) > -1))
+
   const pkg = JSON.parse(await readFile(path.join(destPath, 'package.json')))
   t.deepEqual(pkg.flux, { store: 'store.js' })
   t.deepEqual(pkg.scripts, { start: 'node server.js' })
-  t.deepEqual(Object.keys(pkg.dependencies), [
-    'dotenv', 'flux-capacitor', 'flux-capacitor-boot', 'flux-capacitor-sequelize', 'sqlite'
-  ])
+  t.deepEqual(Object.keys(pkg.dependencies), expectedPackages)
 
   await Promise.all(templateFiles.map(async (relativeFilePath) => {
     const srcFilePath = path.join(TEMPLATE_PATH, relativeFilePath)
