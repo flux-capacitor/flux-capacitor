@@ -15,6 +15,13 @@ import { locatePackageJson, recursiveFileList } from '../util/fs'
 export default initCommand
 export { initInDirectory }
 
+const templateDependencies = [
+  'dotenv@^2.0.0',
+  'flux-capacitor@^0.3.0',
+  'flux-capacitor-boot@^0.2.1',
+  'flux-capacitor-sequelize@^0.2.3'
+]
+
 async function initCommand (options, args) {
   const destPath = args.length > 0 ? args[0] : process.cwd()
 
@@ -56,9 +63,7 @@ async function initInDirectory (destPath, database) {
       await patchPackageJson(packageJsonPath, path.join(destPath, 'store.js'), path.join(destPath, 'server.js'))
     }),
     step('Install dependencies', async () => {
-      const packages = [
-        'dotenv', 'flux-capacitor', 'flux-capacitor-boot', 'flux-capacitor-sequelize', dbDriverPackage
-      ]
+      const packages = templateDependencies.concat([ dbDriverPackage ])
       await installPackages(packages, destPath)
     })
   ]).run()
