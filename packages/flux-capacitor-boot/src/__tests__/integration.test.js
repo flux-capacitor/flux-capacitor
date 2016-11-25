@@ -102,7 +102,7 @@ test(`reading a single event works`, async (t) => {
 test(`websocket propagates dispatched events`, async (t) => {
   t.plan(3)
 
-  const store = mockStore()
+  const store = await mockStore()
   const authorizer = sinon.spy(
     (event) => event.type === 'restrictedEvent' ? authorize.deny() : authorize.allow()
   )
@@ -168,7 +168,8 @@ function mockStore () {
   sinon.spy(store, 'dispatch')
   sinon.spy(store, 'subscribe')
 
-  return store
+  // Using a Promise just to make sure the bootstrapping works with async instantiation
+  return Promise.resolve(store)
 }
 
 function mockDatabase () {
