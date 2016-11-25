@@ -9,13 +9,26 @@ Command line interface (CLI) tool for the [Flux Capacitor](https://github.com/fl
 ## Usage
 
 ```sh
-flux init [--database <connection url>]     # writes boiler-plate code, npm installs (incl. db driver), adds/extends package.json, adds/extends .env file
-flux status                                 # prints event count, oldest & youngest event timestamp, snapshot count, last full & last incr snapshot timestamp
-flux dispatch <event type | complete JSON event> [--payload <JSON payload>] [--meta <JSON meta>]
-flux log [[<event id>]..[<event id>]] [--count <int>]
-flux query [<SQL query>]                    # also very useful for demoing (showing what's in the DB); starts REPL if no SQL query given
-flux show <event id>
-flux show /<collection>[/<id>]
+# Set up a new flux capacitor instance
+flux init [<target directory>] [--database <connection url>]
+
+# Print event count, most recent event timestamp
+flux status
+
+# Dispatch an event
+flux dispatch <event type | complete JSON event> [--payload <JSON payload>] [--meta <JSON meta>] [--raw]
+
+# Show event log
+flux log [[<event id>]..[<event id>]] [--count <int>] [--raw]
+
+# Show some event
+flux show <event id> [--raw]
+
+# Show some collection or collection instance
+flux show /<collection>[/<id>] [--raw]
+
+# Run SQL query or open REPL (if no query passed)
+flux query [<SQL query>] [--raw]
 ```
 
 

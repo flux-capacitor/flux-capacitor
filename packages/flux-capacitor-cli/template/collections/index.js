@@ -1,14 +1,20 @@
-const createEventsModel = require('./events')
+/*
+ * Exports the function that creates all the collections.
+ * A collection is a database table. It has got a data model and some metadata.
+ */
+
+const createEventCollection = require('./events')
+const createNotesCollection = require('./notes')
+
+module.exports = createCollections
 
 /**
  * @param {Sequelize} sequelize
- * @param {Function} createCollection   (name: string, model: Sequelize.Model) => Collection
  * @return {Collection[]}
  */
-function createCollections (sequelize, createCollection) {
+function createCollections (sequelize) {
   return [
-    createCollection('Events', createEventsModel(sequelize))
+    createEventCollection(sequelize),
+    createNotesCollection(sequelize)
   ]
 }
-
-exports.createCollections = createCollections
