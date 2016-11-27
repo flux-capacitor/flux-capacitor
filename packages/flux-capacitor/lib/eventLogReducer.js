@@ -1,7 +1,11 @@
 'use strict'
 
-function reduceEvent (database, event) {
-  const Events = database.collections.Events
+/**
+ * @param {Collection} Events
+ * @param {Event}      event
+ * @return {Changeset}
+ */
+function reduceEvent (Events, event) {
   return Events.create(event)
 }
 
