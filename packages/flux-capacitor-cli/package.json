@@ -43,7 +43,6 @@
     "babel-watch": "^2.0.3",
     "request": "^2.79.0",
     "request-promise": "^4.1.1",
-    "rimraf-promise": "^2.0.0",
     "standard": "^8.4.0",
     "temp": "^0.8.3"
   },

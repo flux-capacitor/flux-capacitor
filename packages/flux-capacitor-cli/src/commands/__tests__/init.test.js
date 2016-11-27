@@ -4,7 +4,6 @@ import fs from 'mz/fs'
 import os from 'os'
 import path from 'path'
 import request from 'request-promise'
-import rimraf from 'rimraf-promise'
 import temp from 'temp'
 import { initInDirectory } from '../init'
 import { recursiveFileList } from '../../util/fs'
@@ -22,8 +21,9 @@ test('initializing an empty directory', async (t) => {
 
   const dotEnvContents = await readFile(path.join(destPath, '.env'))
   t.is(trim(dotEnvContents), trim(`
-    PORT=3000
     DB_CONNECTION=sqlite://db.sqlite
+    LISTEN_HOST=0.0.0.0
+    LISTEN_PORT=3000
   `))
 
   const dotGitIgnoreContents = await readFile(path.join(destPath, '.gitignore'))
@@ -50,8 +50,6 @@ test('initializing an empty directory', async (t) => {
 
     t.deepEqual(await readFile(srcFilePath), await readFile(destFilePath))
   }))
-
-  await rimraf(destPath)
 })
 
 test('initializing a directory containing conflicting files fails properly', async (t) => {
@@ -59,7 +57,6 @@ test('initializing a directory containing conflicting files fails properly', asy
   await fs.writeFile(path.join(destPath, '.env'), 'PORT=4000', { encoding: 'utf-8' })
 
   await t.throws(initInDirectory(destPath, 'sqlite://db.sqlite'), /File\/directory already exists:.*\.env$/)
-  await rimraf(destPath)
 })
 
 test('initializing an empty directory, then running the server', async (t) => {
@@ -69,18 +66,15 @@ test('initializing an empty directory, then running the server', async (t) => {
 
   await initInDirectory(destPath, 'sqlite://db.sqlite')
 
-  try {
-    server = execa.shell(`node ./server.js`, { cwd: destPath })
-    server.catch((error) => t.fail('>>>' + error.stack))
+  server = execa.shell(`node ./server.js`, { cwd: destPath })
+  server.catch((error) => t.fail(error.stack))
 
-    await sleep(1000)
+  await sleep(1000)
 
-    t.is(await request(`http://localhost:3000/events`), '[]')
-    t.is(await request(`http://localhost:3000/notes`), '[]')
-  } finally {
-    // no need to kill process, execa takes care (https://github.com/sindresorhus/execa#cleanup)
-    await rimraf(destPath)
-  }
+  t.is(await request(`http://localhost:3000/events`), '[]')
+  t.is(await request(`http://localhost:3000/notes`), '[]')
+
+  // no need to kill process, execa takes care (https://github.com/sindresorhus/execa#cleanup)
 })
 
 
@@ -88,7 +82,6 @@ async function createTempDir () {
   return new Promise((resolve, reject) => {
     temp.mkdir('flux-cli-test-', (error, dirPath) => (error ? reject(error) : resolve(dirPath)))
   })
-  return await fs.mkdtemp(path.join(os.tmpdir(), ))
 }
 
 async function post (uri, body) {

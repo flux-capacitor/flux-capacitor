@@ -20,5 +20,5 @@ bootstrap([
   use.route('/notes(/:id)?', createReadRoute('Notes')),
   use.route('/websocket', createWebSocket())
 ])
-.listen(process.env.PORT)
+.listen(process.env.LISTEN_PORT, process.env.LISTEN_HOST)
 .catch((error) => console.error(error.stack))

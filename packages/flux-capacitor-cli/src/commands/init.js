@@ -137,8 +137,9 @@ async function createDotFiles (destPath, { database }) {
   const gitIgnoreFilePath = path.join(destPath, '.gitignore')
 
   await fs.writeFile(envFilePath, deindent`
-    PORT=3000
     DB_CONNECTION=${database}
+    LISTEN_HOST=0.0.0.0
+    LISTEN_PORT=3000
   `.trimLeft())
 
   if (await exists(gitIgnoreFilePath)) {
