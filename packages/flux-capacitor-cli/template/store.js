@@ -6,8 +6,8 @@
 // Read configuration from .env file and set environment variables (`process.env.*`)
 require('dotenv').config()
 
-const { createStore } = require('flux-capacitor-boot/express')
-const { connectTo } = require('flux-capacitor-sequelize')
+const createStore = require('flux-capacitor-boot/express').createStore
+const connectTo = require('flux-capacitor-sequelize').connectTo
 
 const createCollections = require('./collections')
 const rootReducer = require('./reducers')

@@ -6,8 +6,12 @@
 require('dotenv').config()
 
 const authorize = require('flux-capacitor-boot/authorize')
-const { connectTo } = require('flux-capacitor-sequelize')
-const { bootstrap, createExpressApp, createDispatcher, createReadRoute, createWebSocket, use } = require('flux-capacitor-boot/express')
+const bootstrap = require('flux-capacitor-boot/express').bootstrap
+const createExpressApp = require('flux-capacitor-boot/express').createExpressApp
+const createDispatcher = require('flux-capacitor-boot/express').createDispatcher
+const createReadRoute = require('flux-capacitor-boot/express').createReadRoute
+const createWebSocket = require('flux-capacitor-boot/express').createWebSocket
+const use = require('flux-capacitor-boot/express').use
 
 const commands = require('./commands')
 const initStore = require('./store')

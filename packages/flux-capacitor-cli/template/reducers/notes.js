@@ -18,7 +18,10 @@ function notesReducer (Notes, event) {
 }
 
 function noteAdded (collection, event) {
-  const { id, createdAt, title, text } = event.payload
+  const id = event.payload.id
+  const createdAt = event.payload.createdAt
+  const title = event.payload.title
+  const text = event.payload.text
 
   return collection.create({
     id, createdAt, title, text
@@ -26,19 +29,21 @@ function noteAdded (collection, event) {
 }
 
 function noteTitleEdited (collection, event) {
-  const { id, title } = event.payload
+  const id = event.payload.id
+  const title = event.payload.title
 
   return collection.updateById(id, { title })
 }
 
 function noteContentEdited (collection, event) {
-  const { id, text } = event.payload
+  const id = event.payload.id
+  const text = event.payload.text
 
   return collection.updateById(id, { text })
 }
 
 function noteRemoved (collection, event) {
-  const { id } = event.payload
+  const id = event.payload.id
 
   return collection.destroyById(id)
 }
