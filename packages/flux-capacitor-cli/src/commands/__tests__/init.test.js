@@ -1,7 +1,9 @@
 import test from 'ava'
+import execa from 'execa'
 import fs from 'mz/fs'
 import os from 'os'
 import path from 'path'
+import request from 'request-promise'
 import rimraf from 'rimraf-promise'
 import temp from 'temp'
 import { initInDirectory } from '../init'
@@ -60,6 +62,28 @@ test('initializing a directory containing conflicting files fails properly', asy
   await rimraf(destPath)
 })
 
+test('initializing an empty directory, then running the server', async (t) => {
+  const destPath = await createTempDir()
+  const templateFiles = await recursiveFileList(TEMPLATE_PATH)
+  let server
+
+  await initInDirectory(destPath, 'sqlite://db.sqlite')
+
+  try {
+    server = execa.shell(`node ./server.js`, { cwd: destPath })
+    server.catch((error) => t.fail('>>>' + error.stack))
+
+    await sleep(1000)
+
+    t.is(await request(`http://localhost:3000/events`), '[]')
+    t.is(await request(`http://localhost:3000/notes`), '[]')
+  } finally {
+    // no need to kill process, execa takes care (https://github.com/sindresorhus/execa#cleanup)
+    await rimraf(destPath)
+  }
+})
+
+
 async function createTempDir () {
   return new Promise((resolve, reject) => {
     temp.mkdir('flux-cli-test-', (error, dirPath) => (error ? reject(error) : resolve(dirPath)))
@@ -67,8 +91,20 @@ async function createTempDir () {
   return await fs.mkdtemp(path.join(os.tmpdir(), ))
 }
 
+async function post (uri, body) {
+  return await request({
+    uri, body, method: 'POST', json: true
+  })
+}
+
 async function readFile (filePath) {
   return await fs.readFile(filePath, { encoding: 'utf-8' })
+}
+
+async function sleep (ms) {
+  await new Promise((resolve) => {
+    setTimeout(() => resolve(), ms)
+  })
 }
 
 function trim (string) {

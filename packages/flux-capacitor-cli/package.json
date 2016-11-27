@@ -41,6 +41,8 @@
     "babel-preset-es2017": "^6.16.0",
     "babel-register": "^6.18.0",
     "babel-watch": "^2.0.3",
+    "request": "^2.79.0",
+    "request-promise": "^4.1.1",
     "rimraf-promise": "^2.0.0",
     "standard": "^8.4.0",
     "temp": "^0.8.3"
