@@ -45,7 +45,8 @@ async function initInDirectory (destPath, database) {
   const templatePath = path.resolve(__dirname, '..', '..', 'template')
   const dbDriverPackage = url.parse(database).protocol.replace(/:$/, '')
 
-  const generatedFiles = [ '.gitignore', '.env' ]
+  const generatedFiles = [ '.env' ]
+  const optionalGeneratedFiles = [ '.gitignore' ]
   const templateFiles = await recursiveFileList(templatePath)
   const packageJsonPath = await locateOrCreatePackageJson(destPath)
 
@@ -140,10 +141,14 @@ async function createDotFiles (destPath, { database }) {
     DB_CONNECTION=${database}
   `.trimLeft())
 
-  await fs.writeFile(gitIgnoreFilePath, deindent`
-    node_modules/
-    npm-debug.log
-  `.trimLeft())
+  if (await exists(gitIgnoreFilePath)) {
+    // do nothing, there is already a .gitignore file
+  } else {
+    await fs.writeFile(gitIgnoreFilePath, deindent`
+      node_modules/
+      npm-debug.log
+    `.trimLeft())
+  }
 }
 
 async function installPackages (packageNames, cwd = process.cwd()) {
