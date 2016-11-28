@@ -19,7 +19,8 @@ const templateDependencies = [
   'dotenv@^2.0.0',
   'flux-capacitor@^0.3.0',
   'flux-capacitor-boot@^0.2.2',
-  'flux-capacitor-sequelize@^0.2.3'
+  'flux-capacitor-sequelize@^0.2.3',
+  'sequelize@^3.27.0'
 ]
 
 async function initCommand (options, args) {

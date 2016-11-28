@@ -35,7 +35,7 @@ test('initializing an empty directory', async (t) => {
 
   const installedPackages = await fs.readdir(path.join(destPath, 'node_modules'))
   const expectedPackages = [
-    'dotenv', 'flux-capacitor', 'flux-capacitor-boot', 'flux-capacitor-sequelize', 'sqlite'
+    'dotenv', 'flux-capacitor', 'flux-capacitor-boot', 'flux-capacitor-sequelize', 'sequelize', 'sqlite'
   ]
 
   expectedPackages.forEach((pkgName) => t.true(installedPackages.indexOf(pkgName) > -1))
