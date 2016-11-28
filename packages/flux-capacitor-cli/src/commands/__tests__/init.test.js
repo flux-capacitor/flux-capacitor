@@ -1,6 +1,5 @@
 import test from 'ava'
 import execa from 'execa'
-import findPort from 'find-port'
 import getPort from 'get-port'
 import fs from 'mz/fs'
 import os from 'os'
