@@ -1,6 +1,7 @@
 import test from 'ava'
 import execa from 'execa'
 import findPort from 'find-port'
+import getPort from 'get-port'
 import fs from 'mz/fs'
 import os from 'os'
 import path from 'path'
@@ -66,7 +67,7 @@ test('initializing an empty directory, then running the server', async (t) => {
 
   await initInDirectory(destPath, 'sqlite://db.sqlite')
 
-  const port = await getAvailablePort()
+  const port = await getPort()
   await fs.appendFile(path.join(destPath, '.env'), `LISTEN_PORT=${port}\n`)
 
   const server = execa.shell(`node ./server.js`, { cwd: destPath })
@@ -83,18 +84,6 @@ test('initializing an empty directory, then running the server', async (t) => {
 async function createTempDir () {
   return new Promise((resolve, reject) => {
     temp.mkdir('flux-cli-test-', (error, dirPath) => (error ? reject(error) : resolve(dirPath)))
-  })
-}
-
-async function getAvailablePort () {
-  return await new Promise((resolve, reject) => {
-    findPort('127.0.0.1', [ 8000, 11000 ], (ports) => {
-      if (ports.length === 0) {
-        reject(new Error(`No available port found.`))
-      } else {
-        resolve(ports[0])
-      }
-    })
   })
 }
 
