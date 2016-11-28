@@ -23,7 +23,7 @@ const templateDependencies = [
   'sequelize@^3.27.0'
 ]
 
-async function initCommand (options, args) {
+async function initCommand (options, args, print = console.log) {
   const destPath = args.length > 0 ? args[0] : process.cwd()
 
   const defaultDatabase = 'sqlite://db.sqlite'
@@ -33,25 +33,25 @@ async function initCommand (options, args) {
     throw new Error(`Unexpected multiple arguments.`)
   }
   if (!('database' in options)) {
-    info(`No --database passed. Using default: ${defaultDatabase}`)
+    print(info(`No --database passed. Using default: ${defaultDatabase}`))
   }
   if (Array.isArray(database)) {
     throw new Error(`Only one database connection URL allowed.`)
   }
 
-  await initInDirectory(destPath, database)
+  await initInDirectory(print, destPath, database)
 }
 
-async function initInDirectory (destPath, database) {
+async function initInDirectory (print, destPath, database) {
   const templatePath = path.resolve(__dirname, '..', '..', 'template')
   const dbDriverPackage = getDbDriverPackage(database)
 
   const generatedFiles = [ '.env' ]
   const optionalGeneratedFiles = [ '.gitignore' ]
   const templateFiles = await recursiveFileList(templatePath)
-  const packageJsonPath = await locateOrCreatePackageJson(destPath)
+  const packageJsonPath = await locateOrCreatePackageJson(destPath, print)
 
-  console.log('')   // just for the newline
+  print('')   // just for the newline
 
   await new Listr([
     step('Copy boilerplate files', async () => {
@@ -97,14 +97,14 @@ function getDbDriverPackage (databaseUrl) {
     : dbType
 }
 
-async function locateOrCreatePackageJson (searchStartDirPath) {
+async function locateOrCreatePackageJson (searchStartDirPath, print) {
   try {
     const filePath = await locatePackageJson(searchStartDirPath)
-    info(`Found package.json: ${filePath}`)
+    print(info(`Found package.json: ${filePath}`))
     return filePath
   } catch (error) {
     const filePath = path.join(searchStartDirPath, 'package.json')
-    info(`Creating empty ${filePath}...`)
+    print(info(`Creating empty ${filePath}...`))
     await fs.writeFile(filePath, '{}\n')
     return filePath
   }

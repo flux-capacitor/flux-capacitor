@@ -18,7 +18,7 @@ test('initializing an empty directory', async (t) => {
   const destPath = await createTempDir()
   const templateFiles = await recursiveFileList(TEMPLATE_PATH)
 
-  await initInDirectory(destPath, 'sqlite://db.sqlite')
+  await initInDirectory(console.log, destPath, 'sqlite://db.sqlite')
 
   const dotEnvContents = await readFile(path.join(destPath, '.env'))
   t.is(trim(dotEnvContents), trim(`
@@ -57,14 +57,14 @@ test('initializing a directory containing conflicting files fails properly', asy
   const destPath = await createTempDir()
   await fs.writeFile(path.join(destPath, '.env'), 'PORT=4000', { encoding: 'utf-8' })
 
-  await t.throws(initInDirectory(destPath, 'sqlite://db.sqlite'), /File\/directory already exists:.*\.env$/)
+  await t.throws(initInDirectory(console.log, destPath, 'sqlite://db.sqlite'), /File\/directory already exists:.*\.env$/)
 })
 
 test('initializing an empty directory, then running the server', async (t) => {
   const destPath = await createTempDir()
   const templateFiles = await recursiveFileList(TEMPLATE_PATH)
 
-  await initInDirectory(destPath, 'sqlite://db.sqlite')
+  await initInDirectory(console.log, destPath, 'sqlite://db.sqlite')
 
   const port = await getPort()
   await fs.appendFile(path.join(destPath, '.env'), `LISTEN_PORT=${port}\n`)

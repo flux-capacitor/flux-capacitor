@@ -1,10 +1,28 @@
+import logSymbols from 'log-symbols'
+
 export {
+  highlightFirstLine,
   info,
   step
 }
 
+/**
+ * @param {string} text
+ * @param {Function} highlightFirst   (firstLine: string) => string
+ * @param {Function} [highlightOther] (nonFirstLine: string) => string
+ * @return {string}
+ */
+function highlightFirstLine (text, highlightFirst, highlightOther = ident) {
+  const [ firstLine, ...otherLines ] = text.split('\n')
+  return [ highlightFirst(firstLine), ...otherLines.map(highlightOther) ].join('\n')
+}
+
+/**
+ * @param {string} message
+ * @return {string}
+ */
 function info (message) {
-  console.log(` ℹ️ ${message}`)
+  return ` ${logSymbols.info} ${message}`
 }
 
 /**
@@ -16,4 +34,8 @@ function step (title, task) {
     title,
     task
   }
+}
+
+function ident (arg) {
+  return arg
 }

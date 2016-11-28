@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 
+import chalk from 'chalk'
 import meow from 'meow'
+import logSymbols from 'log-symbols'
 import * as commands from './commands'
+import { highlightFirstLine } from './util/cli'
 
 const cli = meow(`
   Usage
@@ -21,5 +24,16 @@ if (!command || !commands[ command ]) {
   cli.showHelp()
 } else {
   const commandMethod = commands[ command ]
-  commandMethod(cli.flags, args)
+
+  Promise.resolve()
+    .then(() => commandMethod(cli.flags, args))
+    .catch((error) => console.error(`\n ${logSymbols.error} ${formatError(error)}`))
+}
+
+function formatError (error) {
+  return highlightFirstLine(
+    error.stack,
+    (line) => chalk.red(line),
+    (line) => chalk.gray(line)
+  )
 }
