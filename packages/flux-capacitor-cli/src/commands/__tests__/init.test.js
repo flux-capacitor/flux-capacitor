@@ -88,7 +88,7 @@ async function createTempDir () {
 
 async function getAvailablePort () {
   return await new Promise((resolve, reject) => {
-    findPort('127.0.0.1', [ 8000, 9000 ], (ports) => {
+    findPort('127.0.0.1', [ 8000, 11000 ], (ports) => {
       if (ports.length === 0) {
         reject(new Error(`No available port found.`))
       } else {
