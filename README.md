@@ -101,18 +101,16 @@ So how does it work? Find details here: [Flux Capacitor Concept](./flux-capacito
 
 ## Differences to Redux
 
-- Reducers work slightly different (`(collection, event) => changeset`)
-  - Get a collection, not the whole state
-  - Return a set of database operations, not another complete state
-- `aggregateReducers()` instead of `combineReducers()`
-  - `aggregateReducers` does pretty much the same, but takes an array of reducers, rather than an object (since a tree of reducers doesn't make much sense when working on DB collections)
+Reducers work slightly different. Their signature is `(collection, event) => changeset` instead of `(state, action) => state`. The `action` and the `event` are just synonyms. The real difference is that the flux capacitor reducers take a database collection and return a changeset (a set of database operations).
+
+This is necessary, since we usually cannot hold the complete database in memory as opposed to Redux' state. Returning changesets makes it possible to write the reducers as pure synchronous functions, even though performing those database operations works asynchronously and might lead to side effects.
 
 
 ## Differences to traditional CQRS
 
 It is related to CQRS, but no traditional CQRS. Rather something between common CRUD and traditional CQRS.
 
-- No distributed system, but just one data storage service (could be easily turned into a master-slave cluster, though)
+- No distributed system by default, but just one data storage service (can be easily turned into a cluster, though)
 - No aggregates, just one read model
 - This one read model is also used to check business rules when handling an event
 - Depends on database transactions to ensure data consistency
