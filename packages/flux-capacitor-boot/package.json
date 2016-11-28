@@ -1,6 +1,6 @@
 {
   "name": "flux-capacitor-boot",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "scripts": {
     "build": "babel src/ --out-dir lib/ --ignore __tests__ --source-maps",
     "test": "standard && ava",
@@ -29,7 +29,7 @@
   "repository": "flux-capacitor/flux-capacitor",
   "bugs": "https://github.com/flux-capacitor/flux-capacitor/issues",
   "peerDependencies": {
-    "flux-capacitor": "^0.2.2"
+    "flux-capacitor": "^0.2.2 || ^0.3.0"
   },
   "devDependencies": {
     "ava": "^0.16.0",
