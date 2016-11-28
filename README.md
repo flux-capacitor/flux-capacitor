@@ -123,6 +123,10 @@ Sacrificing the outstanding scalibility potential of full CQRS gives us the free
 - Not eventually consistent data, it's consistent data
 
 
+## Artwork credits
+
+Logo created by [Sergey](https://github.com/Gaserd). Updated and refined by [Jakob Mund](https://twitter.com/jakob_mund). Thank you, guys!
+
 ## License
 
 The flux capacitor is released under the terms of the MIT license. See [LICENSE](./LICENSE) for details.
