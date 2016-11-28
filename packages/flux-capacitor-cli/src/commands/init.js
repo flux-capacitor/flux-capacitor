@@ -44,7 +44,7 @@ async function initCommand (options, args) {
 
 async function initInDirectory (destPath, database) {
   const templatePath = path.resolve(__dirname, '..', '..', 'template')
-  const dbDriverPackage = url.parse(database).protocol.replace(/:$/, '')
+  const dbDriverPackage = getDbDriverPackage(database)
 
   const generatedFiles = [ '.env' ]
   const optionalGeneratedFiles = [ '.gitignore' ]
@@ -87,6 +87,14 @@ async function assertExistsNot (filePath) {
   if (await exists(filePath)) {
     throw new Error(`File/directory already exists: ${filePath}`)
   }
+}
+
+function getDbDriverPackage (databaseUrl) {
+  const dbType = url.parse(databaseUrl).protocol.replace(/:$/, '').toLowerCase()
+
+  return dbType === 'sqlite'
+    ? 'sqlite3'
+    : dbType
 }
 
 async function locateOrCreatePackageJson (searchStartDirPath) {
