@@ -7,41 +7,46 @@ module.exports = {
   removeNote
 }
 
-function addNote ({ id, title, text }, meta) {
+function addNote (payload, meta) {
   return {
     type: eventTypes.noteAdded,
     payload: {
-      id, title, text, createdAt: new Date(Date.now())
+      id: payload.id,
+      title: payload.title,
+      text: payload.text,
+      createdAt: new Date(Date.now())
     },
     meta
   }
 }
 
-function editNoteTitle ({ id, title }, meta) {
+function editNoteTitle (payload, meta) {
   return {
     type: eventTypes.noteTitleEdited,
     payload: {
-      id, title
+      id: payload.id,
+      title: payload.title
     },
     meta
   }
 }
 
-function editNoteContent ({ id, text }, meta) {
+function editNoteContent (payload, meta) {
   return {
     type: eventTypes.noteContentEdited,
     payload: {
-      id, text
+      id: payload.id,
+      text: payload.text
     },
     meta
   }
 }
 
-function removeNote ({ id }, meta) {
+function removeNote (payload, meta) {
   return {
     type: eventTypes.noteRemoved,
     payload: {
-      id
+      id: payload.id
     },
     meta
   }
