@@ -1,5 +1,6 @@
 import test from 'ava'
 import execa from 'execa'
+import findPort from 'find-port'
 import fs from 'mz/fs'
 import os from 'os'
 import path from 'path'
@@ -62,25 +63,38 @@ test('initializing a directory containing conflicting files fails properly', asy
 test('initializing an empty directory, then running the server', async (t) => {
   const destPath = await createTempDir()
   const templateFiles = await recursiveFileList(TEMPLATE_PATH)
-  let server
 
   await initInDirectory(destPath, 'sqlite://db.sqlite')
 
-  server = execa.shell(`node ./server.js`, { cwd: destPath })
+  const port = await getAvailablePort()
+  await fs.appendFile(path.join(destPath, '.env'), `LISTEN_PORT=${port}\n`)
+
+  const server = execa.shell(`node ./server.js`, { cwd: destPath })
   server.catch((error) => t.fail(error.stack))
 
   await sleep(1000)
 
-  t.is(await request(`http://localhost:3000/events`), '[]')
-  t.is(await request(`http://localhost:3000/notes`), '[]')
+  t.is(await request(`http://localhost:${port}/events`), '[]')
+  t.is(await request(`http://localhost:${port}/notes`), '[]')
 
   // no need to kill process, execa takes care (https://github.com/sindresorhus/execa#cleanup)
 })
 
-
 async function createTempDir () {
   return new Promise((resolve, reject) => {
     temp.mkdir('flux-cli-test-', (error, dirPath) => (error ? reject(error) : resolve(dirPath)))
+  })
+}
+
+async function getAvailablePort () {
+  return await new Promise((resolve, reject) => {
+    findPort('127.0.0.1', [ 8000, 9000 ], (ports) => {
+      if (ports.length === 0) {
+        reject(new Error(`No available port found.`))
+      } else {
+        resolve(ports[0])
+      }
+    })
   })
 }
 
