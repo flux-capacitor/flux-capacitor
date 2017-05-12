@@ -22,12 +22,12 @@ Check out the 👉 [**Sample App**](https://flux-capacitor-notes.now.sh/) to see
 ```
 +------------------------+             +--------------------------------+
 | Event: addUser         |  dispatch   | Flux Capacitor Store           |         ╔══> Subscriber
-| "Hillary"              | ══════════> +--------------------------------+         ║    (Websocket)
+| "Trump"                | ══════════> +--------------------------------+         ║    (Websocket)
 +------------------------+             |  Event  +-------------+        |  Event  ║
                                        | ══════> | UserReducer | ════╗  | ════════╬══> Subscriber
 +------------------------+  dispatch   |         +-------------+     ║  |         ║    (Logger)
 | Event: grantAccess     | ══════════> |                             ║  |         ║
-| "Hillary": "President" |             |               DB operations ║  |         ╚══> ...
+| "Trump": "President"   |             |               DB operations ║  |         ╚══> ...
 +------------------------+             +-----------------------------║--+
                                                                      ║
             +--------------------------------------------------------║------+
@@ -38,15 +38,15 @@ Check out the 👉 [**Sample App**](https://flux-capacitor-notes.now.sh/) to see
             | +-----------------------------------------------------------+ |
             | | Dec 15 2008, 23:16:38  addUser "Barack"                   | |
             | | Dec 15 2008, 23:17:14  grantAccess "Barack": "President"  | |
-            | | Dec 19 2016, 22:40:05  addUser "Hillary"                  | |
-            | | Dec 19 2016, 22:40:23  grantAccess "Hillary": "President" | |
+            | | Dec 19 2016, 22:40:05  addUser "Trump"                    | |
+            | | Dec 19 2016, 22:40:23  grantAccess "Trump": "President"   | |
             | +-----------------------------------------------------------+ |
             |                                                               |
             | +---------------+   +------------------------+                |
             | | Users         |   | UserRights             |                |
             | +---------------+   +------------------------+                |
             | | Barack        |   | Barack  "Ex-President" |                |
-            | | Hillary       |   | Hillary "President"    |                |
+            | | Trump         |   | Trump "President"      |                |
             | +---------------+   +------------------------+                |
             +---------------------------------------------------------------+
 ```
