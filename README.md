@@ -51,6 +51,8 @@ Check out the 👉 [**Sample App**](https://flux-capacitor-notes.now.sh/) to see
             +---------------------------------------------------------------+
 ```
 
+And this is why event sourcing is awesome: We can always roll back to a consistent state 😉
+
 
 ## Features
 
